@@ -19,6 +19,6 @@ package pl.luckboy.chessmining.chess
 
 sealed abstract class Move
 
-case class NormalMove(piece: Piece.Value, from: Int, to: Int, promotionPieceOption: Option[PromotionPiece.Value])
+case class NormalMove(piece: Piece.Value, from: Int, to: Int, promotionPieceOption: Option[PromotionPiece.Value], isCapture: Boolean)
 case object ShortCastling extends Move
 case object LongCastling extends Move
