@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package pl.luckboy.chessmining.chess
+import ColoredPieces._
 
 case class Board(
   pieces: Array[ColoredPiece.Value],
@@ -44,4 +45,22 @@ case class Board(
   def pieceOption(squ: Int) = coloredPieceToPieceOption(pieces(squ))
 
   def sideCastlings(side: Side.Value) = castlings(side.id)
+}
+
+object Board
+{
+  val Initial = Board(
+      Array(
+        WR, WN, WB, WQ, WK, WB, WN, WR,
+        WP, WP, WP, WP, WP, WP, WP, WP,
+        Em, Em, Em, Em, Em, Em, Em, Em,
+        Em, Em, Em, Em, Em, Em, Em, Em,
+        Em, Em, Em, Em, Em, Em, Em, Em,
+        Em, Em, Em, Em, Em, Em, Em, Em,
+        BP, BP, BP, BP, BP, BP, BP, BP,
+        BR, BN, BB, BQ, BK, BB, BN, BR),
+      Side.White,
+      Array(SideCastlings.All, SideCastlings.All),
+      None,
+      0, 1)
 }
