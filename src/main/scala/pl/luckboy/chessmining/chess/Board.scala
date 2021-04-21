@@ -24,3 +24,24 @@ case class Board(
   enPassantColumnOption: Option[Int],
   halfmoveClock: Int,
   fullmoveNumber: Int)
+{
+  override def equals(that: Any) =
+    that match {
+      case board: Board =>
+        !(0 until 64).exists { (squ: Int) => pieces(squ) != board.pieces(squ) } &&
+        side == board.side &&
+        !(0 until 2).exists { (sideId: Int) => castlings(sideId) != board.castlings(sideId) } &&
+        enPassantColumnOption == board.enPassantColumnOption &&
+        halfmoveClock == board.halfmoveClock &&
+        fullmoveNumber == board.fullmoveNumber
+      case _            => false
+    }
+  
+  def coloredPiece(squ: Int) = pieces(squ)
+
+  def color(squ: Int) = coloredPieceToColor(pieces(squ))
+
+  def pieceOption(squ: Int) = coloredPieceToPieceOption(pieces(squ))
+
+  def sideCastlings(side: Side.Value) = castlings(side.id)
+}
