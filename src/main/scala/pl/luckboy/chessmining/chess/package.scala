@@ -19,6 +19,11 @@ package pl.luckboy.chessmining
 
 package object chess
 {
+  implicit class RichSide(side: Side.Value)
+  {
+    def unary_~ = Side(side.id ^ 1)
+  }
+
   implicit class RichSideCastlings(sideCastlings: SideCastlings.Value)
   {
     def unary_~ = SideCastlings(sideCastlings.id ^ 3)
