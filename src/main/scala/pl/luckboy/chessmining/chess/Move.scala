@@ -19,6 +19,62 @@ package pl.luckboy.chessmining.chess
 
 sealed abstract class Move
 {
+  def isCheck(board: Board) = board.makeMove(this).map { _.inCheck }.getOrElse(false)
+
+  def isCheckmate(board: Board) = board.makeMove(this).map { _.inCheckmate }.getOrElse(false)
+
+  private def checkOptionForBoard(board: Board) =
+    if(isCheckmate(board))
+      Some(Check.Checkmate)
+    else if(isCheck(board))
+      Some(Check.Check)
+    else
+      None
+  
+  def toSANMove(board: Board) =
+    this match {
+      case normalMove @ NormalMove(_, _, _, _, _) =>
+        var (isFound, isAmbiguous, mustBeSrcCol, mustBeSrcRow) = board.generateLegalMoves.foldLeft((false, false, false, false)) {
+          case (tuple @ (isFound2: Boolean, isAmbiguous2: Boolean, mustBeSrcCol2: Boolean, mustBeSrcRow2: Boolean), move2) =>
+            move2 match {
+              case normalMove2 @ NormalMove(_, _, _, _, _) =>
+                if(normalMove2 == normalMove) {
+                  (true, isAmbiguous2, mustBeSrcCol2, mustBeSrcRow2)
+                } else if(normalMove2.piece == normalMove.piece &&
+                  normalMove2.to == normalMove.to &&
+                  normalMove2.promotionPieceOption == normalMove.promotionPieceOption &&
+                  normalMove2.isCapture == normalMove.isCapture) {
+                  val mustBeSrcRow3 = (mustBeSrcRow2 || ((normalMove2.from & 7) == (normalMove.from & 7)))
+                  val mustBeSrcCol3 = (mustBeSrcCol2 || ((normalMove2.from >> 3) == (normalMove.from >> 3)))
+                  (isFound2, true, mustBeSrcCol3, mustBeSrcRow3) 
+                } else
+                  tuple
+              case _ =>
+                tuple
+            }
+        }
+        if(isAmbiguous && !mustBeSrcCol && !mustBeSrcRow) mustBeSrcCol = true
+        val fromColumnOption = if(mustBeSrcCol) Some(normalMove.from & 7) else None
+        val fromRowOption = if(mustBeSrcRow) Some(normalMove.from >> 3) else None
+        val checkOption = if(isFound) checkOptionForBoard(board) else None
+        SANNormalMove(
+          normalMove.piece,
+          fromColumnOption,
+          fromRowOption,
+          normalMove.to,
+          normalMove.promotionPieceOption,
+          normalMove.isCapture,
+          checkOption)
+      case ShortCastling =>
+        val isFound = board.generateLegalMoves.contains(this)
+        val checkOption = if(isFound) checkOptionForBoard(board) else None
+        SANShortCastling(checkOption)
+      case LongCastling =>
+        val isFound = board.generateLegalMoves.contains(this)
+        val checkOption = if(isFound) checkOptionForBoard(board) else None
+        SANLongCastling(checkOption)
+    }
+  
   override def toString() =
     this match {
       case NormalMove(piece, from, to, promotionPieceOpt, isCapture) =>
@@ -37,6 +93,58 @@ sealed abstract class Move
       case LongCastling =>
         "O-O-O"
     }
+  
+  def toSANString(board: Board) = toSANMove(board).toString
+}
+
+object Move
+{
+  def apply(s: String, board: Board) =
+    parseSANMove(s, board) match {
+      case Some(move) => move
+      case None       => throw new ChessException("illegal move")
+    }
+  
+  def sanMoveToMoveOption(sanMove: SANMove, board: Board) =
+    board.generateLegalMoves.filter {
+      (move: Move) =>
+        (sanMove, move) match {
+          case (sanNormalMove @ SANNormalMove(_, _, _, _, _, _, _), normalMove @ NormalMove(_, _, _, _, _)) =>
+            sanNormalMove.piece == normalMove.piece &&
+            sanNormalMove.fromColumnOption.map { _ == (normalMove.from & 7) }.getOrElse(true) &&
+            sanNormalMove.fromRowOption.map { _ == (normalMove.from >> 3) }.getOrElse(true) &&
+            sanNormalMove.to == normalMove.to
+            sanNormalMove.promotionPieceOption == normalMove.promotionPieceOption
+            sanNormalMove.isCapture == normalMove.isCapture
+          case (SANShortCastling(_), ShortCastling) =>
+            true
+          case (SANLongCastling(_), LongCastling) =>
+            true
+          case _ =>
+            false
+        }
+    } match {
+      case Vector(move) =>
+        sanMove.checkOption match {
+          case Some(Check.Check) =>
+            if(move.isCheck(board))
+              Some(move)
+            else
+              None
+          case Some(Check.Checkmate) =>
+            if(move.isCheckmate(board))
+              Some(move)
+            else
+              None
+          case _ =>
+            Some(move)
+        }
+      case _ =>
+        None
+    }
+
+  def parseSANMove(s: String, board: Board) =
+    SANMove.parseSANMove(s).flatMap { sanMoveToMoveOption(_, board) }
 }
 
 case class NormalMove(piece: Piece.Value, from: Int, to: Int, promotionPieceOption: Option[PromotionPiece.Value], isCapture: Boolean) extends Move
