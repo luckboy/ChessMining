@@ -125,6 +125,13 @@ package object chess
       case _   => None
     }
 
+  def charToSideOption(c: Char) =
+    c match {
+      case 'w' => Some(Side.White)
+      case 'b' => Some(Side.Black)
+      case _   => None
+    }
+    
   def charToColumnOption(c: Char) =
     if(c >= 'a' && c <= 'h')
       Some(c.toInt - 'a'.toInt)
@@ -162,7 +169,7 @@ package object chess
       case ColoredPiece.BlackQueen  => 'q'
       case ColoredPiece.BlackKing   => 'k'
     }
-
+    
   def pieceToChar(piece: Piece.Value) =
     piece match {
       case Piece.Pawn   => 'P'
@@ -179,6 +186,12 @@ package object chess
       case PromotionPiece.Bishop => 'B'
       case PromotionPiece.Rook   => 'R'
       case PromotionPiece.Queen  => 'Q'
+    }
+
+  def sideToChar(side: Side.Value) =
+    side match {
+      case Side.White => 'w'
+      case Side.Black => 'b'
     }
 
   def columnToChar(col: Int) = (col + 'a'.toInt).toChar
