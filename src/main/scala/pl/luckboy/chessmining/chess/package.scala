@@ -86,4 +86,109 @@ package object chess
   def promotionPieceToPiece(promotionPiece: PromotionPiece.Value) = Piece(promotionPiece.id)
 
   def sideToColor(side: Side.Value) = Color(side.id + 1)
+
+  def charToColoredPieceOption(c: Char) =
+    c match {
+      case ' ' => Some(ColoredPiece.Empty)
+      case 'P' => Some(ColoredPiece.WhitePawn)
+      case 'N' => Some(ColoredPiece.WhiteKnight)
+      case 'B' => Some(ColoredPiece.WhiteBishop)
+      case 'R' => Some(ColoredPiece.WhiteRook)
+      case 'Q' => Some(ColoredPiece.WhiteQueen)
+      case 'K' => Some(ColoredPiece.WhiteKing)
+      case 'p' => Some(ColoredPiece.BlackPawn)
+      case 'n' => Some(ColoredPiece.BlackKnight)
+      case 'b' => Some(ColoredPiece.BlackBishop)
+      case 'r' => Some(ColoredPiece.BlackRook)
+      case 'q' => Some(ColoredPiece.BlackQueen)
+      case 'k' => Some(ColoredPiece.BlackKing)
+      case _   => None
+    }
+
+  def charToPieceOption(c: Char) =
+    c match {
+      case 'P' => Some(Piece.Pawn)
+      case 'N' => Some(Piece.Knight)
+      case 'B' => Some(Piece.Bishop)
+      case 'R' => Some(Piece.Rook)
+      case 'Q' => Some(Piece.Queen)
+      case 'K' => Some(Piece.King)
+      case _   => None
+    }
+
+  def charToPromotionPieceOption(c: Char) =
+    c match {
+      case 'N' => Some(PromotionPiece.Knight)
+      case 'B' => Some(PromotionPiece.Bishop)
+      case 'R' => Some(PromotionPiece.Rook)
+      case 'Q' => Some(PromotionPiece.Queen)
+      case _   => None
+    }
+
+  def charToColumnOption(c: Char) =
+    if(c >= 'a' && c <= 'h')
+      Some(c.toInt - 'a'.toInt)
+    else
+      None
+
+  def charToRowOption(c: Char) =
+    if(c >= '1' && c <= '8')
+      Some(c.toInt - '1'.toInt)
+    else
+      None
+
+  def stringToSquareOption(s: String) =
+    if(s.length == 2) {
+      for {
+        col <- charToColumnOption(s(0))
+        row <- charToRowOption(s(1))
+      } yield col + (row << 3)
+    } else
+      None
+
+  def coloredPieceToChar(coloredPiece: ColoredPiece.Value) =
+    coloredPiece match {
+      case ColoredPiece.Empty       => ' '
+      case ColoredPiece.WhitePawn   => 'P'
+      case ColoredPiece.WhiteKnight => 'N'
+      case ColoredPiece.WhiteBishop => 'B'
+      case ColoredPiece.WhiteRook   => 'R'
+      case ColoredPiece.WhiteQueen  => 'Q'
+      case ColoredPiece.WhiteKing   => 'K'
+      case ColoredPiece.BlackPawn   => 'p'
+      case ColoredPiece.BlackKnight => 'n'
+      case ColoredPiece.BlackBishop => 'b'
+      case ColoredPiece.BlackRook   => 'r'
+      case ColoredPiece.BlackQueen  => 'q'
+      case ColoredPiece.BlackKing   => 'k'
+    }
+
+  def pieceToChar(piece: Piece.Value) =
+    piece match {
+      case Piece.Pawn   => 'P'
+      case Piece.Knight => 'N'
+      case Piece.Bishop => 'B'
+      case Piece.Rook   => 'R'
+      case Piece.Queen  => 'Q'
+      case Piece.King   => 'K'
+    }
+
+  def promotionPieceToChar(promotionPiece: PromotionPiece.Value) =
+    promotionPiece match {
+      case PromotionPiece.Knight => 'N'
+      case PromotionPiece.Bishop => 'B'
+      case PromotionPiece.Rook   => 'R'
+      case PromotionPiece.Queen  => 'Q'
+    }
+
+  def columnToChar(col: Int) = (col + 'a'.toInt).toChar
+  
+  def rowToChar(row: Int) = (row + '1'.toInt).toChar
+  
+  def squareToString(squ: Int) = {
+    val sb = new StringBuilder()
+    sb += columnToChar(squ & 7)
+    sb += rowToChar(squ >> 3)
+    sb.toString()
+  }
 }
