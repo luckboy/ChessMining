@@ -377,6 +377,49 @@ case class Board(
   def inCheckmate = inCheck && generateLegalMoves.isEmpty
 
   def inStalemate = !inCheck && generateLegalMoves.isEmpty
+
+  override def toString() = {
+    val sb = new StringBuilder()
+    var row = 7
+    while(row >= 0) {
+      var col = 0
+      while(col < 8) {
+        if(color(col + (row << 3)) == Color.Empty) {
+          var count = 0
+          while(count < 8 && col < 8 && color(col + (row << 3)) == Color.Empty) {
+            col += 1
+            count += 1
+          }
+          sb ++= count.toString()
+        } else {
+          sb += coloredPieceToChar(coloredPiece(col + (row << 3)))
+          col += 1
+        }
+      }
+      if(row - 1 >= 0) sb += '/'
+      row -= 1
+    }
+    sb += ' '
+    sb += sideToChar(side)
+    sb += ' '
+    if(sideCastlings(Side.White) != SideCastlings.None || sideCastlings(Side.Black) != SideCastlings.None) {
+      if((sideCastlings(Side.White) & SideCastlings.Short) != SideCastlings.None) sb += 'K'
+      if((sideCastlings(Side.White) & SideCastlings.Long) != SideCastlings.None) sb += 'Q'
+      if((sideCastlings(Side.Black) & SideCastlings.Short) != SideCastlings.None) sb += 'k'
+      if((sideCastlings(Side.Black) & SideCastlings.Long) != SideCastlings.None) sb += 'q'
+    }
+    sb += ' '
+    val enPassantSquOpt = enPassantColumnOption.map { _ + (if(side == Side.White) A6 else A3) }
+    enPassantSquOpt match {
+      case Some(enPassantSqu) => sb ++= squareToString(enPassantSqu)
+      case None               => sb += '-'
+    }
+    sb += ' '
+    sb ++= halfmoveClock.toString()
+    sb += ' '
+    sb ++= fullmoveNumber.toString()
+    sb.toString()
+  }
 }
 
 object Board
@@ -397,4 +440,185 @@ object Board
       Array(SideCastlings.All, SideCastlings.All),
       None,
       0, 1)
+
+  def apply(s: String): Board =
+    parseBoard(s) match {
+      case Some(board) => board
+      case None        => throw new ChessException("invalid fen")
+    }
+
+  def parseBoard(s: String) = {
+    val ss = s.split("[ \t]+")
+    var isOk = true
+    if(ss.length == 6) {
+      val pieceStrs = ss(0).split("/")
+      val pieces = Array.fill(64)(ColoredPiece.Empty)
+      if(pieceStrs.length == 8) {
+        var row = 7
+        var i = 0
+        isOk = true
+        while(row >= 0 && isOk) {
+          val pieceStr = pieceStrs(i)
+          var col = 0
+          var j = 0
+          while(col < 8 && isOk) {
+            charToColoredPieceOption(pieceStr(j)) match {
+              case Some(coloredPiece) =>
+                pieces(col + (row << 3)) = coloredPiece
+                col += 1
+              case None               =>
+                if(pieceStr(j) >= '1' && pieceStr(j) <= '8') {
+                  val count = pieceStr(j).toInt - '0'.toInt
+                  if(count <= 8 - col) {
+                    for(k <- 0 until count) {
+                      pieces(col + (row << 3)) = ColoredPiece.Empty
+                      col += 1
+                    }
+                  } else
+                    isOk = false
+                } else
+                  isOk = false
+            }
+            j += 1
+          }
+          if(j != pieceStr.length) isOk = false
+          row -= 1
+          i += 1
+        }
+        if(isOk) {
+          if(pieces.filter { _ == ColoredPiece.WhiteKing }.length != 1) isOk = false
+          if(pieces.filter { _ == ColoredPiece.BlackKing }.length != 1) isOk = false
+        }
+        if(isOk) {
+          val sideStr = ss(1)
+          var side = Side.White
+          if(sideStr.length == 1) {
+            charToSideOption(sideStr(0)) match {
+              case Some(side2) => side = side2
+              case _           => isOk = false
+            }
+          } else
+            isOk = false
+          if(isOk) {
+            val castlingStr = ss(2)
+            val castlings = Array.fill(2)(SideCastlings.None)
+            if(castlingStr != "-") {
+              var i = 0
+              while(i < castlingStr.length && isOk) {
+                castlingStr(i) match {
+                  case 'K' => castlings(Side.White.id) = castlings(Side.White.id) | SideCastlings.Short
+                  case 'Q' => castlings(Side.White.id) = castlings(Side.White.id) | SideCastlings.Long
+                  case 'k' => castlings(Side.Black.id) = castlings(Side.Black.id) | SideCastlings.Short
+                  case 'q' => castlings(Side.Black.id) = castlings(Side.Black.id) | SideCastlings.Long
+                  case _   => isOk = false
+                }
+                i += 1
+              }
+            }
+            if(isOk) {
+              if((castlings(Side.White.id) & SideCastlings.Short) != SideCastlings.None) {
+                if(pieces(E1) != ColoredPiece.WhiteKing)
+                  isOk = false
+                else if(pieces(H1) != ColoredPiece.WhiteRook)
+                  isOk = false
+              }
+              if((castlings(Side.White.id) & SideCastlings.Long) != SideCastlings.None) {
+                if(pieces(E1) != ColoredPiece.WhiteKing)
+                  isOk = false
+                else if(pieces(A1) != ColoredPiece.WhiteRook)
+                  isOk = false
+              }
+              if((castlings(Side.Black.id) & SideCastlings.Short) != SideCastlings.None) {
+                if(pieces(E8) != ColoredPiece.BlackKing)
+                  isOk = false
+                else if(pieces(H8) != ColoredPiece.BlackRook)
+                  isOk = false
+              }
+              if((castlings(Side.Black.id) & SideCastlings.Long) != SideCastlings.None) {
+                if(pieces(E8) != ColoredPiece.BlackKing)
+                  isOk = false
+                else if(pieces(A8) != ColoredPiece.BlackRook)
+                  isOk = false
+              }
+            }
+            if(isOk) {
+              val enPassantSquStr = ss(3)
+              var enPassantSquOpt = None: Option[Int]
+              var enPassantColumnOption = None: Option[Int]
+              if(enPassantSquStr != "-") {
+                stringToSquareOption(enPassantSquStr) match {
+                  case Some(enPassantSqu) => enPassantSquOpt = Some(enPassantSqu)
+                  case None               => isOk = false
+                }
+              }
+              if(isOk) {
+                enPassantSquOpt match {
+                  case Some(enPassantSqu) =>
+                    if((enPassantSqu >> 3) == (if(side == Side.White) 2 else 5)) {
+                      val capSqu = enPassantSqu + (if(side == Side.White) -8 else 8)
+                      if(pieces(capSqu) != sideAndPieceToColoredPiece(~side, Piece.Pawn)) {
+                        isOk = false
+                      } else {
+                        var i = 0
+                        var isPawn = false
+                        while(i < 2 && !isPawn) {
+                          val from120 = Mailbox64(enPassantSqu) + TabPawnCaptureSteps120((~side).id)(i)
+                          val from = Mailbox(from120)
+                          if(from != -1 && pieces(from) == sideAndPieceToColoredPiece(side, Piece.Pawn))
+                            isPawn = true
+                          i += 1
+                        }
+                        isOk = isPawn
+                      }
+                    }
+                    enPassantColumnOption = Some(enPassantSqu & 7)
+                  case None               =>
+                    ()
+                }
+              }
+              if(isOk) {
+                val halfmoveClockStr = ss(4)
+                var halfmoveClock = 0
+                try {
+                  halfmoveClock = Integer.parseInt(halfmoveClockStr)
+                } catch {
+                  case e: NumberFormatException => isOk = false
+                }
+                if(isOk) {
+                  val fullmoveNumberStr = ss(5)
+                  var fullmoveNumber = 1
+                  try {
+                    fullmoveNumber = Integer.parseInt(fullmoveNumberStr)
+                  } catch {
+                    case e: NumberFormatException => isOk = false
+                  }
+                  if(isOk) {
+                    val board = Board(
+                        pieces,
+                        side,
+                        castlings,
+                        enPassantColumnOption,
+                        halfmoveClock,
+                        fullmoveNumber)
+                    if(!board.inCheckForSide(~side))
+                      Some(board)
+                    else 
+                      None
+                  } else
+                    None
+                } else
+                  None
+              } else
+                None
+            } else
+              None
+          } else
+            None
+        } else
+          None
+      } else
+        None
+    } else
+      None
+  }
 }
