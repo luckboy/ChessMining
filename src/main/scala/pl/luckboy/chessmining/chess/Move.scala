@@ -18,6 +18,26 @@
 package pl.luckboy.chessmining.chess
 
 sealed abstract class Move
+{
+  override def toString() =
+    this match {
+      case NormalMove(piece, from, to, promotionPieceOpt, isCapture) =>
+        val sb = new StringBuilder()
+        sb += pieceToChar(piece)
+        sb ++= squareToString(from)
+        if(isCapture) sb += 'x'
+        sb ++= squareToString(to)
+        for(promotionPiece <- promotionPieceOpt) {
+          sb += '='
+          sb += promotionPieceToChar(promotionPiece)
+        }
+        sb.toString()
+      case ShortCastling =>
+        "O-O"
+      case LongCastling =>
+        "O-O-O"
+    }
+}
 
 case class NormalMove(piece: Piece.Value, from: Int, to: Int, promotionPieceOption: Option[PromotionPiece.Value], isCapture: Boolean) extends Move
 case object ShortCastling extends Move
