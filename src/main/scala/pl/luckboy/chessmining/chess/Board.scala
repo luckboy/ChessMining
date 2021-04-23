@@ -381,7 +381,9 @@ case class Board(
 
 object Board
 {
-  val Initial = Board(
+  val Initial = Board()
+      
+  def apply(): Board = Board(
       Array(
         WR, WN, WB, WQ, WK, WB, WN, WR,
         WP, WP, WP, WP, WP, WP, WP, WP,
