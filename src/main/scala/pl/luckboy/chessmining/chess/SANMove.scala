@@ -119,17 +119,14 @@ object SANMove
             fromColumnOption = None
             fromRowOption = None
             i = savedIdx
-            println("1")
           }
           if(i < s.length) {
-            println("2")
             var isCapture = false
             if(s(i) == 'x') {
               isCapture = true
               i += 1
             }
             if(i + 1 < s.length) {
-              println("3")
               var to = 0
               for(squ <- stringToSquareOption(s.substring(i, i + 2))) {
                 to = squ
