@@ -35,18 +35,18 @@ sealed abstract class Move
     this match {
       case normalMove @ NormalMove(_, _, _, _, _) =>
         var (isFound, isAmbiguous, mustBeSrcCol, mustBeSrcRow) = board.generateLegalMoves.foldLeft((false, false, false, false)) {
-          case (tuple @ (isFound2: Boolean, isAmbiguous2: Boolean, mustBeSrcCol2: Boolean, mustBeSrcRow2: Boolean), move2) =>
+          case (tuple @ (isFound: Boolean, isAmbiguous: Boolean, mustBeSrcCol: Boolean, mustBeSrcRow: Boolean), move2) =>
             move2 match {
               case normalMove2 @ NormalMove(_, _, _, _, _) =>
                 if(normalMove2 == normalMove) {
-                  (true, isAmbiguous2, mustBeSrcCol2, mustBeSrcRow2)
+                  (true, isAmbiguous, mustBeSrcCol, mustBeSrcRow)
                 } else if(normalMove2.piece == normalMove.piece &&
                   normalMove2.to == normalMove.to &&
                   normalMove2.promotionPieceOption == normalMove.promotionPieceOption &&
                   normalMove2.isCapture == normalMove.isCapture) {
-                  val mustBeSrcRow3 = (mustBeSrcRow2 || ((normalMove2.from & 7) == (normalMove.from & 7)))
-                  val mustBeSrcCol3 = (mustBeSrcCol2 || ((normalMove2.from >> 3) == (normalMove.from >> 3)))
-                  (isFound2, true, mustBeSrcCol3, mustBeSrcRow3) 
+                  val mustBeSrcRow2 = (mustBeSrcRow || ((normalMove2.from & 7) == (normalMove.from & 7)))
+                  val mustBeSrcCol2 = (mustBeSrcCol || ((normalMove2.from >> 3) == (normalMove.from >> 3)))
+                  (isFound, true, mustBeSrcCol2, mustBeSrcRow2) 
                 } else
                   tuple
               case _ =>
