@@ -128,34 +128,39 @@ object SANMove
             }
             if(i + 1 < s.length) {
               var to = 0
+              var isDstSqu = false
               for(squ <- stringToSquareOption(s.substring(i, i + 2))) {
                 to = squ
                 i += 2
+                isDstSqu = true
               }
-              var mustPromotion = false
-              if(i < s.length && s(i) == '=') {
-                mustPromotion = true
-                i += 1
-              }
-              var promotionPieceOption = None: Option[PromotionPiece.Value]
-              if(i < s.length) {
-                for(promotionPiece <- charToPromotionPieceOption(s(i))) {
-                  promotionPieceOption = Some(promotionPiece)
+              if(isDstSqu) {
+                var mustPromotion = false
+                if(i < s.length && s(i) == '=') {
+                  mustPromotion = true
                   i += 1
                 }
-              }
-              if(!mustPromotion || promotionPieceOption != None) {
-                for(checkOption <- parseCheckOptionAndSuffix(s.substring(i)))
-                  yield SANNormalMove(
-                    piece,
-                    fromColumnOption,
-                    fromRowOption,
-                    to,
-                    promotionPieceOption,
-                    isCapture,
-                    checkOption)
-              } else
+                var promotionPieceOption = None: Option[PromotionPiece.Value]
+                if(i < s.length) {
+                  for(promotionPiece <- charToPromotionPieceOption(s(i))) {
+                    promotionPieceOption = Some(promotionPiece)
+                    i += 1
+                  }
+                }
+                if(!mustPromotion || promotionPieceOption != None) {
+                  for(checkOption <- parseCheckOptionAndSuffix(s.substring(i)))
+                    yield SANNormalMove(
+                      piece,
+                      fromColumnOption,
+                      fromRowOption,
+                      to,
+                      promotionPieceOption,
+                      isCapture,
+                      checkOption)
+                } else
                   None
+              } else
+                None
             } else
               None
           } else
