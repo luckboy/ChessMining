@@ -54,6 +54,8 @@ sealed abstract class Move
             }
         }
         if(isAmbiguous && !mustBeSrcCol && !mustBeSrcRow) mustBeSrcCol = true
+        if(!mustBeSrcCol && !mustBeSrcRow && normalMove.piece == Piece.Pawn && normalMove.isCapture)
+          mustBeSrcCol = true
         val fromColumnOption = if(mustBeSrcCol) Some(normalMove.from & 7) else None
         val fromRowOption = if(mustBeSrcRow) Some(normalMove.from >> 3) else None
         val checkOption = if(isFound) checkOptionForBoard(board) else None
