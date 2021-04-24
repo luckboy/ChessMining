@@ -27,7 +27,7 @@ sealed abstract class SANMove
     val sb = new StringBuilder()
     var checkOpt = None: Option[Check.Value]
     this match {
-      case SANNormalMove(piece, srcColOpt, srcRowOpt, dst, promotionPieceOpt, isCapture, _) =>
+      case SANNormalMove(piece, srcColOpt, srcRowOpt, dstSqu, promotionPieceOpt, isCapture, _) =>
         if(piece != Piece.Pawn) sb += pieceToChar(piece)
         for(col <- srcColOpt) {
           sb += columnToChar(col)
@@ -36,7 +36,7 @@ sealed abstract class SANMove
           sb += rowToChar(row)
         }
         if(isCapture) sb += 'x'
-        sb ++= squareToString(dst)
+        sb ++= squareToString(dstSqu)
         for(promotionPiece <- promotionPieceOpt) {
           sb += '='
           sb += promotionPieceToChar(promotionPiece)
