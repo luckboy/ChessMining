@@ -131,8 +131,8 @@ object SANMove
               var isDstSqu = false
               for(squ <- stringToSquareOption(s.substring(i, i + 2))) {
                 to = squ
-                i += 2
                 isDstSqu = true
+                i += 2
               }
               if(isDstSqu) {
                 var mustPromotion = false
