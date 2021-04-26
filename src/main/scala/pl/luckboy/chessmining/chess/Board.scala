@@ -407,7 +407,8 @@ case class Board(
       if((sideCastlings(Side.White) & SideCastlings.Long) != SideCastlings.None) sb += 'Q'
       if((sideCastlings(Side.Black) & SideCastlings.Short) != SideCastlings.None) sb += 'k'
       if((sideCastlings(Side.Black) & SideCastlings.Long) != SideCastlings.None) sb += 'q'
-    }
+    } else
+      sb += '-'
     sb += ' '
     val enPassantSquOpt = enPassantColumnOption.map { _ + (if(side == Side.White) A6 else A3) }
     enPassantSquOpt match {
