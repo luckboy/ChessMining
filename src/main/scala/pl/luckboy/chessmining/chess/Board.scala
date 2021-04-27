@@ -555,13 +555,13 @@ object Board
               if(isOk) {
                 enPassantSquOpt match {
                   case Some(enPassantSqu) =>
+                    var isPawn = false
                     if((enPassantSqu >> 3) == (if(side == Side.White) 2 else 5)) {
                       val capSqu = enPassantSqu + (if(side == Side.White) -8 else 8)
                       if(pieces(capSqu) != sideAndPieceToColoredPiece(~side, Piece.Pawn)) {
                         isOk = false
                       } else {
                         var i = 0
-                        var isPawn = false
                         while(i < 2 && !isPawn) {
                           val from120 = Mailbox64(enPassantSqu) + TabPawnCaptureSteps120((~side).id)(i)
                           val from = Mailbox(from120)
@@ -572,7 +572,7 @@ object Board
                         isOk = isPawn
                       }
                     }
-                    enPassantColumnOption = Some(enPassantSqu & 7)
+                    enPassantColumnOption = if(isPawn) Some(enPassantSqu & 7) else None
                   case None               =>
                     ()
                 }
