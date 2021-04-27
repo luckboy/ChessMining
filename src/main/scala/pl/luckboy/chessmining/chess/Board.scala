@@ -237,7 +237,7 @@ case class Board(
               val to120 = Mailbox64(from) + TabKingSteps120(i)
               val to = Mailbox(to120)
               if(to != -1 && (color(to) == Color.Empty || color(to) == sideToColor(oppSide)))
-                moves :+= NormalMove(Piece.Knight, from, to, None, color(to) == sideToColor(oppSide))
+                moves :+= NormalMove(Piece.King, from, to, None, color(to) == sideToColor(oppSide))
               i += 1
             }
           case _ =>
@@ -294,9 +294,9 @@ case class Board(
         var newEnPassantColumnOption = None: Option[Int]
         val pawnSrcRow2 = if(side == Side.White) 1 else 6
         val pawnDstRow2 = if(side == Side.White) 3 else 4
-        if(piece == Piece.Pawn && from == pawnSrcRow2 && to == pawnDstRow2) {
+        if(piece == Piece.Pawn && (from >> 3) == pawnSrcRow2 && (to >> 3) == pawnDstRow2) {
           val enPassantSqu = from + (if(side == Side.White) 8 else -8)
-          var i = 1
+          var i = 0
           var isOppPawn = false
           while(i < 2 && !isOppPawn) {
             val oppPawnSrc120 = Mailbox64(enPassantSqu) + TabPawnCaptureSteps120(side.id)(i)
@@ -312,7 +312,7 @@ case class Board(
             ~side,
             newCastlings,
             newEnPassantColumnOption,
-            if(isCapture && piece == Piece.Pawn) halfmoveClock + 1 else 0,
+            if(!isCapture && piece != Piece.Pawn) halfmoveClock + 1 else 0,
             if(side == Side.Black) fullmoveNumber + 1 else fullmoveNumber))
       case ShortCastling =>
         val kingSrc = if(side == Side.White) E1 else E8
@@ -556,7 +556,7 @@ object Board
                 enPassantSquOpt match {
                   case Some(enPassantSqu) =>
                     var isPawn = false
-                    if((enPassantSqu >> 3) == (if(side == Side.White) 2 else 5)) {
+                    if((enPassantSqu >> 3) == (if(side == Side.White) 5 else 2)) {
                       val capSqu = enPassantSqu + (if(side == Side.White) -8 else 8)
                       if(pieces(capSqu) != sideAndPieceToColoredPiece(~side, Piece.Pawn)) {
                         isOk = false
@@ -569,9 +569,9 @@ object Board
                             isPawn = true
                           i += 1
                         }
-                        isOk = isPawn
                       }
-                    }
+                    } else
+                      isOk = false
                     enPassantColumnOption = if(isPawn) Some(enPassantSqu & 7) else None
                   case None               =>
                     ()
