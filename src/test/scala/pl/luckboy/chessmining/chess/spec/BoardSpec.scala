@@ -1068,4 +1068,20 @@ class BoardSpec extends AnyFlatSpec with should.Matchers with Inside
         newBoard should be (Board("r3k2r/8/8/8/8/8/8/b3K2R w Kkq - 0 2"))
     }
   }
+
+  it should "make the move for the white side and bug of move with en passant" in {
+    val board = Board("4k3/8/8/4Pp2/8/8/8/4K3 w - f6 0 1")
+    inside(board.unsafelyMakeMove(NormalMove(Piece.King, E1, D1, None, false))) {
+      case Some(newBoard) =>
+        newBoard should be (Board("4k3/8/8/4Pp2/8/8/8/3K4 b - - 1 1"))
+    }
+  }
+
+  it should "make the move for the black side and bug of move with en passant" in {
+    val board = Board("4k3/8/8/8/3Pp3/8/8/4K3 b - d3 0 1")
+    inside(board.unsafelyMakeMove(NormalMove(Piece.King, E8, F8, None, false))) {
+      case Some(newBoard) =>
+        newBoard should be (Board("5k2/8/8/8/3Pp3/8/8/4K3 w - - 1 2"))
+    }
+  }
 }

@@ -269,8 +269,9 @@ case class Board(
         val enPassantSquOpt = enPassantColumnOption.map {
           _ + (if(side == Side.White) A6 else A3)
         }
-        for(enPassnatSqu <- enPassantSquOpt) {
-          newPieces(to + (if(side == Side.White) -8 else 8)) = ColoredPiece.Empty
+        for(enPassantSqu <- enPassantSquOpt) {
+          if(piece == Piece.Pawn && to == enPassantSqu)
+            newPieces(to + (if(side == Side.White) -8 else 8)) = ColoredPiece.Empty
         }
         val newCastlings = Array.fill(2)(SideCastlings.None)
         Array.copy(castlings, 0, newCastlings, 0, 2)
