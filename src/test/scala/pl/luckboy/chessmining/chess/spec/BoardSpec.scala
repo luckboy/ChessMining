@@ -316,22 +316,22 @@ class BoardSpec extends AnyFlatSpec with should.Matchers with Inside
     boardOpt should be (None)
   }
   
-  "A Board.toString" should "convert board to string" in {
+  "A Board.toString" should "convert the board to the string" in {
     val board = Board("r1bqkb1r/pppp1ppp/2n2n2/4p3/4P3/2N2N2/PPPP1PPP/R1BQKB1R w KQkq - 0 4")
     board.toString() should be ("r1bqkb1r/pppp1ppp/2n2n2/4p3/4P3/2N2N2/PPPP1PPP/R1BQKB1R w KQkq - 0 4")
   }
   
-  it should "convert board to string for no castlings" in {
+  it should "convert the board to the string for no castlings" in {
     val board = Board("4k3/8/1p3n2/2p5/6P1/7P/5B2/4K3 b - - 0 1")
     board.toString() should be ("4k3/8/1p3n2/2p5/6P1/7P/5B2/4K3 b - - 0 1")
   }
 
-  it should "convert board to string for the white side and the en passant" in {
+  it should "convert the board to the string for the white side and the en passant" in {
     val board = Board("rnbqk1nr/pp1p1ppp/3bp3/1Pp5/4P3/8/P1PP1PPP/RNBQKBNR w KQkq c6 0 4")
     board.toString() should be ("rnbqk1nr/pp1p1ppp/3bp3/1Pp5/4P3/8/P1PP1PPP/RNBQKBNR w KQkq c6 0 4")
   }
 
-  it should "convert board to string for the black side and the en passant" in {
+  it should "convert the board to the string for the black side and the en passant" in {
     val board = Board("rnbqkbnr/pppp1p1p/8/4p3/4PPp1/3P3N/PPP3PP/RNBQKB1R b KQkq f3 0 4")
     board.toString() should be ("rnbqkbnr/pppp1p1p/8/4p3/4PPp1/3P3N/PPP3PP/RNBQKB1R b KQkq f3 0 4")
   }
