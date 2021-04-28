@@ -115,9 +115,9 @@ object Move
             sanNormalMove.piece == normalMove.piece &&
             sanNormalMove.fromColumnOption.map { _ == (normalMove.from & 7) }.getOrElse(true) &&
             sanNormalMove.fromRowOption.map { _ == (normalMove.from >> 3) }.getOrElse(true) &&
-            sanNormalMove.to == normalMove.to
-            sanNormalMove.promotionPieceOption == normalMove.promotionPieceOption
-            sanNormalMove.isCapture == normalMove.isCapture
+            sanNormalMove.to == normalMove.to &&
+            sanNormalMove.promotionPieceOption == normalMove.promotionPieceOption &&
+            (sanNormalMove.isCapture == normalMove.isCapture || (!sanNormalMove.isCapture && normalMove.isCapture))
           case (SANShortCastling(_), ShortCastling) =>
             true
           case (SANLongCastling(_), LongCastling) =>
