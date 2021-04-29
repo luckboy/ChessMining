@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ *p
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -422,12 +422,14 @@ class BoardSpec extends AnyFlatSpec with should.Matchers with Inside
     moves should contain (NormalMove(Piece.Pawn, C2, C3, None, false))
     moves should contain (NormalMove(Piece.Pawn, C2, C4, None, false))
     moves should contain (NormalMove(Piece.Pawn, F3, F4, None, false))
+    moves should not contain (NormalMove(Piece.Pawn, F3, F5, None, false))
   }
 
   it should "generate moves for the black side and the pawns" in {
     val moves = Board("4k3/7p/8/3p4/8/1P2P3/8/4K3 b - - 0 1").generatePseudolegalMoves
     moves.length should be >= (3)
     moves should contain (NormalMove(Piece.Pawn, D5, D4, None, false))
+    moves should not contain (NormalMove(Piece.Pawn, D5, D3, None, false))
     moves should contain (NormalMove(Piece.Pawn, H7, H6, None, false))
     moves should contain (NormalMove(Piece.Pawn, H7, H5, None, false))
   }
