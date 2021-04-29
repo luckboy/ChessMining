@@ -153,6 +153,10 @@ package object chess
     } else
       None
 
+  def isColumnChar(c: Char) = (c >= 'a' && c <= 'h')
+  
+  def isRowChar(c: Char) = (c >= '1' && c <= '8')
+      
   def coloredPieceToChar(coloredPiece: ColoredPiece.Value) =
     coloredPiece match {
       case ColoredPiece.Empty       => ' '

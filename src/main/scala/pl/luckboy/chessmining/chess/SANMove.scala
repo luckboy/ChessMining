@@ -115,7 +115,7 @@ object SANMove
             fromRowOption = Some(row)
             i += 1
           }
-          if(i == s.length || (!(s(i) >= 'a' && s(i) <= 'h') && s(i) != 'x')) {
+          if(i == s.length || (!isColumnChar(s(i)) && s(i) != 'x')) {
             fromColumnOption = None
             fromRowOption = None
             i = savedIdx
