@@ -23,7 +23,7 @@ sealed abstract class Move
 
   def isCheckmate(board: Board) = board.makeMove(this).map { _.inCheckmate }.getOrElse(false)
 
-  private def checkOptionForBoard(board: Board) =
+  def checkOption(board: Board) =
     if(isCheckmate(board))
       Some(Check.Checkmate)
     else if(isCheck(board))
@@ -58,7 +58,7 @@ sealed abstract class Move
           mustBeSrcCol = true
         val fromColumnOption = if(mustBeSrcCol) Some(normalMove.from & 7) else None
         val fromRowOption = if(mustBeSrcRow) Some(normalMove.from >> 3) else None
-        val checkOption = if(isFound) checkOptionForBoard(board) else None
+        val checkOption = if(isFound) this.checkOption(board) else None
         SANNormalMove(
           normalMove.piece,
           fromColumnOption,
@@ -69,11 +69,11 @@ sealed abstract class Move
           checkOption)
       case ShortCastling =>
         val isFound = board.generateLegalMoves.contains(this)
-        val checkOption = if(isFound) checkOptionForBoard(board) else None
+        val checkOption = if(isFound) this.checkOption(board) else None
         SANShortCastling(checkOption)
       case LongCastling =>
         val isFound = board.generateLegalMoves.contains(this)
-        val checkOption = if(isFound) checkOptionForBoard(board) else None
+        val checkOption = if(isFound) this.checkOption(board) else None
         SANLongCastling(checkOption)
     }
   
