@@ -18,6 +18,61 @@
 package pl.luckboy.chessmining.chess
 
 sealed abstract class TimeControl
+{
+  override def toString() =
+    this match {
+      case UnknownTimeControl                            => "?"
+      case ClassicalTimeControl(moveCount, seconds)      => moveCount + "/" + seconds
+      case SuddenDeathTimeControl(seconds)               => seconds.toString()
+      case IncrementalTimeControl(seconds, extraSeconds) => seconds + "+" + extraSeconds
+      case HourglassTimeControl(seconds)                 => "*" + seconds
+    }
+}
+
+object TimeControl
+{
+  def apply(s: String) =
+    parseTimeControl(s) match {
+      case Some(timeControl) => timeControl
+      case None              => throw new ChessException("Invalid time control")
+    }
+  
+  def parseTimeControl(s: String) =
+    if(s == "?") {
+      Some(UnknownTimeControl)
+    } else if(s.matches("[0-9]+/[0-9]+")) {
+      val ss = s.split("/")
+      try {
+        val moveCount = Integer.parseInt(ss(0))
+        val seconds = Integer.parseInt(ss(1))
+        Some(ClassicalTimeControl(moveCount, seconds))
+      } catch {
+        case e: NumberFormatException => None
+      }
+    } else if(s.matches("[0-9]+")) {
+      try {
+        Some(SuddenDeathTimeControl(Integer.parseInt(s)))
+      } catch {
+        case e: NumberFormatException => None
+      }
+    } else if(s.matches("[0-9]+\\+[0-9]+")) {
+      val ss = s.split("\\+")
+      try {
+        val seconds = Integer.parseInt(ss(0))
+        val extraSeconds = Integer.parseInt(ss(1))
+        Some(IncrementalTimeControl(seconds, extraSeconds))
+      } catch {
+        case e: NumberFormatException => None
+      }
+    } else if(s.matches("\\*[0-9]+")) {
+      try {
+        Some(HourglassTimeControl(Integer.parseInt(s.substring(1))))
+      } catch {
+        case e: NumberFormatException => None
+      }
+    } else
+      None
+}
 
 case object UnknownTimeControl extends TimeControl
 case class ClassicalTimeControl(moveCount: Int, seconds: Int) extends TimeControl

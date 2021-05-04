@@ -208,4 +208,20 @@ package object chess
     sb += rowToChar(squ >> 3)
     sb.toString()
   }
+  
+  def stringToResult(s: String) =
+    s match {
+      case "1-0"     => Some(Result.WhiteWin)
+      case "0-1"     => Some(Result.BlackWin)
+      case "1/2-1/2" => Some(Result.Draw)
+      case "*"       => Some(Result.Unfinished)
+    }
+
+  def resultToString(result: Result.Value) =
+    result match {
+      case Result.WhiteWin   => "1-0"
+      case Result.BlackWin   => "0-1"
+      case Result.Draw       => "1/2-1/2"
+      case Result.Unfinished => "*"
+    }
 }
