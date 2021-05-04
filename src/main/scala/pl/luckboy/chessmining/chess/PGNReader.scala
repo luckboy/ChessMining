@@ -65,7 +65,7 @@ class PGNReader(r: Reader)
         isStop = true
       } else {
         val c = i.toChar
-        if(c != ' ' || c != '\t' || c != '\u000B' || c != '\n' || c != '\r' || c != ';' || c != '{') {
+        if(c != ' ' && c != '\t' && c != '\u000B' && c != '\n' && c != '\r' && c != ';' && c != '{') {
           unreadChar(i)
           isStop = true
         } else if(c == '\n') {
