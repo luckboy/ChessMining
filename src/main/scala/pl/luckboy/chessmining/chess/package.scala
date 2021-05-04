@@ -209,12 +209,13 @@ package object chess
     sb.toString()
   }
   
-  def stringToResult(s: String) =
+  def stringToResultOption(s: String) =
     s match {
       case "1-0"     => Some(Result.WhiteWin)
       case "0-1"     => Some(Result.BlackWin)
       case "1/2-1/2" => Some(Result.Draw)
       case "*"       => Some(Result.Unfinished)
+      case _         => None
     }
 
   def resultToString(result: Result.Value) =
