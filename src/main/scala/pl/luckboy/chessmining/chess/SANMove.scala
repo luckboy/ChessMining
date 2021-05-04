@@ -61,7 +61,7 @@ object SANMove
   def apply(s: String) =
     parseSANMove(s) match {
       case Some(sanMove) => sanMove
-      case None          => throw new ChessException("illegal move")
+      case None          => throw new ChessException("Illegal move")
     }
   
   private def parseCheckOptionAndSuffix(s: String) =

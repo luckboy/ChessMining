@@ -104,7 +104,7 @@ object Move
   def apply(s: String, board: Board) =
     parseSANMove(s, board) match {
       case Some(move) => move
-      case None       => throw new ChessException("illegal move")
+      case None       => throw new ChessException("Illegal move")
     }
   
   def sanMoveToMoveOption(sanMove: SANMove, board: Board) =
