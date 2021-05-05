@@ -43,7 +43,7 @@ class PGNWriter(w: Writer)
   {
     if(column == 0 || column + s.length + 1 <= 80) {
       if(column != 0) writeChar(' ')
-      column += s.length + 1
+      column += s.length + (if(column != 0) 1 else 0)
     } else {
       writeChar('\n')
       column = s.length 
