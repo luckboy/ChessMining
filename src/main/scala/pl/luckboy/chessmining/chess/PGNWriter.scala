@@ -81,7 +81,7 @@ class PGNWriter(w: Writer)
     if(!isError) {
       resultOpt match {
         case Some(result) =>
-          val resultStr = result.toString()
+          val resultStr = resultToString(result)
           writeEmptyOrSpaceOrNewline(resultStr)
           writeString(resultStr)
         case None =>
@@ -99,7 +99,7 @@ class PGNWriter(w: Writer)
     writeString("[Date \"" + game.date + "\"]\n")
     writeString("[White \"" + game.white.mkString(":") + "\"]\n")
     writeString("[Black \"" + game.black.mkString(":") + "\"]\n")
-    writeString("[Result \"" + game.result.toString() + "\"]\n")
+    writeString("[Result \"" + resultToString(game.result) + "\"]\n")
     for(eventDate <- game.eventDateOption) {
       writeString("[EventDate \"" + eventDate + "\"]\n") 
     }
