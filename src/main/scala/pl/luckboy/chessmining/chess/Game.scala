@@ -34,7 +34,7 @@ case class Game(
   timeControlOption: Option[Vector[Option[TimeControl]]],
   tags: Map[String, String],
   boardOption: Option[Board],
-  movesWithVariantions: Vector[MoveWithVariations])
+  movesWithVariations: Vector[MoveWithVariations])
 {
   def side(side: Side.Value) =
     side match {

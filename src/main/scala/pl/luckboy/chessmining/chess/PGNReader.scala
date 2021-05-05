@@ -626,7 +626,7 @@ class PGNReader(r: Reader)
             timeControlOption = timeControlOption,
             tags = tags,
             boardOption = boardOption,
-            movesWithVariantions = movesWithVariations))
+            movesWithVariations = movesWithVariations))
       case Some(error) =>
         Left(error)
     }
