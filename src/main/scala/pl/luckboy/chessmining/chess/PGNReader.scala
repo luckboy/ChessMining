@@ -19,7 +19,7 @@ package pl.luckboy.chessmining.chess
 import java.io._
 import scala.collection.mutable.Stack
 
-class PGNReader(r: Reader)
+class PGNReader(r: Reader) extends GameReader
 {
   private abstract class Token
   {
@@ -500,7 +500,7 @@ class PGNReader(r: Reader)
     }
   }
   
-  def readGame() = {
+  override def readGame() = {
     var event = ""
     var site = ""
     var date = "????.??.??"

@@ -18,7 +18,7 @@
 package pl.luckboy.chessmining.chess
 import java.io._
 
-class PGNWriter(w: Writer)
+class PGNWriter(w: Writer) extends GameWriter
 {
   private val writer = w
   private var column = 0
@@ -93,7 +93,7 @@ class PGNWriter(w: Writer)
       false
   }
     
-  def writeGame(game: Game) = {
+  override def writeGame(game: Game) = {
     writeString("[Event \"" + game.event + "\"]\n")
     writeString("[Site \"" + game.site + "\"]\n")
     writeString("[Date \"" + game.date + "\"]\n")
