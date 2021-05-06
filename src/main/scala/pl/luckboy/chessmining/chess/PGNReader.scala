@@ -38,20 +38,25 @@ class PGNReader(r: Reader) extends GameReader
   private val pushedChars = Stack[Char]()
   private val pushedTokens = Stack[Token]()
   private var lineNumber = 1
+  private var charCount = 0
   
-  private def readChar() =
-    if(!pushedChars.isEmpty) {
+  private def readChar() = {
+    var i = if(!pushedChars.isEmpty)
       pushedChars.pop().toInt
-    } else {
-      val i = reader.read()
+    else
+      reader.read()
+    if(i != -1) {
       if(i.toChar == '\n') lineNumber += 1
-      i
+      charCount += 1
     }
+    i
+  }
 
   private def unreadChar(c: Int)
   {
     if(c != -1) {
       if(c.toChar == '\n') lineNumber -= 1
+      charCount -= 1
       pushedChars.push(c.toChar)
     }
   }
@@ -59,35 +64,31 @@ class PGNReader(r: Reader) extends GameReader
   private def skipSpacesAndComments() = {
     var isStop = false
     var isUnclosedComment = false
+    var isPrevNewline = false
     while(!isStop) {
       val i = readChar()
       if(i == -1) {
         isStop = true
       } else {
         val c = i.toChar
-        if(c != ' ' && c != '\t' && c != '\u000B' && c != '\n' && c != '\r' && c != ';' && c != '{') {
+        if(c != ' ' && c != '\t' && c != '\u000B' && c != '\n' && c != '\r' && c != ';' && c != '{' &&
+          (!(charCount <= 0 || isPrevNewline) || c != '%')) {
           unreadChar(i)
           isStop = true
-        } else if(c == '\n') {
-          val i2 = readChar()
-          if(i2 == -1) {
-            isStop = true
-          } else {
-            val c2 = readChar()
-            if(c == '%') {
-              var isStop2 = false
-              while(!isStop2) {
-                val i3 = readChar()
-                if(i3 == -1) {
-                  isStop2 = true
-                } else {
-                  val c = i3.toChar
-                  if(c == '\n') isStop2 = true
-                }
-              }
-            } else
-              unreadChar(i2)
+        } else if(c == '%') {
+          var isStop2 = false
+          while(!isStop2) {
+            val i2 = readChar()
+            if(i2 == -1) {
+              isStop2 = true
+            } else {
+              val c2 = i2.toChar
+              if(c2 == '\n') isStop2 = true
+            }
           }
+          isPrevNewline = true
+        } else if(c == '\n') {
+          isPrevNewline = true
         } else if(c == ';') {
           var isStop2 = false
           while(!isStop2) {
@@ -100,6 +101,7 @@ class PGNReader(r: Reader) extends GameReader
               if(c == '\n') isStop2 = true
             }
           }
+          isPrevNewline = true
         } else if(c == '{') {
           var isStop2 = false
           while(!isStop2) {
@@ -113,7 +115,9 @@ class PGNReader(r: Reader) extends GameReader
               if(c == '}') isStop2 = true
             }
           }
-        }
+          isPrevNewline = false
+        } else
+          isPrevNewline = false
       }
     }
     if(!isUnclosedComment)
