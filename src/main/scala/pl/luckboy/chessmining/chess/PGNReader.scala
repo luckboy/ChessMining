@@ -70,7 +70,9 @@ class PGNReader(r: Reader) extends GameReader
           isStop = true
         } else if(c == '\n') {
           val i2 = readChar()
-          if(i2 != -1) {
+          if(i2 == -1) {
+            isStop = true
+          } else {
             val c2 = readChar()
             if(c == '%') {
               var isStop2 = false
