@@ -500,6 +500,7 @@ class PGNReader(r: Reader) extends GameReader
                   } else
                     isStop = isStop3
                 case Left(error) =>
+                  isStop = true
                   errorOpt = Some(error)
               }
             }
