@@ -56,9 +56,9 @@ class PGNReader(r: Reader) extends GameReader
     }
   }
 
-  private def skipSpacesAndComments()
-  {
+  private def skipSpacesAndComments() = {
     var isStop = false
+    var isUnclosedComment = false
     while(!isStop) {
       val i = readChar()
       if(i == -1) {
@@ -92,6 +92,7 @@ class PGNReader(r: Reader) extends GameReader
             val i2 = readChar()
             if(i2 == -1) {
               isStop2 = true
+              isStop = true
             } else {
               val c2 = i2.toChar
               if(c == '\n') isStop2 = true
@@ -103,6 +104,8 @@ class PGNReader(r: Reader) extends GameReader
             val i2 = readChar()
             if(i2 == -1) {
               isStop2 = true
+              isUnclosedComment = true
+              isStop = true
             } else {
               val c2 = i2.toChar
               if(c == '}') isStop2 = true
@@ -111,87 +114,95 @@ class PGNReader(r: Reader) extends GameReader
         }
       }
     }
+    if(!isUnclosedComment)
+      None
+    else
+      Some(PGNReaderError(lineNumber, "Unclosed comment"))
   }
 
   private def readToken() = {
     if(!pushedTokens.isEmpty) {
       Right(pushedTokens.pop())
     } else {
-      skipSpacesAndComments()
-      val i = readChar()
-      if(i == -1) {
-        Right(EOFToken(lineNumber))
-      } else {
-        val c = i.toChar
-        if((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) {
-          val tmpLineNumber = lineNumber
-          var sb = new StringBuilder()
-          sb += c
-          var isStop = false
-          while(!isStop) {
-            val i2 = readChar()
-            if(i2 == -1) {
-              isStop = true
-            } else {
-              val c2 = i2.toChar
-              if((c2 >= 'A' && c2 <= 'Z') || (c2 >= 'a' && c2 <= 'z') || (c2 >= '0' && c2 <= '9') ||
-                c2 == '_' || c2 == '+' || c2 == '#' || c2 == '=' || c2 == ':' || c2 == '-' ||
-                c2 == '/' || c2 == '?' || c2 == '!') {
-                sb += c2
-              } else {
-                unreadChar(i)
-                isStop = true
+      skipSpacesAndComments() match {
+        case None =>
+          val i = readChar()
+          if(i == -1) {
+            Right(EOFToken(lineNumber))
+          } else {
+            val c = i.toChar
+            if((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) {
+              val tmpLineNumber = lineNumber
+              var sb = new StringBuilder()
+              sb += c
+              var isStop = false
+              while(!isStop) {
+                val i2 = readChar()
+                if(i2 == -1) {
+                  isStop = true
+                } else {
+                  val c2 = i2.toChar
+                  if((c2 >= 'A' && c2 <= 'Z') || (c2 >= 'a' && c2 <= 'z') || (c2 >= '0' && c2 <= '9') ||
+                    c2 == '_' || c2 == '+' || c2 == '#' || c2 == '=' || c2 == ':' || c2 == '-' ||
+                    c2 == '/' || c2 == '?' || c2 == '!') {
+                    sb += c2
+                  } else {
+                    unreadChar(i)
+                    isStop = true
+                  }
+                }
               }
-            }
-          }
-          Right(SymbolToken(sb.toString(), tmpLineNumber))
-        } else if(c == '"') {
-          val tmpLineNumber = lineNumber
-          val sb = new StringBuilder()
-          var isStop = false
-          var isUnclosedString = false
-          while(!isStop) {
-            val i2 = readChar()
-            if(i2 == -1) {
-              isUnclosedString = true
-              isStop = true
-            } else {
-              val c2 = i2.toChar
-              if(c == '"')
-                isStop = true
+              Right(SymbolToken(sb.toString(), tmpLineNumber))
+            } else if(c == '"') {
+              val tmpLineNumber = lineNumber
+              val sb = new StringBuilder()
+              var isStop = false
+              var isUnclosedString = false
+              while(!isStop) {
+                val i2 = readChar()
+                if(i2 == -1) {
+                  isUnclosedString = true
+                  isStop = true
+                } else {
+                  val c2 = i2.toChar
+                  if(c == '"')
+                    isStop = true
+                  else
+                    sb += c2
+                }
+              }
+              if(!isUnclosedString)
+                Right(StringToken(sb.toString(), tmpLineNumber))
               else
-               sb += c2
-            }
-          }
-          if(!isUnclosedString)
-            Right(StringToken(sb.toString(), tmpLineNumber))
-          else
-            Left(PGNReaderError(tmpLineNumber, "Unclosed string"))
-        } else if(c == '$') {
-          val tmpLineNumber = lineNumber
-          var sb = new StringBuilder()
-          sb += c
-          var isStop = false
-          while(!isStop) {
-            val i2 = readChar()
-            if(i2 == -1) {
-              isStop = true
-            } else {
-              val c2 = i2.toChar
-              if(c2 >= '0' && c2 <= '9') {
-                sb += c2
-              } else {
-                unreadChar(i)
-                isStop = true
+                Left(PGNReaderError(tmpLineNumber, "Unclosed string"))
+            } else if(c == '$') {
+              val tmpLineNumber = lineNumber
+              var sb = new StringBuilder()
+              sb += c
+              var isStop = false
+              while(!isStop) {
+                val i2 = readChar()
+                if(i2 == -1) {
+                  isStop = true
+                } else {
+                  val c2 = i2.toChar
+                  if(c2 >= '0' && c2 <= '9') {
+                    sb += c2
+                  } else {
+                    unreadChar(i)
+                    isStop = true
+                  }
+                }
               }
-            }
+              Right(NAGToken(sb.toString(), tmpLineNumber))
+            } else if(c == '.' || c == '*' ||
+              c == '[' || c == ']' || c == '(' || c == ')' || c == '<' || c >= '>') {
+              Right(OtherToken(c, lineNumber))
+            } else
+              Left(PGNReaderError(lineNumber, "Unrecognized character"))
           }
-          Right(NAGToken(sb.toString(), tmpLineNumber))
-        } else if(c == '.' || c == '*' ||
-          c == '[' || c == ']' || c == '(' || c == ')' || c == '<' || c >= '>') {
-          Right(OtherToken(c, lineNumber))
-        } else
-          Left(PGNReaderError(lineNumber, "Unrecognized character"))
+        case Some(error) =>
+          Left(error)
       }
     }
   }
