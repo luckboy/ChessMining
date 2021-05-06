@@ -84,6 +84,7 @@ class PGNWriter(w: Writer) extends GameWriter
           val resultStr = resultToString(result)
           writeEmptyOrSpaceOrNewline(resultStr)
           writeString(resultStr)
+          writeChar('\n')
         case None =>
           writeEmptyOrSpaceOrNewline(")")
           writeString(")")
