@@ -23,22 +23,22 @@ class PGNReader(r: Reader) extends GameReader
 {
   private abstract class Token
   {
-    def lineNumber: Int
+    def lineNumber: Long
   }
 
-  private case class SymbolToken(s: String, lineNumber: Int) extends Token
-  private case class StringToken(s: String, lineNumber: Int) extends Token
-  private case class NAGToken(s: String, lineNumber: Int) extends Token
-  private case class OtherToken(c: Char, lineNumber: Int) extends Token
-  private case class EOFToken(lineNumber: Int) extends Token
+  private case class SymbolToken(s: String, lineNumber: Long) extends Token
+  private case class StringToken(s: String, lineNumber: Long) extends Token
+  private case class NAGToken(s: String, lineNumber: Long) extends Token
+  private case class OtherToken(c: Char, lineNumber: Long) extends Token
+  private case class EOFToken(lineNumber: Long) extends Token
 
   private case class Tag(name: String, value: String)
   
   private val reader = r
   private val pushedChars = Stack[Char]()
   private val pushedTokens = Stack[Token]()
-  private var lineNumber = 1
-  private var charCount = 0
+  private var lineNumber = 1L
+  private var charCount = 0L
   
   private def readChar() = {
     var i = if(!pushedChars.isEmpty)
@@ -46,8 +46,8 @@ class PGNReader(r: Reader) extends GameReader
     else
       reader.read()
     if(i != -1) {
-      if(i.toChar == '\n') lineNumber += 1
-      charCount += 1
+      if(i.toChar == '\n') lineNumber += 1L
+      charCount += 1L
     }
     i
   }
@@ -55,8 +55,8 @@ class PGNReader(r: Reader) extends GameReader
   private def unreadChar(c: Int)
   {
     if(c != -1) {
-      if(c.toChar == '\n') lineNumber -= 1
-      charCount -= 1
+      if(c.toChar == '\n') lineNumber -= 1L
+      charCount -= 1L
       pushedChars.push(c.toChar)
     }
   }
@@ -72,7 +72,7 @@ class PGNReader(r: Reader) extends GameReader
       } else {
         val c = i.toChar
         if(c != ' ' && c != '\t' && c != '\u000B' && c != '\n' && c != '\r' && c != ';' && c != '{' &&
-          (!(charCount <= 0 || isPrevNewline) || c != '%')) {
+          (!(charCount <= 0L || isPrevNewline) || c != '%')) {
           unreadChar(i)
           isStop = true
         } else if(c == '%') {
@@ -374,7 +374,7 @@ class PGNReader(r: Reader) extends GameReader
     }
   }
 
-  private def readMoveWithVariations(board: Board): Either[PGNReaderError, (MoveWithVariations, Int)] = {
+  private def readMoveWithVariations(board: Board): Either[PGNReaderError, (MoveWithVariations, Long)] = {
     readToken() match {
       case Right(SymbolToken(moveStr, tmpLineNumber)) =>
         Move.parseSANMove(moveStr, board) match {

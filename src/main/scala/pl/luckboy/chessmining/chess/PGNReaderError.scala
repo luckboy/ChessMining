@@ -17,7 +17,7 @@
  */
 package pl.luckboy.chessmining.chess
 
-case class PGNReaderError(lineNumber: Int, message: String) extends GameReaderError
+case class PGNReaderError(lineNumber: Long, message: String) extends GameReaderError
 {
   override def toString() = lineNumber + ": " + message
 }
