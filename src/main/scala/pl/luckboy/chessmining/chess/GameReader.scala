@@ -19,5 +19,5 @@ package pl.luckboy.chessmining.chess
 
 abstract class GameReader
 {
-  def readGame(): Either[GameReaderError, Game]
+  def readGame(): Either[GameReaderError, Option[Game]]
 }

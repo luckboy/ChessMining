@@ -501,133 +501,141 @@ class PGNReader(r: Reader) extends GameReader
   }
   
   override def readGame() = {
-    var event = ""
-    var site = ""
-    var date = "????.??.??"
-    var round = ""
-    var white = Vector("")
-    var black = Vector("")
-    var result = Result.Unfinished
-    var eventDateOption = None: Option[String]
-    var whiteEloOption = None: Option[Vector[Option[Int]]]
-    var blackEloOption = None: Option[Vector[Option[Int]]]
-    var whiteUSCFOption = None: Option[Vector[Option[Int]]]
-    var blackUSCFOption = None: Option[Vector[Option[Int]]]
-    var ecoOption = None: Option[String]
-    var timeControlOption = None: Option[Vector[Option[TimeControl]]]
-    var tags = Map[String, String]()
-    var boardOption = None: Option[Board]
-    var errorOpt = None: Option[PGNReaderError]
-    var isStop = false
-    while(!isStop) {
-      readTag() match {
-        case Right(Some((Tag(name, value), tmpLineNumber))) =>
-          tags += ((name, value))
-          name match {
-            case "Event" =>
-              event = value
-            case "Site" =>
-              site = value
-            case "Date" =>
-              date = value
-            case "Round" =>
-              round = value
-            case "White" =>
-              white = value.split(":").toVector
-            case "Black" =>
-              black = value.split(":").toVector
-            case "Result" =>
-              stringToResultOption(value) match {
-                case Some(result2) => result = result2
-                case None          =>
-                  isStop = true
-                  errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid result"))
+    readToken() match {
+      case Right(EOFToken(_)) =>
+        Right(None)
+      case Right(token) =>
+        unreadToken(token)
+        var event = ""
+        var site = ""
+        var date = "????.??.??"
+        var round = ""
+        var white = Vector("")
+        var black = Vector("")
+        var result = Result.Unfinished
+        var eventDateOption = None: Option[String]
+        var whiteEloOption = None: Option[Vector[Option[Int]]]
+        var blackEloOption = None: Option[Vector[Option[Int]]]
+        var whiteUSCFOption = None: Option[Vector[Option[Int]]]
+        var blackUSCFOption = None: Option[Vector[Option[Int]]]
+        var ecoOption = None: Option[String]
+        var timeControlOption = None: Option[Vector[Option[TimeControl]]]
+        var tags = Map[String, String]()
+        var boardOption = None: Option[Board]
+        var errorOpt = None: Option[PGNReaderError]
+        var isStop = false
+        while(!isStop) {
+          readTag() match {
+            case Right(Some((Tag(name, value), tmpLineNumber))) =>
+              tags += ((name, value))
+              name match {
+                case "Event" =>
+                  event = value
+                case "Site" =>
+                  site = value
+                case "Date" =>
+                  date = value
+                case "Round" =>
+                  round = value
+                case "White" =>
+                  white = value.split(":").toVector
+                case "Black" =>
+                  black = value.split(":").toVector
+                case "Result" =>
+                  stringToResultOption(value) match {
+                    case Some(result2) => result = result2
+                    case None          =>
+                      isStop = true
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid result"))
+                  }
+                case "EventDate" =>
+                  eventDateOption = Some(value)
+                case "WhiteElo" =>
+                  parseRatings(value) match {
+                    case Some(ratings) => whiteEloOption = Some(ratings)
+                    case None          =>
+                      isStop = true
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid Elo"))
+                  }
+                case "BlackElo" =>
+                  parseRatings(value) match {
+                    case Some(ratings) => blackEloOption = Some(ratings)
+                    case None          =>
+                      isStop = true
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid Elo"))
+                  }
+                case "WhiteUSCF" =>
+                  parseRatings(value) match {
+                    case Some(ratings) => whiteUSCFOption = Some(ratings)
+                    case None          =>
+                      isStop = true
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid USCF"))
+                  }
+                case "BlackUSCF" =>
+                  parseRatings(value) match {
+                    case Some(ratings) => blackUSCFOption = Some(ratings)
+                    case None          =>
+                      isStop = true
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid USCF"))
+                  }
+                case "ECO" =>
+                  ecoOption = Some(value)
+                case "TimeControl" =>
+                  parseTimeControls(value) match {
+                    case Some(timeControls) => timeControlOption = Some(timeControls)
+                    case None               =>
+                      isStop = true
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid time control"))
+                  }
+                case "FEN" =>
+                  Board.parseBoard(value) match {
+                    case Some(board) => boardOption = Some(board)
+                    case None        =>
+                      isStop = true
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid fen"))
+                  }
+                case _ =>
+                  ()
               }
-            case "EventDate" =>
-              eventDateOption = Some(value)
-            case "WhiteElo" =>
-              parseRatings(value) match {
-                case Some(ratings) => whiteEloOption = Some(ratings)
-                case None          =>
-                  isStop = true
-                  errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid Elo"))
-              }
-            case "BlackElo" =>
-              parseRatings(value) match {
-                case Some(ratings) => blackEloOption = Some(ratings)
-                case None          =>
-                  isStop = true
-                  errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid Elo"))
-              }
-            case "WhiteUSCF" =>
-              parseRatings(value) match {
-                case Some(ratings) => whiteUSCFOption = Some(ratings)
-                case None          =>
-                  isStop = true
-                  errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid USCF"))
-              }
-            case "BlackUSCF" =>
-              parseRatings(value) match {
-                case Some(ratings) => blackUSCFOption = Some(ratings)
-                case None          =>
-                  isStop = true
-                  errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid USCF"))
-              }
-            case "ECO" =>
-              ecoOption = Some(value)
-            case "TimeControl" =>
-              parseTimeControls(value) match {
-                case Some(timeControls) => timeControlOption = Some(timeControls)
-                case None               =>
-                  isStop = true
-                  errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid time control"))
-              }
-            case "FEN" =>
-              Board.parseBoard(value) match {
-                case Some(board) => boardOption = Some(board)
-                case None        =>
-                  isStop = true
-                  errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid fen"))
-              }
-            case _ =>
-              ()
+            case Right(None) =>
+              isStop = true
+            case Left(error) =>
+              errorOpt = Some(error)
           }
-        case Right(None) =>
-          isStop = true
-        case Left(error) =>
-          errorOpt = Some(error)
-      }
-    }
-    var movesWithVariations = Vector[MoveWithVariations]()
-    if(!isStop) {
-      readMovesWithVariations(boardOption.getOrElse(Board.Initial), Some(result)) match {
-        case Right(movesWithVariations2) =>
-          movesWithVariations = movesWithVariations2
-        case Left(error) =>
-          errorOpt = Some(error)
-      }
-    }
-    errorOpt match {
-      case None =>
-        Right(Game(
-            event = event,
-            site = site,
-            date = date,
-            round = round,
-            white = white,
-            black = black,
-            result = result,
-            eventDateOption = eventDateOption,
-            whiteEloOption = whiteEloOption,
-            blackEloOption = blackEloOption,
-            whiteUSCFOption = whiteUSCFOption,
-            blackUSCFOption = blackUSCFOption,
-            ecoOption = ecoOption,
-            timeControlOption = timeControlOption,
-            tags = tags,
-            boardOption = boardOption,
-            movesWithVariations = movesWithVariations))
-      case Some(error) =>
+        }
+        var movesWithVariations = Vector[MoveWithVariations]()
+        if(!isStop) {
+          readMovesWithVariations(boardOption.getOrElse(Board.Initial), Some(result)) match {
+            case Right(movesWithVariations2) =>
+              movesWithVariations = movesWithVariations2
+            case Left(error) =>
+              errorOpt = Some(error)
+          }
+        }
+        errorOpt match {
+          case None =>
+            Right(Some(Game(
+                  event = event,
+                  site = site,
+                  date = date,
+                  round = round,
+                  white = white,
+                  black = black,
+                  result = result,
+                  eventDateOption = eventDateOption,
+                  whiteEloOption = whiteEloOption,
+                  blackEloOption = blackEloOption,
+                  whiteUSCFOption = whiteUSCFOption,
+                  blackUSCFOption = blackUSCFOption,
+                  ecoOption = ecoOption,
+                  timeControlOption = timeControlOption,
+                  tags = tags,
+                  boardOption = boardOption,
+                  movesWithVariations = movesWithVariations)))
+          case Some(error) =>
+            Left(error)
+        }
+      case Left(error) =>
         Left(error)
     }
   }
