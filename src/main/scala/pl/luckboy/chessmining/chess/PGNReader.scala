@@ -72,7 +72,7 @@ class PGNReader(r: Reader) extends GameReader
       } else {
         val c = i.toChar
         if(c != ' ' && c != '\t' && c != '\u000B' && c != '\n' && c != '\r' && c != ';' && c != '{' &&
-          (!(charCount <= 0L || isPrevNewline) || c != '%')) {
+          (!(charCount <= 1L || isPrevNewline) || c != '%')) {
           unreadChar(i)
           isStop = true
         } else if(c == '%') {
@@ -99,7 +99,7 @@ class PGNReader(r: Reader) extends GameReader
               isStop = true
             } else {
               val c2 = i2.toChar
-              if(c == '\n') isStop2 = true
+              if(c2 == '\n') isStop2 = true
             }
           }
           isPrevNewline = true
@@ -113,7 +113,7 @@ class PGNReader(r: Reader) extends GameReader
               isStop = true
             } else {
               val c2 = i2.toChar
-              if(c == '}') isStop2 = true
+              if(c2 == '}') isStop2 = true
             }
           }
           isPrevNewline = false
@@ -154,7 +154,7 @@ class PGNReader(r: Reader) extends GameReader
                     c2 == '/' || c2 == '?' || c2 == '!') {
                     sb += c2
                   } else {
-                    unreadChar(i)
+                    unreadChar(i2)
                     isStop = true
                   }
                 }
@@ -172,7 +172,7 @@ class PGNReader(r: Reader) extends GameReader
                   isStop = true
                 } else {
                   val c2 = i2.toChar
-                  if(c == '"')
+                  if(c2 == '"')
                     isStop = true
                   else
                     sb += c2
@@ -185,7 +185,6 @@ class PGNReader(r: Reader) extends GameReader
             } else if(c == '$') {
               val tmpLineNumber = lineNumber
               var sb = new StringBuilder()
-              sb += c
               var isStop = false
               while(!isStop) {
                 val i2 = readChar()
@@ -196,7 +195,7 @@ class PGNReader(r: Reader) extends GameReader
                   if(c2 >= '0' && c2 <= '9') {
                     sb += c2
                   } else {
-                    unreadChar(i)
+                    unreadChar(i2)
                     isStop = true
                   }
                 }
@@ -327,9 +326,9 @@ class PGNReader(r: Reader) extends GameReader
             Left(error)
         }
       case Right(OtherToken(')', tmpLineNumber)) =>
-        if(resultOpt == None)
+        if(resultOpt == None) {
           Right(true)
-        else
+        } else
           Left(PGNReaderError(tmpLineNumber, "Unexpected right parenthesis"))
       case Right(token) =>
         unreadToken(token)
@@ -367,7 +366,7 @@ class PGNReader(r: Reader) extends GameReader
             case Some(error) => Left(error)
           }
         } else
-          Left(PGNReaderError(tmpLineNumber, "Invlid move number"))
+          Left(PGNReaderError(tmpLineNumber, "Incorrect move number"))
       case Right(token) =>
         Left(PGNReaderError(token.lineNumber, "Unexpected token"))
       case Left(error) =>
@@ -383,7 +382,7 @@ class PGNReader(r: Reader) extends GameReader
             var errorOpt = None: Option[PGNReaderError]
             var isStop = false
             readToken() match {
-              case Right(NAGToken(_, _)) =>
+              case Right(NAGToken(str, _)) =>
                 ()
               case Right(token) =>
                 unreadToken(token)
@@ -619,38 +618,42 @@ class PGNReader(r: Reader) extends GameReader
             case Right(None) =>
               isStop = true
             case Left(error) =>
-              errorOpt = Some(error)
-          }
-        }
-        var movesWithVariations = Vector[MoveWithVariations]()
-        if(!isStop) {
-          readMovesWithVariations(boardOption.getOrElse(Board.Initial), Some(result)) match {
-            case Right(movesWithVariations2) =>
-              movesWithVariations = movesWithVariations2
-            case Left(error) =>
+              isStop = true
               errorOpt = Some(error)
           }
         }
         errorOpt match {
           case None =>
-            Right(Some(Game(
-                  event = event,
-                  site = site,
-                  date = date,
-                  round = round,
-                  white = white,
-                  black = black,
-                  result = result,
-                  eventDateOption = eventDateOption,
-                  whiteEloOption = whiteEloOption,
-                  blackEloOption = blackEloOption,
-                  whiteUSCFOption = whiteUSCFOption,
-                  blackUSCFOption = blackUSCFOption,
-                  ecoOption = ecoOption,
-                  timeControlOption = timeControlOption,
-                  tags = tags,
-                  boardOption = boardOption,
-                  movesWithVariations = movesWithVariations)))
+            var movesWithVariations = Vector[MoveWithVariations]()
+            readMovesWithVariations(boardOption.getOrElse(Board.Initial), Some(result)) match {
+              case Right(movesWithVariations2) =>
+                movesWithVariations = movesWithVariations2
+              case Left(error) =>
+                errorOpt = Some(error)
+            }
+            errorOpt match {
+              case None =>
+                Right(Some(Game(
+                      event = event,
+                      site = site,
+                      date = date,
+                      round = round,
+                      white = white,
+                      black = black,
+                      result = result,
+                      eventDateOption = eventDateOption,
+                      whiteEloOption = whiteEloOption,
+                      blackEloOption = blackEloOption,
+                      whiteUSCFOption = whiteUSCFOption,
+                      blackUSCFOption = blackUSCFOption,
+                      ecoOption = ecoOption,
+                      timeControlOption = timeControlOption,
+                      tags = tags,
+                      boardOption = boardOption,
+                      movesWithVariations = movesWithVariations)))
+              case Some(error) =>
+                Left(error)
+            }
           case Some(error) =>
             Left(error)
         }
