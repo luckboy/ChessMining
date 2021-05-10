@@ -661,4 +661,9 @@ class PGNReader(r: Reader) extends GameReader
         Left(error)
     }
   }
+
+  override def close()
+  {
+    reader.close()
+  }
 }

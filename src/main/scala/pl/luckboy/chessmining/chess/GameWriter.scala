@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package pl.luckboy.chessmining.chess
+import java.io._
 
-abstract class GameWriter
+abstract class GameWriter extends Closeable
 {
   def writeGame(game: Game): Boolean
 }

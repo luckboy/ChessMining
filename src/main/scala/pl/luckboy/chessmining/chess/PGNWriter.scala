@@ -140,4 +140,9 @@ class PGNWriter(w: Writer) extends GameWriter
     } else
       false
   }
+
+  override def close()
+  {
+    writer.close()
+  }
 }
