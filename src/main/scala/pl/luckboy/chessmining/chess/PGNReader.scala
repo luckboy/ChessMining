@@ -565,7 +565,7 @@ class PGNReader(r: Reader) extends GameReader
                     case Some(result2) => result = result2
                     case None          =>
                       isStop = true
-                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid result"))
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Incorrect result"))
                   }
                 case "EventDate" =>
                   eventDateOption = Some(value)
@@ -574,28 +574,28 @@ class PGNReader(r: Reader) extends GameReader
                     case Some(ratings) => whiteEloOption = Some(ratings)
                     case None          =>
                       isStop = true
-                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid Elo"))
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Incorrect Elo"))
                   }
                 case "BlackElo" =>
                   parseRatings(value) match {
                     case Some(ratings) => blackEloOption = Some(ratings)
                     case None          =>
                       isStop = true
-                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid Elo"))
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Incorrect Elo"))
                   }
                 case "WhiteUSCF" =>
                   parseRatings(value) match {
                     case Some(ratings) => whiteUSCFOption = Some(ratings)
                     case None          =>
                       isStop = true
-                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid USCF"))
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Incorrect USCF"))
                   }
                 case "BlackUSCF" =>
                   parseRatings(value) match {
                     case Some(ratings) => blackUSCFOption = Some(ratings)
                     case None          =>
                       isStop = true
-                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid USCF"))
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Incorrect USCF"))
                   }
                 case "ECO" =>
                   ecoOption = Some(value)
@@ -604,14 +604,14 @@ class PGNReader(r: Reader) extends GameReader
                     case Some(timeControls) => timeControlOption = Some(timeControls)
                     case None               =>
                       isStop = true
-                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid time control"))
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Incorrect time control"))
                   }
                 case "FEN" =>
                   Board.parseBoard(value) match {
                     case Some(board) => boardOption = Some(board)
                     case None        =>
                       isStop = true
-                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid fen"))
+                      errorOpt = Some(PGNReaderError(tmpLineNumber, "Invalid FEN"))
                   }
                 case _ =>
                   ()

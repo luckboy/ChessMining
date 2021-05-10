@@ -446,7 +446,7 @@ object Board
   def apply(s: String): Board =
     parseBoard(s) match {
       case Some(board) => board
-      case None        => throw new ChessException("Invalid fen")
+      case None        => throw new ChessException("Invalid FEN")
     }
 
   def parseBoard(s: String) = {
