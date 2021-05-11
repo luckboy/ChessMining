@@ -59,7 +59,7 @@ class PGNWriter(w: Writer) extends GameWriter
       tmpBoard.makeMove(moveWithVariations.move) match {
         case Some(tmpBoard2) =>
           if(isFirst || mustBeMoveNumber || tmpBoard.side == Side.White) {
-            val moveNumberStr = board.fullmoveNumber + (if(tmpBoard.side == Side.White) "." else "...") 
+            val moveNumberStr = tmpBoard.fullmoveNumber + (if(tmpBoard.side == Side.White) "." else "...") 
             writeEmptyOrSpaceOrNewline(moveNumberStr)
             writeString(moveNumberStr)
           }
@@ -98,6 +98,7 @@ class PGNWriter(w: Writer) extends GameWriter
     writeString("[Event \"" + game.event + "\"]\n")
     writeString("[Site \"" + game.site + "\"]\n")
     writeString("[Date \"" + game.date + "\"]\n")
+    writeString("[Round \"" + game.round + "\"]\n")
     writeString("[White \"" + game.white.mkString(":") + "\"]\n")
     writeString("[Black \"" + game.black.mkString(":") + "\"]\n")
     writeString("[Result \"" + resultToString(game.result) + "\"]\n")
@@ -127,8 +128,8 @@ class PGNWriter(w: Writer) extends GameWriter
       writeString("[FEN \"" + board.toString() + "\"]\n")
     }
     val tags = game.tags -- Set(
-      "Event", "Site", "Date", "White", "Black", "Result", "EventDate", "WhiteElo", "BlackElo",
-      "WhiteUSCF", "BlackUSCF", "ECO", "TimeControl", "SetUp", "FEN")
+      "Event", "Site", "Date", "Round", "White", "Black", "Result", "EventDate", "WhiteElo",
+      "BlackElo", "WhiteUSCF", "BlackUSCF", "ECO", "TimeControl", "SetUp", "FEN")
     for((name, value) <- tags) {
       writeString("[" + name + " \"" + value + "\"]\n")
     }
