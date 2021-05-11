@@ -946,8 +946,8 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
       "[Black \"Pawelski, Jan\"]\n" +
       "[Result \"*\"]\n" +
       "\n" +
-      "1. e4 e5 2. Nf3 Nf6 3. Nc3 Nc6 4. Bb5 Bb4 5. O-O O-O 6. Qe2 Qe7 7. d3\n" +
-      "d6 *\n" +
+      "1. e4 e5 2. Nf3 Nf6 3. Nc3 Nc6 4. Bb5 Bb4 5. O-O O-O 6. Qe2 Qe7 7. d3 d6 8. Bg5\n" +
+      "Bg4 *\n" +
       "\n"
     val r = new PGNReader(new StringReader(s))
     val gameOptEither = r.readGame()
@@ -970,7 +970,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
         game.ecoOption should be (None)
         game.timeControlOption should be (None)
         game.boardOption should be (None)
-        game.movesWithVariations should have length (14)
+        game.movesWithVariations should have length (16)
         game.movesWithVariations(0).move should be (NormalMove(Piece.Pawn, E2, E4, None, false))
         game.movesWithVariations(0).variations shouldBe empty
         game.movesWithVariations(1).move should be (NormalMove(Piece.Pawn, E7, E5, None, false))
@@ -999,6 +999,10 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
         game.movesWithVariations(12).variations shouldBe empty
         game.movesWithVariations(13).move should be (NormalMove(Piece.Pawn, D7, D6, None, false))
         game.movesWithVariations(13).variations shouldBe empty
+        game.movesWithVariations(14).move should be (NormalMove(Piece.Bishop, C1, G5, None, false))
+        game.movesWithVariations(14).variations shouldBe empty
+        game.movesWithVariations(15).move should be (NormalMove(Piece.Bishop, C8, G4, None, false))
+        game.movesWithVariations(15).variations shouldBe empty
     }
   }
   
