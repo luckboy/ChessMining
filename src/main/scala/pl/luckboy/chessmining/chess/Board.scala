@@ -39,7 +39,23 @@ case class Board(
         fullmoveNumber == board.fullmoveNumber
       case _            => false
     }
-  
+
+  override def hashCode() =
+    (0 until 64).foldLeft(0) { 
+      (x: Int, squ: Int) => 
+        val hashCode = System.identityHashCode(pieces(squ))
+        x ^ ((hashCode << (squ >> 1)) | (hashCode >>> (32 - (squ >> 1))))
+    } ^
+    System.identityHashCode(side) ^
+    (0 until 2).foldLeft(0) {
+      (x: Int, sideId: Int) =>
+        val hashCode = System.identityHashCode(castlings(sideId))
+        x ^ ((hashCode << (sideId << 1)) | (hashCode >>> (32 - (sideId << 1))))
+    } ^
+    enPassantColumnOption.hashCode() ^
+    halfmoveClock.hashCode() ^
+    fullmoveNumber.hashCode()
+
   def coloredPiece(squ: Int) = pieces(squ)
 
   def color(squ: Int) = coloredPieceToColor(pieces(squ))
