@@ -1127,14 +1127,14 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Right(None))
   }
 
-  it should "complain on unrecognized character" in {
+  it should "complain on the unrecognized character" in {
     val s = "&"
     val r = new PGNReader(new StringReader(s))
     val gameOptEither = r.readGame()
     gameOptEither should be (Left(PGNReaderError(1L, "Unrecognized character")))
   }
 
-  it should "complain on unclosed comment" in {
+  it should "complain on the unclosed comment" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "{\n" +
