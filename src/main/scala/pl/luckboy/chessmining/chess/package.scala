@@ -19,6 +19,8 @@ package pl.luckboy.chessmining
 
 package object chess
 {
+  import Tables._
+
   implicit class RichSide(side: Side.Value)
   {
     def unary_~ = Side(side.id ^ 1)
@@ -225,4 +227,121 @@ package object chess
       case Result.Draw       => "1/2-1/2"
       case Result.Unfinished => "*"
     }
+
+  def foldPawnCaptureSquares[T](side: Side.Value, squ: Int, z: T)(f: (T, Int) => T) = {
+    var i = 0
+    var x = z
+    while(i < 2) {
+      val to120 = Mailbox64(squ) + TabPawnCaptureSteps120(side.id)(i)
+      val to = Mailbox(to120)
+      if(to != -1) x = f(x, to)
+      i += 1
+    }
+    x
+  }
+
+  def foldPawnSquares[T](side: Side.Value, squ: Int, z: T)(f: (T, Int) => (T, Boolean)) = {
+    var x = z
+    var to120 = Mailbox64(squ) + (if(side == Side.White) 10 else -10)
+    var to = Mailbox(to120)
+    if(to != -1) {
+      val (y, isCont) = f(x, to)
+      x = y
+      if(isCont) {
+        if((squ >> 3) == (if(side == Side.White) 1 else 6)) {
+          to120 += (if(side == Side.White) 10 else -10)
+          to = Mailbox(to120)
+          if(to != -1) {
+            val (y2, _) = f(x, to)
+            x = y2
+          }
+        }
+      }
+    }
+    x
+  }
+
+  def foldKnightSquares[T](squ: Int, z: T)(f: (T, Int) => T) = {
+    var i = 0
+    var x = z
+    while(i < 8) {
+      val to120 = Mailbox64(squ) + TabKnightSteps120(i)
+      val to = Mailbox(to120)
+      if(to != -1) x = f(x, to)
+      i += 1
+    }
+    x
+  }
+  
+  def foldBishopSlides[T](squ: Int, z: T)(f: T => T)(g: (T, Int) => (T, Boolean)) = {
+    var i = 0
+    var x = z
+    while(i < 4) {
+      x = f(x)
+      var isStop = false
+      var to120 = Mailbox64(squ) + TabBishopSteps120(i)
+      var to = Mailbox(to120)
+      while(to != -1 && !isStop) {
+        val (y, isCont) = g(x, to)
+        x = y
+        isStop = !isCont
+        to120 += TabBishopSteps120(i)
+        to = Mailbox(to120)
+      }
+      i += 1
+    }
+    x
+  }
+
+  def foldRookSlides[T](squ: Int, z: T)(f: T => T)(g: (T, Int) => (T, Boolean)) = {
+    var i = 0
+    var x = z
+    while(i < 4) {
+      x = f(x)
+      var isStop = false
+      var to120 = Mailbox64(squ) + TabRookSteps120(i)
+      var to = Mailbox(to120)
+      while(to != -1 && !isStop) {
+        val (y, isCont) = g(x, to)
+        x = y
+        isStop = !isCont
+        to120 += TabRookSteps120(i)
+        to = Mailbox(to120)
+      }
+      i += 1
+    }
+    x
+  }
+
+  def foldQueenSlides[T](squ: Int, z: T)(f: T => T)(g: (T, Int) => (T, Boolean)) = {
+    var i = 0
+    var x = z
+    while(i < 8) {
+      x = f(x)
+      var isStop = false
+      var to120 = Mailbox64(squ) + TabQueenSteps120(i)
+      var to = Mailbox(to120)
+      while(to != -1 && !isStop) {
+        val (y, isCont) = g(x, to)
+        x = y
+        isStop = !isCont
+        to120 += TabQueenSteps120(i)
+        to = Mailbox(to120)
+      }
+      i += 1
+    }
+    x
+  }
+
+  def foldKingSquares[T](squ: Int, z: T)(f: (T, Int) => T) = {
+    var i = 0
+    var x = z
+    while(i < 8) {
+      val to120 = Mailbox64(squ) + TabKingSteps120(i)
+      val to = Mailbox(to120)
+      if(to != -1) x = f(x, to)
+      i += 1
+    }
+    x
+  }
 }
