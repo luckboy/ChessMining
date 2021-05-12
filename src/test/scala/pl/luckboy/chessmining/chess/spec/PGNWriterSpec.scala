@@ -810,7 +810,7 @@ class PGNWriterSpec extends AnyFlatSpec with should.Matchers
         "\n")
   }
 
-  it should "complain on illegal move" in {
+  it should "complain on the illegal move" in {
     val game = Game(
         event = "Jakis turniej",
         site = "Kowalno",

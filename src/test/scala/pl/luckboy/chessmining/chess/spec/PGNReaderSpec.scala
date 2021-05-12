@@ -1144,7 +1144,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(3L, "Unclosed comment")))
   }
 
-  it should "complain on unexpected token for second token in the tag" in {
+  it should "complain on the unexpected token for second token in the tag" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[\"value\" \"value2\"]\n"
@@ -1153,7 +1153,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(2L, "Unexpected token")))
   }
 
-  it should "complain on unexpected token for third token in the tag" in {
+  it should "complain on the unexpected token for third token in the tag" in {
     val s =
       "[Event Turniej]\n"
     val r = new PGNReader(new StringReader(s))
@@ -1161,7 +1161,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(1L, "Unexpected token")))
   }
 
-  it should "complain on unexpected token for fourth token in the tag" in {
+  it should "complain on the unexpected token for fourth token in the tag" in {
     val s =
       "[Event \"Jakis torniej\">\n"
     val r = new PGNReader(new StringReader(s))
@@ -1169,7 +1169,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(1L, "Unexpected token")))
   }
 
-  it should "complain on unexpected token for the move number" in {
+  it should "complain on the unexpected token for the move number" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1186,7 +1186,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(9L, "Unexpected token")))
   }
 
-  it should "complain on unexpected token for the first move" in {
+  it should "complain on the unexpected token for the first move" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1203,7 +1203,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(9L, "Unexpected token")))
   }
 
-  it should "complain on unexpected token for the second move" in {
+  it should "complain on the unexpected token for the second move" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1220,7 +1220,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(9L, "Unexpected token")))
   }
 
-  it should "complain on incorrect Elo for the WhiteElo tag" in {
+  it should "complain on the incorrect Elo for the WhiteElo tag" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1238,7 +1238,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(8L, "Incorrect Elo")))
   }
 
-  it should "complain on incorrect Elo for the BlackElo tag" in {
+  it should "complain on the incorrect Elo for the BlackElo tag" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1256,7 +1256,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(8L, "Incorrect Elo")))
   }
 
-  it should "complain on incorrect USCF for the WhiteUSCF tag" in {
+  it should "complain on the incorrect USCF for the WhiteUSCF tag" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1274,7 +1274,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(8L, "Incorrect USCF")))
   }
 
-  it should "complain on incorrect USCF for the BlackUSCF tag" in {
+  it should "complain on the incorrect USCF for the BlackUSCF tag" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1292,7 +1292,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(8L, "Incorrect USCF")))
   }
 
-  it should "complain on incorrect time control" in {
+  it should "complain on the incorrect time control" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1310,7 +1310,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(8L, "Incorrect time control")))
   }
 
-  it should "complain on invalid FEN" in {
+  it should "complain on the invalid FEN" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1328,7 +1328,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(8L, "Invalid FEN")))
   }
 
-  it should "complain on incorrect move number" in {
+  it should "complain on the incorrect move number" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1345,7 +1345,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(9L, "Incorrect move number")))
   }
 
-  it should "complain on illegal move" in {
+  it should "complain on the illegal move" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1362,7 +1362,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(9L, "Illegal move")))
   }
 
-  it should "complain on move number isn't equal to board fullmove number" in {
+  it should "complain on the move number isn't equal to the board fullmove number" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1379,7 +1379,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(9L, "Move number isn't equal to board fullmove number")))
   }
 
-  it should "complain on game termination isn't equal to result for the draw game termination" in {
+  it should "complain on the game termination isn't equal to the result for the draw game termination" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1396,7 +1396,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(9L, "Game termination isn't equal to result")))
   }
 
-  it should "complain on game termination isn't equal to result for the unfinished game termination" in {
+  it should "complain on the game termination isn't equal to the result for the unfinished game termination" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
@@ -1413,7 +1413,7 @@ class PGNReaderSpec extends AnyFlatSpec with should.Matchers with Inside
     gameOptEither should be (Left(PGNReaderError(9L, "Game termination isn't equal to result")))
   }
 
-  it should "complain on unexpected right parenthesis" in {
+  it should "complain on the unexpected right parenthesis" in {
     val s =
       "[Event \"Jakis turniej\"]\n" +
       "[Site \"Kowalno\"]\n" +
