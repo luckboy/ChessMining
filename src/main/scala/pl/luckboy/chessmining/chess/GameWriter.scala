@@ -12,10 +12,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
+ * You should have received copies of the GNU Lesser General Public
  * License and the GNU General Public License along with this library.
  * If not, see <http://www.gnu.org/licenses/>.
- */package pl.luckboy.chessmining.chess
+ */
+package pl.luckboy.chessmining.chess
 import java.io._
 
 abstract class GameWriter extends Closeable
