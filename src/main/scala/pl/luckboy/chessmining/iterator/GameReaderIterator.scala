@@ -25,7 +25,7 @@ class GameReaderIterator(gr: GameReader, fpb: FileProgressBar) extends NextOptio
 {
   private val gameReader = gr
   private val fileProgressBar = fpb
-  private val isClosed = false
+  private var isClosed = false
 
   override protected def nextOption() = {
     if(!isClosed) {
@@ -37,9 +37,12 @@ class GameReaderIterator(gr: GameReader, fpb: FileProgressBar) extends NextOptio
           case Right(None)       =>
             try {
               gameReader.close()
+              isClosed = true
               None
             } catch {
-              case e: IOException => None
+              case e: IOException =>
+                isClosed = true
+                None
             }
           case Left(error)       => 
             fileProgressBar.showError(error.toString())
@@ -50,9 +53,12 @@ class GameReaderIterator(gr: GameReader, fpb: FileProgressBar) extends NextOptio
           fileProgressBar.showError("IOException: " + e.getMessage())
           try {
             gameReader.close()
+            isClosed = true
             None
           } catch {
-            case e2: IOException => None
+            case e2: IOException =>
+              isClosed = true
+              None
           }
       }
     } else
