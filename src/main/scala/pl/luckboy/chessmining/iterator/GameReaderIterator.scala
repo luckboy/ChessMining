@@ -46,6 +46,15 @@ class GameReaderIterator(gr: GameReader, fpb: FileProgressBar) extends NextOptio
             }
           case Left(error)       => 
             fileProgressBar.showError(error.toString())
+            try {
+              gameReader.close()
+              isClosed = true
+              None
+            } catch {
+              case e: IOException =>
+                isClosed = true
+                None
+            }
             None
         }
       } catch {
