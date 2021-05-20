@@ -28,11 +28,11 @@ class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
 
   private def showProgress()
   {
-    val n = 80 - 2 - 4
+    val count = 80 - 2 - 4
     Console.print("[")
-    val x = if(fileLength != 0L) ((progress.min(fileLength) * n.toLong) / fileLength).toInt else n
+    val x = if(fileLength != 0L) ((progress.min(fileLength) * count.toLong) / fileLength).toInt else count
     Console.print("#" * x)
-    Console.print("-" * (n - x))
+    Console.print("-" * (count - x))
     Console.print("]")
     val y = if(fileLength != 0L) ((progress.min(fileLength) * 100L) / fileLength).toInt else 100
     val s = y.toString()
@@ -49,9 +49,9 @@ class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
     showProgress()
   }
 
-  def updateProgress(n: Long)
+  def updateProgress(count: Long)
   {
-    progress = n
+    progress = count
     showProgress()
   }
 
@@ -62,10 +62,10 @@ class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
     hasError = false
   }
 
-  def showError(message: String)
+  def showError(msg: String)
   {
     if(!isClosed) Console.println()
-    Console.println("Error: " + message)
+    Console.println("Error: " + msg)
     hasError = true
   }
 }

@@ -26,9 +26,9 @@ abstract class FileProgressBar
 
   def show(): Unit
   
-  def updateProgress(n: Long): Unit
+  def updateProgress(count: Long): Unit
 
   def close(): Unit
 
-  def showError(message: String): Unit
+  def showError(msg: String): Unit
 }

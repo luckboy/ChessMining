@@ -27,7 +27,7 @@ class DummyFileProgressBar(name: String, len: Long) extends FileProgressBar
   {
   }
 
-  def updateProgress(n: Long)
+  def updateProgress(count: Long)
   {
   }
 
@@ -35,7 +35,7 @@ class DummyFileProgressBar(name: String, len: Long) extends FileProgressBar
   {
   }
 
-  def showError(message: String)
+  def showError(msg: String)
   {
   }
 }
