@@ -20,6 +20,10 @@ package pl.luckboy.chessmining.ui
 
 abstract class FileProgressBar
 {
+  def fileName: String
+
+  def fileLength: Long
+
   def show(): Unit
   
   def updateProgress(n: Long): Unit

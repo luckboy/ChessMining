@@ -20,8 +20,8 @@ package pl.luckboy.chessmining.ui
 
 class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
 {
-  private val fileName = name
-  private val fileLength = len
+  val fileName = name
+  val fileLength = len
   private var progress = 0L
   private var isClosed = false
   private var hasError = false

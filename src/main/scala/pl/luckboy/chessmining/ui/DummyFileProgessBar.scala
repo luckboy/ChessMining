@@ -18,8 +18,11 @@
  */
 package pl.luckboy.chessmining.ui
 
-class DummyFileProgressBar extends FileProgressBar
+class DummyFileProgressBar(name: String, len: Long) extends FileProgressBar
 {
+  val fileName = name
+  val fileLength = len
+
   def show()
   {
   }
