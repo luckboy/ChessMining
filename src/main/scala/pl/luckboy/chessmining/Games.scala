@@ -50,7 +50,7 @@ object Games
   def fromDirectory(dir: File)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] = {
     val files = dir.listFiles()
     if(files != null)
-      files.foldLeft(Iterator.empty: Iterator[Game]) {
+      files.sorted.foldLeft(Iterator.empty: Iterator[Game]) {
         (iter: Iterator[Game], file: File) => iter ++ fromFileOrDirectory(file)
       }
     else
