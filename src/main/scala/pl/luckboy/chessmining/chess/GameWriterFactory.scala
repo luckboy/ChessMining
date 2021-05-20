@@ -16,31 +16,10 @@
  * License and the GNU General Public License along with this library.
  * If not, see <http://www.gnu.org/licenses/>.
  */
-package pl.luckboy.chessmining.ui
+package pl.luckboy.chessmining.chess
+import java.io._
 
-class DummyFileProgressBar(name: String, len: Long) extends FileProgressBar
+abstract class GameWriterFactory
 {
-  val fileName = name
-  val fileLength = len
-
-  def show()
-  {
-  }
-
-  def updateProgress(n: Long)
-  {
-  }
-
-  def close()
-  {
-  }
-
-  def showError(message: String)
-  {
-  }
-}
-
-object DummyFileProgressBar extends FileProgressBarFactory
-{
-  override def apply(name: String, len: Long) = new DummyFileProgressBar(name, len)
+  def apply(os: OutputStream): GameWriter
 }

@@ -18,29 +18,7 @@
  */
 package pl.luckboy.chessmining.ui
 
-class DummyFileProgressBar(name: String, len: Long) extends FileProgressBar
+abstract class FileProgressBarFactory
 {
-  val fileName = name
-  val fileLength = len
-
-  def show()
-  {
-  }
-
-  def updateProgress(n: Long)
-  {
-  }
-
-  def close()
-  {
-  }
-
-  def showError(message: String)
-  {
-  }
-}
-
-object DummyFileProgressBar extends FileProgressBarFactory
-{
-  override def apply(name: String, len: Long) = new DummyFileProgressBar(name, len)
+  def apply(name: String, len: Long): FileProgressBar
 }

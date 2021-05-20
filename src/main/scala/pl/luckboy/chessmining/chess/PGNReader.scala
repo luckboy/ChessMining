@@ -668,3 +668,8 @@ class PGNReader(r: Reader) extends GameReader
     reader.close()
   }
 }
+
+object PGNReader extends GameReaderFactory
+{
+  override def apply(is: InputStream) = new PGNReader(new InputStreamReader(is, "ISO-8859-1"))
+}

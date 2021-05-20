@@ -148,3 +148,8 @@ class PGNWriter(w: Writer) extends GameWriter
     writer.close()
   }
 }
+
+object PGNWriter extends GameWriterFactory
+{
+  override def apply(os: OutputStream) = new PGNWriter(new OutputStreamWriter(os, "ISO-8859-1"))
+}

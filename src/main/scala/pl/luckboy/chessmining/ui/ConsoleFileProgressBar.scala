@@ -69,3 +69,8 @@ class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
     hasError = true
   }
 }
+
+object ConsoleFileProgressBar extends FileProgressBarFactory
+{
+  override def apply(name: String, len: Long) = new ConsoleFileProgressBar(name, len)
+}
