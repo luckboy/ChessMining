@@ -20,22 +20,22 @@ package pl.luckboy.chessmining.iterator
 
 trait NextOptionIterator[T] extends Iterator[T]
 {
-  private var nextElemOption = None: Option[T]
+  private var nextElementOption = None: Option[T]
 
   protected def nextOption(): Option[T]
 
   override def hasNext = {
-    if(nextElemOption != None) {
+    if(nextElementOption != None) {
       true
     } else {
-      nextElemOption = nextOption()
-      nextElemOption != None
+      nextElementOption = nextOption()
+      nextElementOption != None
     }
   }
 
   override def next() = {
-    val r = if(nextElemOption == None) nextOption() else nextElemOption
-    nextElemOption = None
+    val r = if(nextElementOption == None) nextOption() else nextElementOption
+    nextElementOption = None
     r match {
       case Some(elem) => elem
       case None       => Iterator.empty.next()
