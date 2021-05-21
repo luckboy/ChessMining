@@ -1087,4 +1087,36 @@ class BoardSpec extends AnyFlatSpec with should.Matchers with Inside
         newBoard should be (Board("5k2/8/8/8/3Pp3/8/8/4K3 w - - 1 2"))
     }
   }
+
+  it should "remove the black short castling for the white side for bug of castling removing" in {
+    val board = Board("r3k2r/8/8/4B3/8/8/8/4K3 w kq - 0 1")
+    inside(board.unsafelyMakeMove(NormalMove(Piece.Bishop, E5, H8, None, true))) {
+      case Some(newBoard) =>
+        newBoard should be (Board("r3k2B/8/8/8/8/8/8/4K3 b q - 0 1"))
+    }
+  }
+
+  it should "remove the white short castling for the black side for bug of castling removing" in {
+    val board = Board("4k3/8/8/8/4b3/8/8/R3K2R b KQ - 0 1")
+    inside(board.unsafelyMakeMove(NormalMove(Piece.Bishop, E4, H1, None, true))) {
+      case Some(newBoard) =>
+        newBoard should be (Board("4k3/8/8/8/8/8/8/R3K2b w Q - 0 2"))
+    }
+  }
+
+  it should "remove the black long castling for the white side for bug of castling removing" in {
+    val board = Board("r3k2r/8/8/8/4B3/8/8/4K3 w kq - 0 1")
+    inside(board.unsafelyMakeMove(NormalMove(Piece.Bishop, E4, A8, None, true))) {
+      case Some(newBoard) =>
+        newBoard should be (Board("B3k2r/8/8/8/8/8/8/4K3 b k - 0 1"))
+    }
+  }
+
+  it should "remove the white long castling for the black side for bug of castling removing" in {
+    val board = Board("4k3/8/8/4b3/8/8/8/R3K2R b KQ - 0 1")
+    inside(board.unsafelyMakeMove(NormalMove(Piece.Bishop, E5, A1, None, true))) {
+      case Some(newBoard) =>
+        newBoard should be (Board("4k3/8/8/8/8/8/8/b3K2R w K - 0 2"))
+    }
+  }
 }

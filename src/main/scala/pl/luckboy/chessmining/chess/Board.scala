@@ -305,10 +305,10 @@ case class Board(
         }
         if(pieceOption(to).map { _ == Piece.Rook }.getOrElse(false) &&
           to == (if(side == Side.White) H8 else H1))
-          newCastlings(oppSide.id) = newCastlings(side.id) & ~SideCastlings.Short
+          newCastlings(oppSide.id) = newCastlings(oppSide.id) & ~SideCastlings.Short
         if(pieceOption(to).map { _ == Piece.Rook }.getOrElse(false) &&
           to == (if(side == Side.White) A8 else A1))
-          newCastlings(oppSide.id) = newCastlings(side.id) & ~SideCastlings.Long
+          newCastlings(oppSide.id) = newCastlings(oppSide.id) & ~SideCastlings.Long
         var newEnPassantColumnOption = None: Option[Int]
         val pawnSrcRow2 = if(side == Side.White) 1 else 6
         val pawnDstRow2 = if(side == Side.White) 3 else 4
