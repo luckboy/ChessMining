@@ -28,20 +28,12 @@ object Games
   def fromFile(fileName: String)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] =
     fromFile(new File(fileName))
 
-  def fromFile(file: File)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory) =
-    try {
-      val fpb = fileProgressBarFactory(file.getPath(), file.length())
-      val bis = new BufferedInputStream(new FileInputStream(file))
-      val fpbis = new FileProgressBarInputStream(bis, fpb)
-      new GameReaderIterator(gameReaderFactory(fpbis), fpb)
-    } catch {
-      case e: IOException =>
-        val fpb = fileProgressBarFactory(file.getPath(), 1L)
-        fpb.show()
-        fpb.showError("IOException: " + e.getMessage())
-        fpb.close()
-        Iterator.empty
-    }
+  def fromFile(file: File)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory) = {
+    val fpb = fileProgressBarFactory(file.getPath(), file.length())
+    val bis = new BufferedInputStream(new FileInputStream(file))
+    val fpbis = new FileProgressBarInputStream(bis, fpb)
+    new GameReaderIterator(gameReaderFactory(fpbis), fpb)
+  }
 
   def fromDirectory(dirName: String)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] =
     fromDirectory(new File(dirName))
