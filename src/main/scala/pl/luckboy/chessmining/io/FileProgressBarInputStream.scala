@@ -28,9 +28,8 @@ class FileProgressBarInputStream(is: InputStream, fpb: FileProgressBar) extends 
   private var partByteCount = 0L
   private var markedByteCount = 0L
   private var markedPartByteCount = 0L
+  private var hasFirstByte = true
 
-  fileProgressBar.show()
-  
   override def available() = inputStream.available()
 
   override def close()

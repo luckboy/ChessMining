@@ -26,6 +26,7 @@ class GameReaderIterator(gr: GameReader, fpb: FileProgressBar) extends NextOptio
   private val gameReader = gr
   private val fileProgressBar = fpb
   private var isClosed = false
+  private var hasFirstNext = true
 
   override protected def nextOption() = {
     if(!isClosed) {
@@ -72,5 +73,12 @@ class GameReaderIterator(gr: GameReader, fpb: FileProgressBar) extends NextOptio
       }
     } else
       None
+  }
+  
+  override def next() = {
+    val r = super.next()
+    if(hasFirstNext) fileProgressBar.show()
+    hasFirstNext = false
+    r
   }
 }

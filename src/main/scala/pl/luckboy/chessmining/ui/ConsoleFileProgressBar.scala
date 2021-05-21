@@ -23,7 +23,7 @@ class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
   val fileName = name
   val fileLength = len
   private var progress = 0L
-  private var isClosed = false
+  private var isClosed = true
   private var hasError = false
 
   private def showProgress()
@@ -45,6 +45,7 @@ class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
 
   def show()
   {
+    isClosed = false
     Console.println(fileName + ":")
     showProgress()
   }
@@ -52,12 +53,12 @@ class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
   def updateProgress(count: Long)
   {
     progress = count
-    showProgress()
+    if(!isClosed) showProgress()
   }
 
   def close()
   {
-    if(!hasError) Console.println()
+    if(!isClosed && !hasError) Console.println()
     isClosed = true
     hasError = false
   }
