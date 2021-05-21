@@ -81,6 +81,7 @@ class GameReaderIterator(f: () => GameReader, fpb: FileProgressBar) extends Next
       } catch {
         case e: IOException =>
           fileProgressBar.showError("IOException: " + e.getMessage())
+          isClosed = true
           None
       }
     } else
