@@ -453,6 +453,7 @@ class PGNReader(r: Reader) extends GameReader
                 errorOpt = Some(error)
             }
             var mustBeMoveNumber = false
+            var isMoveNumber = true
             if(!isStop) {
               if(tmpBoard.side == Side.White) {
                 readMoveWithVariations(tmpBoard) match {
@@ -469,26 +470,29 @@ class PGNReader(r: Reader) extends GameReader
                     isStop = true
                     errorOpt = Some(error)
                 }
+                isMoveNumber = false
               }
             }
             if(!isStop) {
               readAndCheckMoveStop(resultOpt) match {
                 case Right(isStop3) =>
                   if(!isStop3) {
-                    readMoveNumber() match {
-                      case Right((Some(moveNumber), tmpLineNumber)) =>
-                        if(moveNumber != tmpBoard.fullmoveNumber) {
+                    if(!isMoveNumber) {
+                      readMoveNumber() match {
+                        case Right((Some(moveNumber), tmpLineNumber)) =>
+                          if(moveNumber != tmpBoard.fullmoveNumber) {
+                            isStop = true
+                            errorOpt = Some(PGNReaderError(tmpLineNumber, "Move number isn't equal to board fullmove number"))
+                          }
+                        case Right((None, tmpLineNumber)) =>
+                          if(mustBeMoveNumber) {
+                            isStop = true
+                            errorOpt = Some(PGNReaderError(tmpLineNumber, "Incorrect move number"))
+                          }
+                        case Left(error) =>
                           isStop = true
-                          errorOpt = Some(PGNReaderError(tmpLineNumber, "Move number isn't equal to board fullmove number"))
-                        }
-                      case Right((None, tmpLineNumber)) =>
-                        if(mustBeMoveNumber) {
-                          isStop = true
-                          errorOpt = Some(PGNReaderError(tmpLineNumber, "Incorrect move number"))
-                        }
-                      case Left(error) =>
-                        isStop = true
-                        errorOpt = Some(error)
+                          errorOpt = Some(error)
+                      }
                     }
                     if(!isStop) {
                       readMoveWithVariations(tmpBoard) match {
