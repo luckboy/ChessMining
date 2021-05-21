@@ -40,7 +40,7 @@ class GameReaderIteratorSpec extends AnyFlatSpec with should.Matchers
       "1. e4 e5 2. Nc3 Nc6 *\n" +
       "\n"
     val fileProgressBar = new DummyFileProgressBar("some file", s.length)
-    val iter = new GameReaderIterator(new PGNReader(new StringReader(s)), fileProgressBar)
+    val iter = new GameReaderIterator({ () => new PGNReader(new StringReader(s)) }, fileProgressBar)
     val games = iter.toVector
     games should have length (1)
     games(0).event should be ("Jakies zdarzenie")
@@ -94,7 +94,7 @@ class GameReaderIteratorSpec extends AnyFlatSpec with should.Matchers
       "1. e4 e5 2. Nc3 Nf6 *\n" +
       "\n"
     val fileProgressBar = new DummyFileProgressBar("some file", s.length)
-    val iter = new GameReaderIterator(new PGNReader(new StringReader(s)), fileProgressBar)
+    val iter = new GameReaderIterator({ () => new PGNReader(new StringReader(s)) }, fileProgressBar)
     val games = iter.toVector
     games should have length (2)
     games(0).event should be ("Jakies zdarzenie")
@@ -154,7 +154,7 @@ class GameReaderIteratorSpec extends AnyFlatSpec with should.Matchers
   it should "iterate for the empty string" in {
     val s = ""
     val fileProgressBar = new DummyFileProgressBar("some file", s.length)
-    val iter = new GameReaderIterator(new PGNReader(new StringReader(s)), fileProgressBar)
+    val iter = new GameReaderIterator({ () => new PGNReader(new StringReader(s)) }, fileProgressBar)
     val games = iter.toVector
     games shouldBe empty
   }

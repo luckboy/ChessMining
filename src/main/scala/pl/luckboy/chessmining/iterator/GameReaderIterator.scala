@@ -21,9 +21,10 @@ import java.io._
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.ui._
 
-class GameReaderIterator(gr: GameReader, fpb: FileProgressBar) extends NextOptionIterator[Game]
+class GameReaderIterator(f: () => GameReader, fpb: FileProgressBar) extends NextOptionIterator[Game]
 {
-  private val gameReader = gr
+  private var function = f
+  private var gameReaderOption = None: Option[GameReader]
   private val fileProgressBar = fpb
   private var isClosed = false
   private var hasFirstNext = true
@@ -31,45 +32,56 @@ class GameReaderIterator(gr: GameReader, fpb: FileProgressBar) extends NextOptio
   override protected def nextOption() = {
     if(!isClosed) {
       try {
-        val gameOptEither = gameReader.readGame()
-        gameOptEither match {
-          case Right(Some(game)) =>
-            Some(game)
-          case Right(None)       =>
+        val gameReader = gameReaderOption match {
+          case None     => function()
+          case Some(gr) => gr
+        }
+        gameReaderOption = Some(gameReader)
+        try {
+          val gameOptEither = gameReader.readGame()
+          gameOptEither match {
+            case Right(Some(game)) =>
+              Some(game)
+            case Right(None)       =>
+              try {
+                gameReader.close()
+                isClosed = true
+                None
+              } catch {
+                case e: IOException =>
+                  isClosed = true
+                  None
+              }
+            case Left(error)       => 
+              fileProgressBar.showError(error.toString())
+              try {
+                gameReader.close()
+                isClosed = true
+                None
+              } catch {
+                case e: IOException =>
+                  isClosed = true
+                  None
+              }
+              None
+          }
+        } catch {
+          case e: IOException =>
+            fileProgressBar.showError("IOException: " + e.getMessage())
             try {
               gameReader.close()
               isClosed = true
               None
             } catch {
-              case e: IOException =>
+              case e2: IOException =>
                 isClosed = true
                 None
             }
-          case Left(error)       => 
-            fileProgressBar.showError(error.toString())
-            try {
-              gameReader.close()
-              isClosed = true
-              None
-            } catch {
-              case e: IOException =>
-                isClosed = true
-                None
-            }
-            None
         }
       } catch {
         case e: IOException =>
           fileProgressBar.showError("IOException: " + e.getMessage())
-          try {
-            gameReader.close()
-            isClosed = true
-            None
-          } catch {
-            case e2: IOException =>
-              isClosed = true
-              None
-          }
+          None
       }
     } else
       None
