@@ -34,7 +34,7 @@ trait NextOptionIterator[T] extends Iterator[T]
   }
 
   override def next() = {
-    val r = nextOption()
+    val r = if(nextElemOption == None) nextOption() else nextElemOption
     nextElemOption = None
     r match {
       case Some(elem) => elem
