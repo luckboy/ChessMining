@@ -257,7 +257,7 @@ class PGNReader(r: Reader) extends GameReader
     var ratings = Vector[Option[Int]]()
     for(s <- ss if !isError) {
       s match {
-        case "-" | "?" => ratings :+= None
+        case "-" | "?" | "" => ratings :+= None
         case _   =>
           try {
             ratings :+= Some(Integer.parseInt(s))
