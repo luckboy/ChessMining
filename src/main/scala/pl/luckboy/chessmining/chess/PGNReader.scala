@@ -340,34 +340,36 @@ class PGNReader(r: Reader) extends GameReader
 
   private def readMoveNumber() = {
     readToken() match {
-      case Right(SymbolToken(s, tmpLineNumber)) =>
-        var isError = false
-        var moveNumber = 1
+      case Right(token @ SymbolToken(s, tmpLineNumber)) =>
+        var moveNumberOpt = None: Option[Int]
         try {
-          moveNumber = Integer.parseInt(s)
+          moveNumberOpt = Some(Integer.parseInt(s))
         } catch {
           case e: NumberFormatException =>
-            isError = true
+            unreadToken(token)
+            moveNumberOpt = None
         }
-        if(!isError) {
-          var isStop = false
-          var errorOpt = None: Option[PGNReaderError]
-          while(!isStop) {
-            readToken() match {
-              case Right(OtherToken('.', _)) => ()
-              case Right(token)              =>
-                unreadToken(token)
-                isStop = true
-              case Left(error)               =>
-                isStop = true
+        moveNumberOpt match {
+          case Some(moveNumber) =>
+            var isStop = false
+            var errorOpt = None: Option[PGNReaderError]
+            while(!isStop) {
+              readToken() match {
+                case Right(OtherToken('.', _)) => ()
+                case Right(token)              =>
+                  unreadToken(token)
+                  isStop = true
+                case Left(error)               =>
+                  isStop = true
+              }
             }
-          }
-          errorOpt match {
-            case None        => Right((moveNumber, tmpLineNumber))
-            case Some(error) => Left(error)
-          }
-        } else
-          Left(PGNReaderError(tmpLineNumber, "Incorrect move number"))
+            errorOpt match {
+              case None        => Right((Some(moveNumber), tmpLineNumber))
+              case Some(error) => Left(error)
+            }
+          case None =>
+            Right((None, tmpLineNumber))
+        }
       case Right(token) =>
         Left(PGNReaderError(token.lineNumber, "Unexpected token"))
       case Left(error) =>
@@ -438,11 +440,14 @@ class PGNReader(r: Reader) extends GameReader
         case Right(isStop2) =>
           if(!isStop2) {
             readMoveNumber() match {
-              case Right((moveNumber, tmpLineNumber)) =>
+              case Right((Some(moveNumber), tmpLineNumber)) =>
                 if(moveNumber != tmpBoard.fullmoveNumber) {
                   isStop = true
                   errorOpt = Some(PGNReaderError(tmpLineNumber, "Move number isn't equal to board fullmove number"))
                 }
+              case Right((None, tmpLineNumber)) =>
+                isStop = true
+                errorOpt = Some(PGNReaderError(tmpLineNumber, "Incorrect move number"))
               case Left(error) =>
                 isStop = true
                 errorOpt = Some(error)
@@ -470,17 +475,20 @@ class PGNReader(r: Reader) extends GameReader
               readAndCheckMoveStop(resultOpt) match {
                 case Right(isStop3) =>
                   if(!isStop3) {
-                    if(mustBeMoveNumber) {
-                      readMoveNumber() match {
-                        case Right((moveNumber, tmpLineNumber)) =>
-                          if(moveNumber != tmpBoard.fullmoveNumber) {
-                            isStop = true
-                            errorOpt = Some(PGNReaderError(tmpLineNumber, "Move number isn't equal to board fullmove number"))
-                          }
-                        case Left(error) =>
+                    readMoveNumber() match {
+                      case Right((Some(moveNumber), tmpLineNumber)) =>
+                        if(moveNumber != tmpBoard.fullmoveNumber) {
                           isStop = true
-                          errorOpt = Some(error)
-                      }
+                          errorOpt = Some(PGNReaderError(tmpLineNumber, "Move number isn't equal to board fullmove number"))
+                        }
+                      case Right((None, tmpLineNumber)) =>
+                        if(mustBeMoveNumber) {
+                          isStop = true
+                          errorOpt = Some(PGNReaderError(tmpLineNumber, "Incorrect move number"))
+                        }
+                      case Left(error) =>
+                        isStop = true
+                        errorOpt = Some(error)
                     }
                     if(!isStop) {
                       readMoveWithVariations(tmpBoard) match {
