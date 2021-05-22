@@ -25,7 +25,7 @@ import pl.luckboy.chessmining.ui._
 
 object Games
 {
-  def fromFile(fileName: String)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] =
+  def fromFile(fileName: String)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): GameReaderIterator =
     fromFile(new File(fileName))
 
   def fromFile(file: File)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory) = {
