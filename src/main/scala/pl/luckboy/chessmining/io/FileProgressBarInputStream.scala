@@ -86,5 +86,5 @@ class FileProgressBarInputStream(is: InputStream, fpb: FileProgressBar) extends 
 
 object FileProgressBarInputStream
 {
-  val MaxProgressUpdatingPartByteCount = 16 * 1024
+  val MaxProgressUpdatingPartByteCount = 64 * 1024
 }
