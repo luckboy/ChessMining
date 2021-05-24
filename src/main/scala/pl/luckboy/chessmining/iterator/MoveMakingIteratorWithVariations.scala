@@ -23,7 +23,7 @@ import pl.luckboy.chessmining.chess._
 trait MoveMakingIteratorWithVariations[T, U] extends MoveMakingIterator[T, U]
 {
   private case class StackElement(
-    movesWithVariations: Vector[Vector[MoveWithVariations]],
+    variations: Vector[Vector[MoveWithVariations]],
     startState: U,
     variationIndex: Int,
     moveIndex: Int,
@@ -47,15 +47,15 @@ trait MoveMakingIteratorWithVariations[T, U] extends MoveMakingIterator[T, U]
     var isStop = false
     while(!stack.isEmpty && !isStop) {
       var elem = stack.top
-      while(elem.variationIndex < elem.movesWithVariations.length && !isStop) {
-        if(elem.moveIndex < elem.movesWithVariations(elem.variationIndex).length) {
-          val move = elem.movesWithVariations(elem.variationIndex)(elem.moveIndex).move
+      while(elem.variationIndex < elem.variations.length && !isStop) {
+        if(elem.moveIndex < elem.variations(elem.variationIndex).length) {
+          val move = elem.variations(elem.variationIndex)(elem.moveIndex).move
           makeMove(elem.currentState, move) match {
             case Some((x, newState)) =>
               r = Some(x)
               stack.pop()
               stack.push(elem.copy(moveIndex = elem.moveIndex + 1, currentState = newState))
-              val variations = elem.movesWithVariations(elem.variationIndex)(elem.moveIndex).variations
+              val variations = elem.variations(elem.variationIndex)(elem.moveIndex).variations
               if(variations.length > 0)
                 stack.push(StackElement(
                     variations,
