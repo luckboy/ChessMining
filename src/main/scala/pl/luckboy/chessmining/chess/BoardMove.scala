@@ -18,4 +18,4 @@
  */
 package pl.luckboy.chessmining.chess
 
-case class BoardMove(previousBoard: Board, move: Move, nextBoard: Board)
+case class BoardMove(board: Board, move: Move, nextBoard: Board)
