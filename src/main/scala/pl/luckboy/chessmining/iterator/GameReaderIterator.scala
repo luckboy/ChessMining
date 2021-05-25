@@ -18,19 +18,35 @@
  */
 package pl.luckboy.chessmining.iterator
 import java.io._
+import pl.luckboy.chessmining._
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.ui._
 
-class GameReaderIterator(f: () => GameReader, fpb: FileProgressBar) extends NextOptionIterator[Game]
+class GameReaderIterator(f: () => GameReader, fpb: FileProgressBar, sv: ShowVariable) extends NextOptionIterator[Game]
 {
   private var function = f
   private var gameReaderOption = None: Option[GameReader]
   private val fileProgressBar = fpb
+  private val showVariable = sv
   private var isClosed = false
   private var gameCount = 0L
+  private var hasShow = false
 
   override protected def nextOption() = {
-    if(gameCount == 1L) fileProgressBar.show()
+    showVariable.flag match {
+      case ShowFlag.Clear =>
+        ()
+      case ShowFlag.Set =>
+        if(!hasShow) {
+          fileProgressBar.show()
+          hasShow = true
+        }
+      case ShowFlag.Auto =>
+        if(!hasShow && gameCount == 1L) {
+          fileProgressBar.show()
+          hasShow = true
+        }
+    }
     if(!isClosed) {
       try {
         val gameReader = gameReaderOption match {

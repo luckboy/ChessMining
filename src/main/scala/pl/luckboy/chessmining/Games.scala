@@ -26,37 +26,55 @@ import pl.luckboy.chessmining.ui._
 object Games
 {
   def fromFile(fileName: String)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): GameReaderIterator =
-    fromFile(new File(fileName))
+    fromFile(fileName, ShowVariable(ShowFlag.Auto))
 
-  def fromFile(file: File)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory) = {
+  def fromFile(fileName: String, showVar: ShowVariable)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): GameReaderIterator =
+    fromFile(new File(fileName), showVar)
+
+  def fromFile(file: File)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): GameReaderIterator=
+    fromFile(file, ShowVariable(ShowFlag.Auto))
+
+  def fromFile(file: File, showVar: ShowVariable)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory) = {
     val fpb = fileProgressBarFactory(file.getPath(), file.length())
     new GameReaderIterator({
       () =>
         val bis = new BufferedInputStream(new FileInputStream(file))
         val fpbis = new FileProgressBarInputStream(bis, fpb)
         gameReaderFactory(fpbis)
-    }, fpb)
+    }, fpb, showVar)
   }
 
   def fromDirectory(dirName: String)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] =
-    fromDirectory(new File(dirName))
+    fromDirectory(dirName, ShowVariable(ShowFlag.Auto))
 
-  def fromDirectory(dir: File)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] = {
+  def fromDirectory(dirName: String, showVar: ShowVariable)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] =
+    fromDirectory(new File(dirName), showVar)
+
+  def fromDirectory(dir: File)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] =
+    fromDirectory(dir, ShowVariable(ShowFlag.Auto))
+
+  def fromDirectory(dir: File, showVar: ShowVariable)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] = {
     val files = dir.listFiles()
     if(files != null)
       files.sorted.foldLeft(Iterator.empty: Iterator[Game]) {
-        (iter: Iterator[Game], file: File) => iter ++ fromFileOrDirectory(file)
+        (iter: Iterator[Game], file: File) => iter ++ fromFileOrDirectory(file, showVar)
       }
     else
       Iterator.empty
   }
 
   def fromFileOrDirectory(fileOrDirName: String)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] =
-    fromFileOrDirectory(new File(fileOrDirName))
+    fromFileOrDirectory(fileOrDirName, ShowVariable(ShowFlag.Auto))
+
+  def fromFileOrDirectory(fileOrDirName: String, showVar: ShowVariable)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] =
+    fromFileOrDirectory(new File(fileOrDirName), showVar)
 
   def fromFileOrDirectory(fileOrDir: File)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] =
+    fromFileOrDirectory(fileOrDir, ShowVariable(ShowFlag.Auto))
+
+  def fromFileOrDirectory(fileOrDir: File, showVar: ShowVariable)(implicit gameReaderFactory: GameReaderFactory, fileProgressBarFactory: FileProgressBarFactory): Iterator[Game] =
     if(fileOrDir.isDirectory())
-      fromDirectory(fileOrDir)
+      fromDirectory(fileOrDir, showVar)
     else
-      fromFile(fileOrDir)
+      fromFile(fileOrDir, showVar)
 }
