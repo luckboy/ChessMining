@@ -19,7 +19,7 @@
 package pl.luckboy.chessmining.iterator
 import pl.luckboy.chessmining.chess._
 
-trait FirstBoardIterator extends MoveMakingIteratorWithoutVariations[Board, Board]
+trait FirstBoardIterator extends MoveMakingIterator[Board, Board]
 {
   private var firstBoard = Board.Initial
   private var hasFirstBoard = true
