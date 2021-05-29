@@ -36,7 +36,7 @@ sealed abstract class Move
     this match {
       case normalMove @ NormalMove(_, _, _, _, _) =>
         var (isFound, isAmbiguous, mustBeSrcCol, mustBeSrcRow) = board.generateLegalMoves.foldLeft((false, false, false, false)) {
-          case (tuple @ (isFound: Boolean, isAmbiguous: Boolean, mustBeSrcCol: Boolean, mustBeSrcRow: Boolean), move2) =>
+          case (tuple @ (isFound: Boolean, isAmbiguous: Boolean, mustBeSrcCol: Boolean, mustBeSrcRow: Boolean), move2: Move) =>
             move2 match {
               case normalMove2 @ NormalMove(_, _, _, _, _) =>
                 if(normalMove2 == normalMove) {
