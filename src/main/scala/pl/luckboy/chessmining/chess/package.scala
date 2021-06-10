@@ -90,6 +90,48 @@ package object chess
 
   def sideToColor(side: Side.Value) = Color(side.id + 1)
 
+  def isSideWin(result: Result.Value, side: Side.Value) = 
+    side match {
+      case Side.White =>
+        result match {
+          case Result.WhiteWin => true
+          case _               => false
+        }
+      case Side.Black =>
+        result match {
+          case Result.BlackWin => true
+          case _               => false
+        }
+    }
+
+  def isSideLoss(result: Result.Value, side: Side.Value) = 
+    side match {
+      case Side.White =>
+        result match {
+          case Result.BlackWin => true
+          case _               => false
+        }
+      case Side.Black =>
+        result match {
+          case Result.WhiteWin => true
+          case _               => false
+        }
+    }
+
+  def resultToWinSideOption(result: Result.Value) = 
+    result match {
+      case Result.WhiteWin => Some(Side.White)
+      case Result.BlackWin => Some(Side.Black)
+      case _               => None
+    }
+
+  def resultToLossSideOption(result: Result.Value) = 
+    result match {
+      case Result.WhiteWin => Some(Side.Black)
+      case Result.BlackWin => Some(Side.White)
+      case _               => None
+    }
+    
   def charToColoredPieceOption(c: Char) =
     c match {
       case ' ' => Some(ColoredPiece.Empty)

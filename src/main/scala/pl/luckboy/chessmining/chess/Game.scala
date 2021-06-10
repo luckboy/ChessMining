@@ -54,4 +54,12 @@ case class Game(
       case Side.White => whiteUSCFOption
       case Side.Black => blackUSCFOption
     }
+
+  def hasSideWin(side: Side.Value) = isSideWin(result, side)
+
+  def hasSideLoss(side: Side.Value) = isSideLoss(result, side)
+
+  def winSideOption = resultToWinSideOption(result)
+
+  def lossSideOption = resultToLossSideOption(result)
 }
