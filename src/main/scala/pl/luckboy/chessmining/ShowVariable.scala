@@ -18,4 +18,4 @@
  */
 package pl.luckboy.chessmining
 
-case class ShowVariable(var flag: ShowFlag.Value)
+case class ShowVariable(var flag: ShowFlag.Value = ShowFlag.Clear)
