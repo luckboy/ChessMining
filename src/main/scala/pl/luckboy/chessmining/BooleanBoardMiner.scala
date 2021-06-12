@@ -45,34 +45,34 @@ abstract class BooleanBoardMiner[-T, +U <: BooleanBoardMiner[T, U]] extends Bina
   def function(x: Vector[(String, Array[Long])], y: T) = {
     val firstCount = firstMinerOption.map { _.count }.getOrElse(1)
     val secondCount = secondMinerOption.map { _.count }.getOrElse(1)
-    (0 until count).foldLeft(x) {
+    val x2 = (0 until count).foldLeft(x) {
       (x2: Vector[(String, Array[Long])], i: Int) =>
         val array = Array.fill(64)(0L)
         Array.copy(x2(i)._2, 0, array, 0, 64)
         x2.updated(i, x2(i)._1 -> array)
     }
-    (0 until 64).foldLeft(x) {
-      (x2: Vector[(String, Array[Long])], squ: Int) =>
+    (0 until 64).foldLeft(x2) {
+      (x3: Vector[(String, Array[Long])], squ: Int) =>
         if(booleanSquareFunction(y, squ)) {
           val firstSquValue = firstMinerOption.map {
-            _.squareFunction(x2.slice(0, firstCount).map {
+            _.squareFunction(x3.slice(0, firstCount).map {
                 case ((s: String, array: Array[Long])) => s -> array(squ)
               }, y, squ)
-          }.getOrElse(Vector(x2(0)._1 -> (x2(0)._2(squ) + 1L)))
+          }.getOrElse(Vector(x3(0)._1 -> (x3(0)._2(squ) + 1L)))
           for(i <- 0 until firstCount) {
-            x2(i)._2(squ) = firstSquValue(i)._2
+            x3(i)._2(squ) = firstSquValue(i)._2
           }
-          x2
+          x3
         } else {
           val secondSquValue = secondMinerOption.map {
-            _.squareFunction(x2.slice(firstCount, firstCount + secondCount).map {
+            _.squareFunction(x3.slice(firstCount, firstCount + secondCount).map {
                 case ((s: String, array: Array[Long])) => s -> array(squ)
               }, y, squ)
-          }.getOrElse(Vector(x2(firstCount)._1 -> (x2(firstCount)._2(squ) + 1L)))
+          }.getOrElse(Vector(x3(firstCount)._1 -> (x3(firstCount)._2(squ) + 1L)))
           for(i <- firstCount until (firstCount + secondCount)) {
-            x2(i)._2(squ) = secondSquValue(i - firstCount)._2
+            x3(i)._2(squ) = secondSquValue(i - firstCount)._2
           }
-          x2
+          x3
         }
     }
   }
