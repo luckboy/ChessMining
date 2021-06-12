@@ -24,9 +24,9 @@ case class WinMiner[-T](
   firstMinerOption: Option[BinaryMiner[(Game, T), _]] = None,
   secondMinerOption: Option[BinaryMiner[(Game, T), _]] = None) extends BooleanMiner[(Game, T), WinMiner[T]]
 {
-  override def firstAdjactive = winFunction.name
+  override def firstAdjective = winFunction.name
 
-  override def secondAdjactive = "other"
+  override def secondAdjective = "other"
 
   override def firstNounOption = Some("win")
 

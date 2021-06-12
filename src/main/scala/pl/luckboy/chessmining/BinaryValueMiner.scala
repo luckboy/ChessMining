@@ -24,18 +24,18 @@ abstract class BinaryValueMiner[-T, U, +V <: BinaryValueMiner[T, U, V, W], +W <:
 
   def secondMinerOption: Option[W]
 
-  def firstAdjactive: String
+  def firstAdjective: String
 
-  def secondAdjactive: String
+  def secondAdjective: String
 
   def firstNounOption: Option[String] 
 
   def secondNounOption: Option[String] 
 
-  def adjactives: Vector[String] = {
-    val firstAdjactives = firstMinerOption.map { _.adjactives.map { _ + " " + firstAdjactive } }.getOrElse(Vector(firstAdjactive))
-    val secondAdjactives = secondMinerOption.map { _.adjactives }.getOrElse(Vector(secondAdjactive))
-    firstAdjactives ++ secondAdjactives
+  def adjectives: Vector[String] = {
+    val firstAdjectives = firstMinerOption.map { _.adjectives.map { _ + " " + firstAdjective } }.getOrElse(Vector(firstAdjective))
+    val secondAdjectives = secondMinerOption.map { _.adjectives }.getOrElse(Vector(secondAdjective))
+    firstAdjectives ++ secondAdjectives
   }
 
   def nounOptions: Vector[Option[String]] = {
@@ -45,7 +45,7 @@ abstract class BinaryValueMiner[-T, U, +V <: BinaryValueMiner[T, U, V, W], +W <:
   }
 
   def names =
-    adjactives.zip(nounOptions).map {
+    adjectives.zip(nounOptions).map {
       case ((s: String, sOpt: Option[String])) => s + sOpt.map { " " + _ }.getOrElse("")
     }
 

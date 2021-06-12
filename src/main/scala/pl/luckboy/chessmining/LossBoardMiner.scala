@@ -24,9 +24,9 @@ case class LossBoardMiner[-T](
   firstMinerOption: Option[BinaryBoardMiner[(Game, T), _]] = None,
   secondMinerOption: Option[BinaryBoardMiner[(Game, T), _]] = None) extends BooleanBoardMiner[(Game, T), LossBoardMiner[T]]
 {
-  override def firstAdjactive = lossFunction.name
+  override def firstAdjective = lossFunction.name
 
-  override def secondAdjactive = "other"
+  override def secondAdjective = "other"
 
   override def firstNounOption = Some("loss")
 
