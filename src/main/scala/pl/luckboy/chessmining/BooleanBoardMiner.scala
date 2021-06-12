@@ -26,18 +26,18 @@ abstract class BooleanBoardMiner[-T, +U <: BooleanBoardMiner[T, U]] extends Bina
     val firstCount = firstMinerOption.map { _.count }.getOrElse(1)
     val secondCount = secondMinerOption.map { _.count }.getOrElse(1)
     if(booleanSquareFunction(y, squ)) {
-      val firstValue = firstMinerOption.map {
+      val firstSquValue = firstMinerOption.map {
         _.squareFunction(x.slice(0, firstCount), y, squ)
       }.getOrElse(Vector(x(0)._1 -> (x(0)._2 + 1L)))
       (0 until firstCount).foldLeft(x) {
-        (x2: Vector[(String, Long)], i: Int) => x2.updated(i, x2(i)._1 -> firstValue(i)._2)
+        (x2: Vector[(String, Long)], i: Int) => x2.updated(i, x2(i)._1 -> firstSquValue(i)._2)
       }
     } else {
-      val secondValue = secondMinerOption.map {
+      val secondSquValue = secondMinerOption.map {
         _.squareFunction(x.slice(firstCount, firstCount + secondCount), y, squ)
       }.getOrElse(Vector(x(firstCount)._1 -> (x(firstCount)._2 + 1L)))
       (firstCount until (firstCount + secondCount)).foldLeft(x) {
-        (x2: Vector[(String, Long)], i: Int) => x2.updated(i, x2(i)._1 -> secondValue(i - firstCount)._2)
+        (x2: Vector[(String, Long)], i: Int) => x2.updated(i, x2(i)._1 -> secondSquValue(i - firstCount)._2)
       }
     }
   }
