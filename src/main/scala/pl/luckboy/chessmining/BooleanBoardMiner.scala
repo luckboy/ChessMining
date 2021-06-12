@@ -56,8 +56,8 @@ abstract class BooleanBoardMiner[-T, +U <: BooleanBoardMiner[T, U]] extends Bina
         if(booleanSquareFunction(y, squ)) {
           val firstSquValue = firstMinerOption.map {
             _.squareFunction(x2.slice(0, firstCount).map {
-              case ((s: String, array: Array[Long])) => s -> array(squ)
-             }, y, squ)
+                case ((s: String, array: Array[Long])) => s -> array(squ)
+              }, y, squ)
           }.getOrElse(Vector(x2(0)._1 -> (x2(0)._2(squ) + 1L)))
           for(i <- 0 until firstCount) {
             x2(i)._2(squ) = firstSquValue(i)._2
@@ -66,8 +66,8 @@ abstract class BooleanBoardMiner[-T, +U <: BooleanBoardMiner[T, U]] extends Bina
         } else {
           val secondSquValue = secondMinerOption.map {
             _.squareFunction(x2.slice(firstCount, firstCount + secondCount).map {
-              case ((s: String, array: Array[Long])) => s -> array(squ)
-             }, y, squ)
+                case ((s: String, array: Array[Long])) => s -> array(squ)
+              }, y, squ)
           }.getOrElse(Vector(x2(firstCount)._1 -> (x2(firstCount)._2(squ) + 1L)))
           for(i <- firstCount until (firstCount + secondCount)) {
             x2(i)._2(squ) = secondSquValue(i - firstCount)._2
