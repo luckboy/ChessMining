@@ -18,7 +18,7 @@
  */
 package pl.luckboy.chessmining
 
-abstract class BooleanMiner[T] extends BinaryMiner[T]
+abstract class BooleanMiner[-T, +U <: BooleanMiner[T, U]] extends BinaryMiner[T, U]
 {
   def booleanFunction(x: T): Boolean
 

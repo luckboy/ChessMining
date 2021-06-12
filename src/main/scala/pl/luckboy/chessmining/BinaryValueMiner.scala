@@ -18,11 +18,11 @@
  */
 package pl.luckboy.chessmining
 
-abstract class BinaryValueMiner[-T, U, +V <: BinaryValueMiner[T, U, V]] extends Miner[T, Vector[(String, U)]]
+abstract class BinaryValueMiner[-T, U, +V <: BinaryValueMiner[T, U, V, W], +W <: BinaryValueMiner[T, U, _, W]] extends Miner[T, Vector[(String, U)]]
 {
-  def firstMinerOption: Option[V]
+  def firstMinerOption: Option[W]
 
-  def secondMinerOption: Option[V]
+  def secondMinerOption: Option[W]
 
   def firstAdjactive: String
 
@@ -52,7 +52,9 @@ abstract class BinaryValueMiner[-T, U, +V <: BinaryValueMiner[T, U, V]] extends 
   def count: Int =
     firstMinerOption.map { _.count } .getOrElse(1) + secondMinerOption.map { _.count }.getOrElse(1)
 
-  def +\[W >: V](firstMiner: W): V
+  def +\[X >: W, Y >: V](firstMiner: X)(implicit binaryValueMinerFactory: BinaryValueMinerFactory[V, X, Y]) =
+    binaryValueMinerFactory(this.asInstanceOf[V], Some(firstMiner), secondMinerOption)
   
-  def +/[W >: V](secondMiner: W): V
+  def +/[X >: W, Y >: V](secondMiner: X)(implicit binaryValueMinerFactory: BinaryValueMinerFactory[V, X, Y]) =
+    binaryValueMinerFactory(this.asInstanceOf[V], firstMinerOption, Some(secondMiner))
 }

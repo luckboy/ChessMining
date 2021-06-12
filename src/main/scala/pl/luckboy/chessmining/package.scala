@@ -25,7 +25,27 @@ package object chessmining
   implicit val defaultGameReaderFactory = PGNReader
   implicit val defaultGameWriterFactory = PGNWriter
   implicit val defaultFileProgressBarFactory = ConsoleFileProgressBar
-  
+
+  implicit def defaultWinMinerFactory[T] = new BinaryValueMinerFactory[WinMiner[T], BinaryMiner[(Game, T), _], WinMiner[T]] {
+    override def apply(miner: WinMiner[T], firstMinerOpt: Option[BinaryMiner[(Game, T), _]], secondMinerOpt: Option[BinaryMiner[(Game, T), _]]) =
+      miner.copy(firstMinerOption = firstMinerOpt, secondMinerOption = secondMinerOpt)
+  }
+
+  implicit def defaultWinBoardMinerFactory[T] = new BinaryValueMinerFactory[WinBoardMiner[T], BinaryBoardMiner[(Game, T), _], WinBoardMiner[T]] {
+    override def apply(miner: WinBoardMiner[T], firstMinerOpt: Option[BinaryBoardMiner[(Game, T), _]], secondMinerOpt: Option[BinaryBoardMiner[(Game, T), _]]) =
+      miner.copy(firstMinerOption = firstMinerOpt, secondMinerOption = secondMinerOpt)
+  }
+
+  implicit def defaultLossMinerFactory[T] = new BinaryValueMinerFactory[LossMiner[T], BinaryMiner[(Game, T), _], LossMiner[T]] {
+    override def apply(miner: LossMiner[T], firstMinerOpt: Option[BinaryMiner[(Game, T), _]], secondMinerOpt: Option[BinaryMiner[(Game, T), _]]) =
+      miner.copy(firstMinerOption = firstMinerOpt, secondMinerOption = secondMinerOpt)
+  }
+
+  implicit def defaultLossBoardMinerFactory[T] = new BinaryValueMinerFactory[LossBoardMiner[T], BinaryBoardMiner[(Game, T), _], LossBoardMiner[T]] {
+    override def apply(miner: LossBoardMiner[T], firstMinerOpt: Option[BinaryBoardMiner[(Game, T), _]], secondMinerOpt: Option[BinaryBoardMiner[(Game, T), _]]) =
+      miner.copy(firstMinerOption = firstMinerOpt, secondMinerOption = secondMinerOpt)
+  }
+
   def side(side: Side.Value) = {
     val name = if(side == Side.White) "white" else "black"
     NamedFunction2(name, {

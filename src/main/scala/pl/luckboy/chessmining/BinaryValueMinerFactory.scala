@@ -17,22 +17,8 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 package pl.luckboy.chessmining
-import pl.luckboy.chessmining.chess._
 
-case class WinBoardMiner[-T](
-  winFunction: NamedFunction3[(Game, T), Side.Value, Int, Boolean],
-  firstMinerOption: Option[BinaryBoardMiner[(Game, T), _]] = None,
-  secondMinerOption: Option[BinaryBoardMiner[(Game, T), _]] = None) extends BooleanBoardMiner[(Game, T), WinBoardMiner[T]]
+abstract class BinaryValueMinerFactory[-T, -U, +V]
 {
-  override def firstAdjactive = winFunction.name
-
-  override def secondAdjactive = "other"
-
-  override def firstNounOption = Some("win")
-
-  override def secondNounOption = None
-
-  override def booleanSquareFunction(x: (Game, T), squ: Int) =
-    (x._1.hasSideWin(Side.White) && winFunction(x, Side.White, squ)) ||
-    (x._1.hasSideWin(Side.Black) && winFunction(x, Side.Black, squ))
+  def apply(miner: T, firstMinerOpt: Option[U], secondMinerOpt: Option[U]): V
 }

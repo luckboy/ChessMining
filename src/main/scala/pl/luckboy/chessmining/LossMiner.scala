@@ -19,10 +19,10 @@
 package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 
-case class LossMiner[T](
+case class LossMiner[-T](
   lossFunction: NamedFunction2[(Game, T), Side.Value, Boolean],
-  firstMinerOption: Option[BinaryMiner[(Game, T)]] = None,
-  secondMinerOption: Option[BinaryMiner[(Game, T)]] = None) extends BooleanMiner[(Game, T)]
+  firstMinerOption: Option[BinaryMiner[(Game, T), _]] = None,
+  secondMinerOption: Option[BinaryMiner[(Game, T), _]] = None) extends BooleanMiner[(Game, T), LossMiner[T]]
 {
   override def firstAdjactive = lossFunction.name
 
@@ -35,10 +35,4 @@ case class LossMiner[T](
   override def booleanFunction(x: (Game, T)) =
     (x._1.hasSideLoss(Side.White) && lossFunction(x, Side.White)) ||
     (x._1.hasSideLoss(Side.Black) && lossFunction(x, Side.Black))
-
-  override def +\[W >: BinaryMiner[(Game, T)]](firstMiner: W) =
-    copy(firstMinerOption = Some(firstMiner.asInstanceOf[BinaryMiner[(Game, T)]]))
-
-  override def +/[W >: BinaryMiner[(Game, T)]](secondMiner: W) =
-    copy(secondMinerOption = Some(secondMiner.asInstanceOf[BinaryMiner[(Game, T)]]))
 }

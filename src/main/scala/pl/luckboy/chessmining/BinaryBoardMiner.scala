@@ -18,7 +18,7 @@
  */
 package pl.luckboy.chessmining
 
-abstract class BinaryBoardMiner[-T] extends BinaryValueMiner[T, Array[Long], BinaryBoardMiner[T]]
+abstract class BinaryBoardMiner[-T, +U <: BinaryBoardMiner[T, U]] extends BinaryValueMiner[T, Array[Long], U, BinaryBoardMiner[T, _]]
 {
   override def startValue = {
     val firstStartValue = firstMinerOption.map { _.startValue }.getOrElse(Vector("" -> Array.fill(64)(0L)))

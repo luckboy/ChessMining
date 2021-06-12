@@ -18,7 +18,7 @@
  */
 package pl.luckboy.chessmining
 
-abstract class BooleanBoardMiner[T] extends BinaryBoardMiner[T]
+abstract class BooleanBoardMiner[-T, +U <: BooleanBoardMiner[T, U]] extends BinaryBoardMiner[T, U]
 {
   def booleanSquareFunction(x: T, squ: Int): Boolean
 

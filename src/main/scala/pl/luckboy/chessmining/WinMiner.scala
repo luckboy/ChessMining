@@ -19,10 +19,10 @@
 package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 
-case class WinMiner[T](
+case class WinMiner[-T](
   winFunction: NamedFunction2[(Game, T), Side.Value, Boolean],
-  firstMinerOption: Option[BinaryMiner[(Game, T)]] = None,
-  secondMinerOption: Option[BinaryMiner[(Game, T)]] = None) extends BooleanMiner[(Game, T)]
+  firstMinerOption: Option[BinaryMiner[(Game, T), _]] = None,
+  secondMinerOption: Option[BinaryMiner[(Game, T), _]] = None) extends BooleanMiner[(Game, T), WinMiner[T]]
 {
   override def firstAdjactive = winFunction.name
 
@@ -35,10 +35,4 @@ case class WinMiner[T](
   override def booleanFunction(x: (Game, T)) =
     (x._1.hasSideWin(Side.White) && winFunction(x, Side.White)) ||
     (x._1.hasSideWin(Side.Black) && winFunction(x, Side.Black))
-
-  override def +\[W >: BinaryMiner[(Game, T)]](firstMiner: W) =
-    copy(firstMinerOption = Some(firstMiner.asInstanceOf[BinaryMiner[(Game, T)]]))
-
-  override def +/[W >: BinaryMiner[(Game, T)]](secondMiner: W) =
-    copy(secondMinerOption = Some(secondMiner.asInstanceOf[BinaryMiner[(Game, T)]]))
 }
