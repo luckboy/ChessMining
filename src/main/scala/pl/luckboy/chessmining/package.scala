@@ -179,4 +179,398 @@ package object chessmining
   val blackRook = sidePiece(Side.Black, Piece.Rook)
   val blackQueen = sidePiece(Side.Black, Piece.Queen)
   val blackKing = sidePiece(Side.Black, Piece.King)
+
+  val greaterMobility = NamedFunction2("> mobility", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => eval.mobility(board, side) > eval.mobility(board, ~side)
+        }
+    })
+
+  val equalMobility = NamedFunction2("= mobility", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => eval.mobility(board, side) == eval.mobility(board, ~side)
+        }
+    })
+
+  val lessMobility = NamedFunction2("< mobility", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => eval.mobility(board, side) < eval.mobility(board, ~side)
+        }
+    })
+
+  def greaterPieceMobility(piece: Piece.Value) = {
+    val fun = piece match {
+      case Piece.Pawn =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.pawnMobility(board, side) > eval.pawnMobility(board, ~side)
+            }
+        }        
+      case Piece.Knight =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.knightMobility(board, side) > eval.knightMobility(board, ~side)
+            }
+        }
+      case Piece.Bishop =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.bishopMobility(board, side) > eval.bishopMobility(board, ~side)
+            }
+        }
+      case Piece.Rook =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.rookMobility(board, side) > eval.rookMobility(board, ~side)
+            }
+        }
+      case Piece.Queen =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.queenMobility(board, side) > eval.queenMobility(board, ~side)
+            }
+        }
+      case Piece.King =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.kingMobility(board, side) > eval.kingMobility(board, ~side)
+            }
+        }
+    }
+    NamedFunction2("> " + pieceToName(piece) + " mobility", fun)
+  }
+
+  def equalPieceMobility(piece: Piece.Value) = {
+    val fun = piece match {
+      case Piece.Pawn =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.pawnMobility(board, side) == eval.pawnMobility(board, ~side)
+            }
+        }        
+      case Piece.Knight =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.knightMobility(board, side) == eval.knightMobility(board, ~side)
+            }
+        }
+      case Piece.Bishop =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.bishopMobility(board, side) == eval.bishopMobility(board, ~side)
+            }
+        }
+      case Piece.Rook =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.rookMobility(board, side) == eval.rookMobility(board, ~side)
+            }
+        }
+      case Piece.Queen =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.queenMobility(board, side) == eval.queenMobility(board, ~side)
+            }
+        }
+      case Piece.King =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.kingMobility(board, side) == eval.kingMobility(board, ~side)
+            }
+        }
+    }
+    NamedFunction2("= " + pieceToName(piece) + " mobility", fun)
+  }
+
+  def lessPieceMobility(piece: Piece.Value) = {
+    val fun = piece match {
+      case Piece.Pawn =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.pawnMobility(board, side) < eval.pawnMobility(board, ~side)
+            }
+        }        
+      case Piece.Knight =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.knightMobility(board, side) < eval.knightMobility(board, ~side)
+            }
+        }
+      case Piece.Bishop =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.bishopMobility(board, side) < eval.bishopMobility(board, ~side)
+            }
+        }
+      case Piece.Rook =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.rookMobility(board, side) < eval.rookMobility(board, ~side)
+            }
+        }
+      case Piece.Queen =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.queenMobility(board, side) < eval.queenMobility(board, ~side)
+            }
+        }
+      case Piece.King =>
+        {
+          (tuple: (Game, Board), side: Side.Value) =>
+            tuple match {
+              case (_, board) => eval.kingMobility(board, side) < eval.kingMobility(board, ~side)
+            }
+        }
+    }
+    NamedFunction2("< " + pieceToName(piece) + " mobility", fun)
+  }
+  
+  def greaterSideMobility(side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " mobility", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => eval.mobility(board, side) > eval.mobility(board, ~side)
+        }
+    })
+
+  def equalSideMobility(side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " mobility", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => eval.mobility(board, side) == eval.mobility(board, ~side)
+        }
+    })
+
+  def lessSideMobility(side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " mobility", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => eval.mobility(board, side) < eval.mobility(board, ~side)
+        }
+    })
+
+  def greaterSidePieceMobility(side: Side.Value, piece: Piece.Value) = {
+    val fun = piece match {
+      case Piece.Pawn =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.pawnMobility(board, side) > eval.pawnMobility(board, ~side)
+            }
+        }        
+      case Piece.Knight =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.knightMobility(board, side) > eval.knightMobility(board, ~side)
+            }
+        }
+      case Piece.Bishop =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.bishopMobility(board, side) > eval.bishopMobility(board, ~side)
+            }
+        }
+      case Piece.Rook =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.rookMobility(board, side) > eval.rookMobility(board, ~side)
+            }
+        }
+      case Piece.Queen =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.queenMobility(board, side) > eval.queenMobility(board, ~side)
+            }
+        }
+      case Piece.King =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.kingMobility(board, side) > eval.kingMobility(board, ~side)
+            }
+        }
+    }
+    NamedFunction1("> " + sideToName(side) + " " + pieceToName(piece) + " mobility", fun)
+  }
+
+  def equalSidePieceMobility(side: Side.Value, piece: Piece.Value) = {
+    val fun = piece match {
+      case Piece.Pawn =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.pawnMobility(board, side) == eval.pawnMobility(board, ~side)
+            }
+        }        
+      case Piece.Knight =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.knightMobility(board, side) == eval.knightMobility(board, ~side)
+            }
+        }
+      case Piece.Bishop =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.bishopMobility(board, side) == eval.bishopMobility(board, ~side)
+            }
+        }
+      case Piece.Rook =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.rookMobility(board, side) == eval.rookMobility(board, ~side)
+            }
+        }
+      case Piece.Queen =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.queenMobility(board, side) == eval.queenMobility(board, ~side)
+            }
+        }
+      case Piece.King =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.kingMobility(board, side) == eval.kingMobility(board, ~side)
+            }
+        }
+    }
+    NamedFunction1("= " + sideToName(side) + " " + pieceToName(piece) + " mobility", fun)
+  }
+
+  def lessSidePieceMobility(side: Side.Value, piece: Piece.Value) = {
+    val fun = piece match {
+      case Piece.Pawn =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.pawnMobility(board, side) < eval.pawnMobility(board, ~side)
+            }
+        }        
+      case Piece.Knight =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.knightMobility(board, side) < eval.knightMobility(board, ~side)
+            }
+        }
+      case Piece.Bishop =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.bishopMobility(board, side) < eval.bishopMobility(board, ~side)
+            }
+        }
+      case Piece.Rook =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.rookMobility(board, side) < eval.rookMobility(board, ~side)
+            }
+        }
+      case Piece.Queen =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.queenMobility(board, side) < eval.queenMobility(board, ~side)
+            }
+        }
+      case Piece.King =>
+        {
+          (tuple: (Game, Board)) =>
+            tuple match {
+              case (_, board) => eval.kingMobility(board, side) < eval.kingMobility(board, ~side)
+            }
+        }
+    }
+    NamedFunction1("< " + sideToName(side) + " " + pieceToName(piece) + " mobility", fun)
+  }
+  
+  val greaterPawnMobility = greaterPieceMobility(Piece.Pawn)
+  val greaterKnightMobility = greaterPieceMobility(Piece.Knight)
+  val greaterBishopMobility = greaterPieceMobility(Piece.Bishop)
+  val greaterRookMobility = greaterPieceMobility(Piece.Rook)
+  val greaterQueenMobility = greaterPieceMobility(Piece.Queen)
+  val greaterKingMobility = greaterPieceMobility(Piece.King)
+  val equalPawnMobility = equalPieceMobility(Piece.Pawn)
+  val equalKnightMobility = equalPieceMobility(Piece.Knight)
+  val equalBishopMobility = equalPieceMobility(Piece.Bishop)
+  val equalRookMobility = equalPieceMobility(Piece.Rook)
+  val equalQueenMobility = equalPieceMobility(Piece.Queen)
+  val equalKingMobility = equalPieceMobility(Piece.King)
+  val lessPawnMobility = lessPieceMobility(Piece.Pawn)
+  val lessKnightMobility = lessPieceMobility(Piece.Knight)
+  val lessBishopMobility = lessPieceMobility(Piece.Bishop)
+  val lessRookMobility = lessPieceMobility(Piece.Rook)
+  val lessQueenMobility = lessPieceMobility(Piece.Queen)
+  val lessKingMobility = lessPieceMobility(Piece.King)
+  val greaterWhiteMobility = greaterSideMobility(Side.White)
+  val greaterBlackMobility = greaterSideMobility(Side.Black)
+  val equalWhiteMobility = equalSideMobility(Side.White)
+  val equalBlackMobility = equalSideMobility(Side.Black)
+  val lessWhiteMobility = lessSideMobility(Side.White)
+  val lessBlackMobility = lessSideMobility(Side.Black)
+  val greaterWhitePawnMobility = greaterSidePieceMobility(Side.White, Piece.Pawn)
+  val greaterWhiteKnightMobility = greaterSidePieceMobility(Side.White, Piece.Knight)
+  val greaterWhiteBishopMobility = greaterSidePieceMobility(Side.White, Piece.Bishop)
+  val greaterWhiteRookMobility = greaterSidePieceMobility(Side.White, Piece.Rook)
+  val greaterWhiteQueenMobility = greaterSidePieceMobility(Side.White, Piece.Queen)
+  val greaterWhiteKingMobility = greaterSidePieceMobility(Side.White, Piece.King)
+  val greaterBlackPawnMobility = greaterSidePieceMobility(Side.Black, Piece.Pawn)
+  val greaterBlackKnightMobility = greaterSidePieceMobility(Side.Black, Piece.Knight)
+  val greaterBlackBishopMobility = greaterSidePieceMobility(Side.Black, Piece.Bishop)
+  val greaterBlackRookMobility = greaterSidePieceMobility(Side.Black, Piece.Rook)
+  val greaterBlackQueenMobility = greaterSidePieceMobility(Side.Black, Piece.Queen)
+  val greaterBlackKingMobility = greaterSidePieceMobility(Side.Black, Piece.King)
+  val equalWhitePawnMobility = equalSidePieceMobility(Side.White, Piece.Pawn)
+  val equalWhiteKnightMobility = equalSidePieceMobility(Side.White, Piece.Knight)
+  val equalWhiteBishopMobility = equalSidePieceMobility(Side.White, Piece.Bishop)
+  val equalWhiteRookMobility = equalSidePieceMobility(Side.White, Piece.Rook)
+  val equalWhiteQueenMobility = equalSidePieceMobility(Side.White, Piece.Queen)
+  val equalWhiteKingMobility = equalSidePieceMobility(Side.White, Piece.King)
+  val equalBlackPawnMobility = equalSidePieceMobility(Side.Black, Piece.Pawn)
+  val equalBlackKnightMobility = equalSidePieceMobility(Side.Black, Piece.Knight)
+  val equalBlackBishopMobility = equalSidePieceMobility(Side.Black, Piece.Bishop)
+  val equalBlackRookMobility = equalSidePieceMobility(Side.Black, Piece.Rook)
+  val equalBlackQueenMobility = equalSidePieceMobility(Side.Black, Piece.Queen)
+  val equalBlackKingMobility = equalSidePieceMobility(Side.Black, Piece.King)
+  val lessWhitePawnMobility = lessSidePieceMobility(Side.White, Piece.Pawn)
+  val lessWhiteKnightMobility = lessSidePieceMobility(Side.White, Piece.Knight)
+  val lessWhiteBishopMobility = lessSidePieceMobility(Side.White, Piece.Bishop)
+  val lessWhiteRookMobility = lessSidePieceMobility(Side.White, Piece.Rook)
+  val lessWhiteQueenMobility = lessSidePieceMobility(Side.White, Piece.Queen)
+  val lessWhiteKingMobility = lessSidePieceMobility(Side.White, Piece.King)
+  val lessBlackPawnMobility = lessSidePieceMobility(Side.Black, Piece.Pawn)
+  val lessBlackKnightMobility = lessSidePieceMobility(Side.Black, Piece.Knight)
+  val lessBlackBishopMobility = lessSidePieceMobility(Side.Black, Piece.Bishop)
+  val lessBlackRookMobility = lessSidePieceMobility(Side.Black, Piece.Rook)
+  val lessBlackQueenMobility = lessSidePieceMobility(Side.Black, Piece.Queen)
+  val lessBlackKingMobility = lessSidePieceMobility(Side.Black, Piece.King)
 }
