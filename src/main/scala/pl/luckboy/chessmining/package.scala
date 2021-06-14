@@ -46,34 +46,30 @@ package object chessmining
       miner.copy(firstMinerOption = firstMinerOpt, secondMinerOption = secondMinerOpt)
   }
 
-  def side(side: Side.Value) = {
-    val name = if(side == Side.White) "white" else "black"
-    NamedFunction2(name, {
-      (tuple: (Game, Any), side2: Side.Value) => side == side2
-    })
+  implicit def defaultDrawMinerFactory[T] = new BinaryValueMinerFactory[DrawMiner[T], BinaryMiner[(Game, T), _], DrawMiner[T]] {
+    override def apply(miner: DrawMiner[T], firstMinerOpt: Option[BinaryMiner[(Game, T), _]], secondMinerOpt: Option[BinaryMiner[(Game, T), _]]) =
+      miner.copy(firstMinerOption = firstMinerOpt, secondMinerOption = secondMinerOpt)
   }
 
-  def side3(side: Side.Value) = {
-    val name = if(side == Side.White) "white" else "black"
-    NamedFunction3(name, {
-      (tuple: (Game, Any), side2: Side.Value, squ: Int) => side == side2
-    })
+  implicit def defaultDrawBoardMinerFactory[T] = new BinaryValueMinerFactory[DrawBoardMiner[T], BinaryBoardMiner[(Game, T), _], DrawBoardMiner[T]] {
+    override def apply(miner: DrawBoardMiner[T], firstMinerOpt: Option[BinaryBoardMiner[(Game, T), _]], secondMinerOpt: Option[BinaryBoardMiner[(Game, T), _]]) =
+      miner.copy(firstMinerOption = firstMinerOpt, secondMinerOption = secondMinerOpt)
   }
 
-  val white = side(Side.White)
-  val black = side(Side.Black)
-  val white3 = side3(Side.White)
-  val black3 = side3(Side.Black)
+  implicit def defaultCountMinerFactory[T] = new BinaryValueMinerFactory[CountMiner[T], BinaryMiner[(Game, T), _], CountMiner[T]] {
+    override def apply(miner: CountMiner[T], firstMinerOpt: Option[BinaryMiner[(Game, T), _]], secondMinerOpt: Option[BinaryMiner[(Game, T), _]]) =
+      miner.copy(firstMinerOption = firstMinerOpt, secondMinerOption = secondMinerOpt)
+  }
 
-  def anyPiece = NamedFunction3("piece", {
-    (tuple: (Game, Board), side: Side.Value, squ: Int) =>
-      tuple match {
-        case (_, board) => board.color(squ) == sideToColor(side)
-      }
-  })
-  
-  def piece(piece: Piece.Value) = {
-    val name = piece match {
+  implicit def defaultCountBoardMinerFactory[T] = new BinaryValueMinerFactory[CountBoardMiner[T], BinaryBoardMiner[(Game, T), _], CountBoardMiner[T]] {
+    override def apply(miner: CountBoardMiner[T], firstMinerOpt: Option[BinaryBoardMiner[(Game, T), _]], secondMinerOpt: Option[BinaryBoardMiner[(Game, T), _]]) =
+      miner.copy(firstMinerOption = firstMinerOpt, secondMinerOption = secondMinerOpt)
+  }
+
+  private def sideToName(side: Side.Value) = if(side == Side.White) "white" else "black"
+
+  private def pieceToName(piece: Piece.Value) =
+    piece match {
       case Piece.Pawn   => "pawn"
       case Piece.Knight => "knight"
       case Piece.Bishop => "bishop"
@@ -81,18 +77,106 @@ package object chessmining
       case Piece.Queen  => "queen"
       case Piece.King   => "king"
     }
-    NamedFunction3(name, {
+  
+  def side(side: Side.Value) =
+    NamedFunction2(sideToName(side), {
+      (tuple: (Game, Any), side2: Side.Value) => side == side2
+    })
+
+  def side3(side: Side.Value) =
+    NamedFunction3(sideToName(side), {
+      (tuple: (Game, Any), side2: Side.Value, squ: Int) => side == side2
+    })
+
+  val white = side(Side.White)
+  val black = side(Side.Black)
+  val white3 = side3(Side.White)
+  val black3 = side3(Side.Black)
+
+  val anyPiece = NamedFunction3("piece", {
+      (tuple: (Game, Board), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, board) => board.color(squ) == sideToColor(side)
+        }
+    })
+  
+  def piece(piece: Piece.Value) =
+    NamedFunction3(pieceToName(piece), {
       (tuple: (Game, Board), side: Side.Value, squ: Int) =>
         tuple match {
           case (_, board) => board.coloredPiece(squ) == sideAndPieceToColoredPiece(side, piece)
         }
     })
-  }
-  
+    
+  val empty = NamedFunction3("empty", {
+      (tuple: (Game, Board), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, board) => board.color(squ) == Color.Empty
+        }
+    })
+
+  val anyPiece2 = NamedFunction2("piece", {
+      (tuple: (Game, Board), squ: Int) =>
+        tuple match {
+          case (_, board) => board.color(squ) != Color.Empty
+        }
+    })
+
+  def piece2(piece: Piece.Value) =
+    NamedFunction2(pieceToName(piece), {
+      (tuple: (Game, Board), squ: Int) =>
+        tuple match {
+          case (_, board) => board.pieceOption(squ).map { _ == piece }.getOrElse(false)
+        }
+    })
+
+  val empty2 = NamedFunction2("empty", {
+      (tuple: (Game, Board), squ: Int) =>
+        tuple match {
+          case (_, board) => board.color(squ) == Color.Empty
+        }
+    })
+
+  def anySidePiece(side: Side.Value) =
+    NamedFunction2(sideToName(side) + " piece", {
+      (tuple: (Game, Board), squ: Int) =>
+        tuple match {
+          case (_, board) => board.color(squ) == sideToColor(side)
+        }
+    })
+
+  def sidePiece(side: Side.Value, piece: Piece.Value) = 
+    NamedFunction2(sideToName(side) + " " + pieceToName(piece), {
+      (tuple: (Game, Board), squ: Int) =>
+        tuple match {
+          case (_, board) => board.coloredPiece(squ) == sideAndPieceToColoredPiece(side, piece)
+        }
+    })
+
   val pawn = piece(Piece.Pawn)
   val knight = piece(Piece.Knight)
   val bishop = piece(Piece.Bishop)
   val rook = piece(Piece.Rook)
   val queen = piece(Piece.Queen)
   val king = piece(Piece.King)
+  val pawn2 = piece2(Piece.Pawn)
+  val knight2 = piece2(Piece.Knight)
+  val bishop2 = piece2(Piece.Bishop)
+  val rook2 = piece2(Piece.Rook)
+  val queen2 = piece2(Piece.Queen)
+  val king2 = piece2(Piece.King)
+  val anyWhitePiece = anySidePiece(Side.White)
+  val anyBlackPiece = anySidePiece(Side.Black)
+  val whitePawn = sidePiece(Side.White, Piece.Pawn)
+  val whiteKnight = sidePiece(Side.White, Piece.Knight)
+  val whiteBishop = sidePiece(Side.White, Piece.Bishop)
+  val whiteRook = sidePiece(Side.White, Piece.Rook)
+  val whiteQueen = sidePiece(Side.White, Piece.Queen)
+  val whiteKing = sidePiece(Side.White, Piece.King)
+  val blackPawn = sidePiece(Side.Black, Piece.Pawn)
+  val blackKnight = sidePiece(Side.Black, Piece.Knight)
+  val blackBishop = sidePiece(Side.Black, Piece.Bishop)
+  val blackRook = sidePiece(Side.Black, Piece.Rook)
+  val blackQueen = sidePiece(Side.Black, Piece.Queen)
+  val blackKing = sidePiece(Side.Black, Piece.King)
 }
