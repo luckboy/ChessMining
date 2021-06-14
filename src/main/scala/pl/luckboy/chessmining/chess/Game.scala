@@ -59,6 +59,8 @@ case class Game(
 
   def hasSideLoss(side: Side.Value) = isSideLoss(result, side)
 
+  def hasDraw = isDraw(result)
+
   def winSideOption = resultToWinSideOption(result)
 
   def lossSideOption = resultToLossSideOption(result)

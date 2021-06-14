@@ -118,6 +118,8 @@ package object chess
         }
     }
 
+  def isDraw(result: Result.Value) = result == Result.Draw
+
   def resultToWinSideOption(result: Result.Value) = 
     result match {
       case Result.WhiteWin => Some(Side.White)
