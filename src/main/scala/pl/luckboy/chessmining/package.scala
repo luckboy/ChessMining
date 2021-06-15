@@ -18,6 +18,7 @@
  */
 package pl.luckboy
 import pl.luckboy.chessmining.chess._
+import pl.luckboy.chessmining.eval._
 import pl.luckboy.chessmining.ui._
 
 package object chessmining
@@ -183,21 +184,21 @@ package object chessmining
   val greaterMobility = NamedFunction2("> mobility", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
-          case (_, board) => eval.mobility(board, side) > eval.mobility(board, ~side)
+          case (_, board) => Mobility.mobility(board, side) > Mobility.mobility(board, ~side)
         }
     })
 
   val equalMobility = NamedFunction2("= mobility", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
-          case (_, board) => eval.mobility(board, side) == eval.mobility(board, ~side)
+          case (_, board) => Mobility.mobility(board, side) == Mobility.mobility(board, ~side)
         }
     })
 
   val lessMobility = NamedFunction2("< mobility", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
-          case (_, board) => eval.mobility(board, side) < eval.mobility(board, ~side)
+          case (_, board) => Mobility.mobility(board, side) < Mobility.mobility(board, ~side)
         }
     })
 
@@ -207,42 +208,42 @@ package object chessmining
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.pawnMobility(board, side) > eval.pawnMobility(board, ~side)
+              case (_, board) => Mobility.pawnMobility(board, side) > Mobility.pawnMobility(board, ~side)
             }
         }        
       case Piece.Knight =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.knightMobility(board, side) > eval.knightMobility(board, ~side)
+              case (_, board) => Mobility.knightMobility(board, side) > Mobility.knightMobility(board, ~side)
             }
         }
       case Piece.Bishop =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.bishopMobility(board, side) > eval.bishopMobility(board, ~side)
+              case (_, board) => Mobility.bishopMobility(board, side) > Mobility.bishopMobility(board, ~side)
             }
         }
       case Piece.Rook =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.rookMobility(board, side) > eval.rookMobility(board, ~side)
+              case (_, board) => Mobility.rookMobility(board, side) > Mobility.rookMobility(board, ~side)
             }
         }
       case Piece.Queen =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.queenMobility(board, side) > eval.queenMobility(board, ~side)
+              case (_, board) => Mobility.queenMobility(board, side) > Mobility.queenMobility(board, ~side)
             }
         }
       case Piece.King =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.kingMobility(board, side) > eval.kingMobility(board, ~side)
+              case (_, board) => Mobility.kingMobility(board, side) > Mobility.kingMobility(board, ~side)
             }
         }
     }
@@ -255,42 +256,42 @@ package object chessmining
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.pawnMobility(board, side) == eval.pawnMobility(board, ~side)
+              case (_, board) => Mobility.pawnMobility(board, side) == Mobility.pawnMobility(board, ~side)
             }
         }        
       case Piece.Knight =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.knightMobility(board, side) == eval.knightMobility(board, ~side)
+              case (_, board) => Mobility.knightMobility(board, side) == Mobility.knightMobility(board, ~side)
             }
         }
       case Piece.Bishop =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.bishopMobility(board, side) == eval.bishopMobility(board, ~side)
+              case (_, board) => Mobility.bishopMobility(board, side) == Mobility.bishopMobility(board, ~side)
             }
         }
       case Piece.Rook =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.rookMobility(board, side) == eval.rookMobility(board, ~side)
+              case (_, board) => Mobility.rookMobility(board, side) == Mobility.rookMobility(board, ~side)
             }
         }
       case Piece.Queen =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.queenMobility(board, side) == eval.queenMobility(board, ~side)
+              case (_, board) => Mobility.queenMobility(board, side) == Mobility.queenMobility(board, ~side)
             }
         }
       case Piece.King =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.kingMobility(board, side) == eval.kingMobility(board, ~side)
+              case (_, board) => Mobility.kingMobility(board, side) == Mobility.kingMobility(board, ~side)
             }
         }
     }
@@ -303,42 +304,42 @@ package object chessmining
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.pawnMobility(board, side) < eval.pawnMobility(board, ~side)
+              case (_, board) => Mobility.pawnMobility(board, side) < Mobility.pawnMobility(board, ~side)
             }
         }        
       case Piece.Knight =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.knightMobility(board, side) < eval.knightMobility(board, ~side)
+              case (_, board) => Mobility.knightMobility(board, side) < Mobility.knightMobility(board, ~side)
             }
         }
       case Piece.Bishop =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.bishopMobility(board, side) < eval.bishopMobility(board, ~side)
+              case (_, board) => Mobility.bishopMobility(board, side) < Mobility.bishopMobility(board, ~side)
             }
         }
       case Piece.Rook =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.rookMobility(board, side) < eval.rookMobility(board, ~side)
+              case (_, board) => Mobility.rookMobility(board, side) < Mobility.rookMobility(board, ~side)
             }
         }
       case Piece.Queen =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.queenMobility(board, side) < eval.queenMobility(board, ~side)
+              case (_, board) => Mobility.queenMobility(board, side) < Mobility.queenMobility(board, ~side)
             }
         }
       case Piece.King =>
         {
           (tuple: (Game, Board), side: Side.Value) =>
             tuple match {
-              case (_, board) => eval.kingMobility(board, side) < eval.kingMobility(board, ~side)
+              case (_, board) => Mobility.kingMobility(board, side) < Mobility.kingMobility(board, ~side)
             }
         }
     }
@@ -349,7 +350,7 @@ package object chessmining
     NamedFunction1("> " + sideToName(side) + " mobility", {
       (tuple: (Game, Board)) =>
         tuple match {
-          case (_, board) => eval.mobility(board, side) > eval.mobility(board, ~side)
+          case (_, board) => Mobility.mobility(board, side) > Mobility.mobility(board, ~side)
         }
     })
 
@@ -357,7 +358,7 @@ package object chessmining
     NamedFunction1("= " + sideToName(side) + " mobility", {
       (tuple: (Game, Board)) =>
         tuple match {
-          case (_, board) => eval.mobility(board, side) == eval.mobility(board, ~side)
+          case (_, board) => Mobility.mobility(board, side) == Mobility.mobility(board, ~side)
         }
     })
 
@@ -365,7 +366,7 @@ package object chessmining
     NamedFunction1("< " + sideToName(side) + " mobility", {
       (tuple: (Game, Board)) =>
         tuple match {
-          case (_, board) => eval.mobility(board, side) < eval.mobility(board, ~side)
+          case (_, board) => Mobility.mobility(board, side) < Mobility.mobility(board, ~side)
         }
     })
 
@@ -375,42 +376,42 @@ package object chessmining
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.pawnMobility(board, side) > eval.pawnMobility(board, ~side)
+              case (_, board) => Mobility.pawnMobility(board, side) > Mobility.pawnMobility(board, ~side)
             }
         }        
       case Piece.Knight =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.knightMobility(board, side) > eval.knightMobility(board, ~side)
+              case (_, board) => Mobility.knightMobility(board, side) > Mobility.knightMobility(board, ~side)
             }
         }
       case Piece.Bishop =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.bishopMobility(board, side) > eval.bishopMobility(board, ~side)
+              case (_, board) => Mobility.bishopMobility(board, side) > Mobility.bishopMobility(board, ~side)
             }
         }
       case Piece.Rook =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.rookMobility(board, side) > eval.rookMobility(board, ~side)
+              case (_, board) => Mobility.rookMobility(board, side) > Mobility.rookMobility(board, ~side)
             }
         }
       case Piece.Queen =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.queenMobility(board, side) > eval.queenMobility(board, ~side)
+              case (_, board) => Mobility.queenMobility(board, side) > Mobility.queenMobility(board, ~side)
             }
         }
       case Piece.King =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.kingMobility(board, side) > eval.kingMobility(board, ~side)
+              case (_, board) => Mobility.kingMobility(board, side) > Mobility.kingMobility(board, ~side)
             }
         }
     }
@@ -423,42 +424,42 @@ package object chessmining
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.pawnMobility(board, side) == eval.pawnMobility(board, ~side)
+              case (_, board) => Mobility.pawnMobility(board, side) == Mobility.pawnMobility(board, ~side)
             }
         }        
       case Piece.Knight =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.knightMobility(board, side) == eval.knightMobility(board, ~side)
+              case (_, board) => Mobility.knightMobility(board, side) == Mobility.knightMobility(board, ~side)
             }
         }
       case Piece.Bishop =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.bishopMobility(board, side) == eval.bishopMobility(board, ~side)
+              case (_, board) => Mobility.bishopMobility(board, side) == Mobility.bishopMobility(board, ~side)
             }
         }
       case Piece.Rook =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.rookMobility(board, side) == eval.rookMobility(board, ~side)
+              case (_, board) => Mobility.rookMobility(board, side) == Mobility.rookMobility(board, ~side)
             }
         }
       case Piece.Queen =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.queenMobility(board, side) == eval.queenMobility(board, ~side)
+              case (_, board) => Mobility.queenMobility(board, side) == Mobility.queenMobility(board, ~side)
             }
         }
       case Piece.King =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.kingMobility(board, side) == eval.kingMobility(board, ~side)
+              case (_, board) => Mobility.kingMobility(board, side) == Mobility.kingMobility(board, ~side)
             }
         }
     }
@@ -471,42 +472,42 @@ package object chessmining
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.pawnMobility(board, side) < eval.pawnMobility(board, ~side)
+              case (_, board) => Mobility.pawnMobility(board, side) < Mobility.pawnMobility(board, ~side)
             }
         }        
       case Piece.Knight =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.knightMobility(board, side) < eval.knightMobility(board, ~side)
+              case (_, board) => Mobility.knightMobility(board, side) < Mobility.knightMobility(board, ~side)
             }
         }
       case Piece.Bishop =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.bishopMobility(board, side) < eval.bishopMobility(board, ~side)
+              case (_, board) => Mobility.bishopMobility(board, side) < Mobility.bishopMobility(board, ~side)
             }
         }
       case Piece.Rook =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.rookMobility(board, side) < eval.rookMobility(board, ~side)
+              case (_, board) => Mobility.rookMobility(board, side) < Mobility.rookMobility(board, ~side)
             }
         }
       case Piece.Queen =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.queenMobility(board, side) < eval.queenMobility(board, ~side)
+              case (_, board) => Mobility.queenMobility(board, side) < Mobility.queenMobility(board, ~side)
             }
         }
       case Piece.King =>
         {
           (tuple: (Game, Board)) =>
             tuple match {
-              case (_, board) => eval.kingMobility(board, side) < eval.kingMobility(board, ~side)
+              case (_, board) => Mobility.kingMobility(board, side) < Mobility.kingMobility(board, ~side)
             }
         }
     }
