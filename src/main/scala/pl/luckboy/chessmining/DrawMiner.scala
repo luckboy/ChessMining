@@ -33,4 +33,7 @@ case class DrawMiner[-T](
   override def secondNounOption = None
 
   override def booleanFunction(x: (Game, T)) = x._1.hasDraw && drawFunction(x)
+
+  def +\+[U <: T](function: NamedFunction1[(Game, U), Boolean]) =
+    copy(firstMinerOption = Some(DrawMiner(function)))
 }

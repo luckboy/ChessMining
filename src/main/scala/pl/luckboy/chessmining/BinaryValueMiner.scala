@@ -57,4 +57,10 @@ abstract class BinaryValueMiner[-T, U, +V <: BinaryValueMiner[T, U, V, W], +W <:
   
   def +/[X >: W, Y >: V](secondMiner: X)(implicit binaryValueMinerFactory: BinaryValueMinerFactory[V, X, Y]) =
     binaryValueMinerFactory(this.asInstanceOf[V], firstMinerOption, Some(secondMiner))
+
+  def -\[X >: V]()(implicit binaryValueMinerFactory: BinaryValueMinerFactory[V, W, X]) =
+    binaryValueMinerFactory(this.asInstanceOf[V], None, secondMinerOption)
+
+  def -/[X >: V]()(implicit binaryValueMinerFactory: BinaryValueMinerFactory[V, W, X]) =
+    binaryValueMinerFactory(this.asInstanceOf[V], firstMinerOption, None)
 }

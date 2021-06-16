@@ -35,4 +35,7 @@ case class WinMiner[-T](
   override def booleanFunction(x: (Game, T)) =
     (x._1.hasSideWin(Side.White) && winFunction(x, Side.White)) ||
     (x._1.hasSideWin(Side.Black) && winFunction(x, Side.Black))
+
+  def +\+[U <: T](function: NamedFunction2[(Game, U), Side.Value, Boolean]) =
+    copy(firstMinerOption = Some(WinMiner(function)))
 }

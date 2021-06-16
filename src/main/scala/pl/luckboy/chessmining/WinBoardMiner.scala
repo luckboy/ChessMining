@@ -35,4 +35,7 @@ case class WinBoardMiner[-T](
   override def booleanSquareFunction(x: (Game, T), squ: Int) =
     (x._1.hasSideWin(Side.White) && winFunction(x, Side.White, squ)) ||
     (x._1.hasSideWin(Side.Black) && winFunction(x, Side.Black, squ))
+
+  def +\+[U <: T](function: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
+    copy(firstMinerOption = Some(WinBoardMiner(function)))
 }

@@ -35,4 +35,7 @@ case class LossMiner[-T](
   override def booleanFunction(x: (Game, T)) =
     (x._1.hasSideLoss(Side.White) && lossFunction(x, Side.White)) ||
     (x._1.hasSideLoss(Side.Black) && lossFunction(x, Side.Black))
+
+  def +\+[U <: T](function: NamedFunction2[(Game, U), Side.Value, Boolean]) =
+    copy(firstMinerOption = Some(LossMiner(function)))
 }
