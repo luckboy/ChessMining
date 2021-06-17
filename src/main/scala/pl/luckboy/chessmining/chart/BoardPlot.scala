@@ -21,6 +21,7 @@ import java.awt._
 import java.awt.geom._
 import org.jfree.chart._
 import org.jfree.chart.plot._
+import org.jfree.data.general._
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.data._
 
@@ -28,6 +29,7 @@ class BoardPlot(ds: BoardDataset) extends Plot
 {
   private var dataset = ds
   if(dataset != null) {
+    setDatasetGroup(dataset.getGroup())
     dataset.addChangeListener(this)
   }
   private var interiorGap: Double = BoardPlot.DefaultInteriorGap
@@ -45,8 +47,13 @@ class BoardPlot(ds: BoardDataset) extends Plot
   
   def setDataset(dataset: BoardDataset)
   {
+    if(this.dataset != null) this.dataset.removeChangeListener(this)
     this.dataset = dataset
-    fireChangeEvent()
+    if(this.dataset != null) {
+      setDatasetGroup(this.dataset.getGroup())
+      this.dataset.addChangeListener(this)
+    }
+    datasetChanged(new DatasetChangeEvent(this, dataset))
   }
 
   def getInteriorGap() = interiorGap
