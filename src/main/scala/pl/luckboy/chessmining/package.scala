@@ -67,6 +67,10 @@ package object chessmining
       miner.copy(firstMinerOption = firstMinerOpt, secondMinerOption = secondMinerOpt)
   }
 
+  type BoardChart = chart.BoardChart
+  
+  val BoardChart = chart.BoardChart
+  
   private def sideToName(side: Side.Value) = if(side == Side.White) "white" else "black"
 
   private def pieceToName(piece: Piece.Value) =
