@@ -38,10 +38,10 @@ class BoardPlot(ds: BoardDataset) extends Plot
   private var paint: Paint = BoardPlot.DefaultPaint
   private var stroke: Stroke = BoardPlot.DefaultStroke
   private var maxColumnCount = BoardPlot.DefaultMaxColumnCount
-  private var sectionPaint: Paint = null
-  private var sectionPaintMap: PaintMap = new PaintMap()
-  private var sectionBasePaint: Paint = java.awt.Color.gray
-  private var hasAutoPopulateSectionPaint = true
+  private var seriesPaint: Paint = null
+  private var seriesPaintMap: PaintMap = new PaintMap()
+  private var seriesBasePaint: Paint = java.awt.Color.gray
+  private var hasAutoPopulateSeriesPaint = true
 
   def getDataset() = dataset
   
@@ -104,49 +104,49 @@ class BoardPlot(ds: BoardDataset) extends Plot
     fireChangeEvent()
   }
   
-  def getSectionPaint() = sectionPaint
+  def getSeriesPaint() = seriesPaint
 
-  def setSectionPaint(paint: Paint)
+  def setSeriesPaint(paint: Paint)
   {
-    this.sectionPaint = paint
+    this.seriesPaint = paint
     fireChangeEvent()
   }
 
-  def getSectionBasePaint() = sectionBasePaint
+  def getSeriesBasePaint() = seriesBasePaint
 
-  def setSectionBasePaint(paint: Paint)
+  def setSeriesBasePaint(paint: Paint)
   {
-    this.sectionBasePaint = paint
+    this.seriesBasePaint = paint
     fireChangeEvent()
   }
   
-  protected def lookupSectionPaint(key: Comparable[_]) = {
-    if(sectionPaint != null) {
-      sectionPaint
+  protected def lookupSeriesPaint(seriesKey: Comparable[_]) = {
+    if(seriesPaint != null) {
+      seriesPaint
     } else {
-      var result = sectionPaintMap.getPaint(key)
+      var result = seriesPaintMap.getPaint(seriesKey)
       if(result != null) {
         result
       } else {
-        if(hasAutoPopulateSectionPaint) {
+        if(hasAutoPopulateSeriesPaint) {
           val ds = getDrawingSupplier()
           if(ds != null) {
             result = ds.getNextPaint()
-            sectionPaintMap.put(key, result)
+            seriesPaintMap.put(seriesKey, result)
             result
           } else
-            sectionBasePaint
+            seriesBasePaint
         } else
-          sectionBasePaint
+          seriesBasePaint
       }
     }
   }
 
-  def getAutoPopulateSectionPaint() = hasAutoPopulateSectionPaint
+  def getAutoPopulateSeriesPaint() = hasAutoPopulateSeriesPaint
   
-  def setAutoPopulateSectionPaint(auto: Boolean)
+  def setAutoPopulateSeriesPaint(auto: Boolean)
   {
-    hasAutoPopulateSectionPaint = auto
+    hasAutoPopulateSeriesPaint = auto
     fireChangeEvent()
   }
 
@@ -222,7 +222,7 @@ class BoardPlot(ds: BoardDataset) extends Plot
         g2.fill(squRect)
         val seriesIdx = dataset.indexOf(seriesKey)
         val alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (dataset.getValue(seriesIdx, squ) / boardCounts(squ)).min(1.0).toFloat)
-        g2.setPaint(lookupSectionPaint(seriesKey))
+        g2.setPaint(lookupSeriesPaint(seriesKey))
         g2.setComposite(alphaComposite)
         g2.fill(squRect)
         g2.setComposite(savedComposite)
@@ -271,7 +271,7 @@ class BoardPlot(ds: BoardDataset) extends Plot
         val label = seriesKey.toString()
         val desc = seriesKey.toString()
         val legendItem = new LegendItem(label, desc, null, null,
-          true, Plot.DEFAULT_LEGEND_ITEM_BOX, true, lookupSectionPaint(seriesKey), true, getOutlinePaint(), 
+          true, Plot.DEFAULT_LEGEND_ITEM_BOX, true, lookupSeriesPaint(seriesKey), true, getOutlinePaint(), 
           getOutlineStroke(), false, new Line2D.Float(), new BasicStroke(), java.awt.Color.black)
         legendItems.add(legendItem)
       }
