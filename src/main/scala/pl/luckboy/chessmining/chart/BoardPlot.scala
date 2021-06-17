@@ -163,39 +163,42 @@ class BoardPlot(ds: BoardDataset) extends Plot
     drawBackground(g2, area)
     drawOutline(g2, area)
     val savedClip = g2.getClip()
-    val savedFont = g2.getFont()
-    val savedPaint = g2.getPaint()
-    val savedStroke = g2.getStroke()
     g2.clip(area)
-    g2.setFont(font)
-    g2.setPaint(paint)
-    g2.setStroke(stroke)
-    val boardCounts = Array.fill(64)(0.0)
-    for(squ <- 0 until 64) {
-      boardCounts(squ) = 0
-      for(i <- 0 until dataset.getSeriesCount()) {
-        boardCounts(squ) += dataset.getValue(i, squ)
+    if(!(dataset == null || dataset.getSeriesCount() == 0)) {
+      val savedFont = g2.getFont()
+      val savedPaint = g2.getPaint()
+      val savedStroke = g2.getStroke()
+      g2.setFont(font)
+      g2.setPaint(paint)
+      g2.setStroke(stroke)
+      val boardCounts = Array.fill(64)(0.0)
+      for(squ <- 0 until 64) {
+        boardCounts(squ) = 0
+        for(i <- 0 until dataset.getSeriesCount()) {
+          boardCounts(squ) += dataset.getValue(i, squ)
+        }
       }
-    }
-    val colCount = dataset.getSeriesCount().min(maxColumnCount)
-    val rowCount = (dataset.getSeriesCount() + colCount - 1) / colCount
-    val widthGap = area.getWidth() * interiorGap
-    val heightGap = area.getHeight() * interiorGap
-    val width = (area.getWidth() - widthGap) / colCount.toDouble - widthGap
-    val height = (area.getHeight() - heightGap) / rowCount.toDouble - heightGap
-    val boardWidth = width.min(height)
-    val startX = area.getX() + (area.getWidth() - ((boardWidth + widthGap) * colCount.toDouble - widthGap)) / 2.0
-    val startY = area.getY() + (area.getHeight() - ((boardWidth + heightGap) * rowCount.toDouble - heightGap)) / 2.0
-    for(i <- (0 until dataset.getSeriesCount())) {
-      val col = i % colCount
-      val row = i / colCount
-      val x = startX + col.toDouble * (boardWidth + widthGap)
-      val y = startY + row.toDouble * (boardWidth + heightGap)
-      drawBoard(g2, dataset.getSeriesKey(i), boardCounts, x, y, boardWidth)
-    }
-    g2.setStroke(savedStroke)
-    g2.setPaint(savedPaint)
-    g2.setFont(savedFont)
+      val colCount = dataset.getSeriesCount().min(maxColumnCount)
+      val rowCount = (dataset.getSeriesCount() + colCount - 1) / colCount
+      val widthGap = area.getWidth() * interiorGap
+      val heightGap = area.getHeight() * interiorGap
+      val width = (area.getWidth() - widthGap) / colCount.toDouble - widthGap
+      val height = (area.getHeight() - heightGap) / rowCount.toDouble - heightGap
+      val boardWidth = width.min(height)
+      val startX = area.getX() + (area.getWidth() - ((boardWidth + widthGap) * colCount.toDouble - widthGap)) / 2.0
+      val startY = area.getY() + (area.getHeight() - ((boardWidth + heightGap) * rowCount.toDouble - heightGap)) / 2.0
+      for(i <- (0 until dataset.getSeriesCount())) {
+        val col = i % colCount
+        val row = i / colCount
+        val x = startX + col.toDouble * (boardWidth + widthGap)
+        val y = startY + row.toDouble * (boardWidth + heightGap)
+        drawBoard(g2, dataset.getSeriesKey(i), boardCounts, x, y, boardWidth)
+      }
+      g2.setStroke(savedStroke)
+      g2.setPaint(savedPaint)
+      g2.setFont(savedFont)
+    } else
+      drawNoDataMessage(g2, area)
     g2.setClip(savedClip)
     drawOutline(g2, area)
   }
