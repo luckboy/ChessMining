@@ -56,13 +56,13 @@ class DefaultBoardDataset extends AbstractSeriesDataset with BoardDataset
   
   def addSeries(seriesKey: Comparable[_], data: Array[Double])
   {
-    val seriesIndex = indexOf(seriesKey)
-    if(seriesIndex == -1) {
+    val seriesIdx = indexOf(seriesKey)
+    if(seriesIdx == -1) {
       seriesKeys.add(seriesKey)
       seriesList.add(data)
     } else {
-      seriesKeys.remove(seriesIndex)
-      seriesList.add(seriesIndex, data)
+      seriesList.remove(seriesIdx)
+      seriesList.add(seriesIdx, data)
     }
     fireDatasetChanged()
   }
