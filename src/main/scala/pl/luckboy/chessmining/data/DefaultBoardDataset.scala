@@ -41,9 +41,9 @@ class DefaultBoardDataset extends AbstractSeriesDataset with BoardDataset
     result.seriesKeys = new ArrayList(seriesKeys)
     result.seriesList = new ArrayList(seriesList.size())
     for(i <- (0 until seriesList.size())) {
-      val array = Array.fill(64)(0.0)
-      Array.copy(seriesList.get(i), 0, array, 0, 64)
-      result.seriesList.add(i, array)
+      val data = Array.fill(64)(0.0)
+      Array.copy(seriesList.get(i), 0, data, 0, 64)
+      result.seriesList.add(i, data)
     }
     result
   }
