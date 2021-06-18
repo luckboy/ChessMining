@@ -22,8 +22,8 @@ import org.jfree.data.general._
 
 class DefaultBoardDataset extends AbstractSeriesDataset with BoardDataset
 {
-  var seriesKeys = new ArrayList[Comparable[_]]()
-  var seriesList = new ArrayList[Array[Double]]()
+  private var seriesKeys = new ArrayList[Comparable[_]]()
+  private var seriesList = new ArrayList[Array[Double]]()
 
   override def equals(that: Any) =
     that match {
