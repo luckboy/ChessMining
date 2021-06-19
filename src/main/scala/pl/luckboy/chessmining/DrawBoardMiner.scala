@@ -36,4 +36,7 @@ case class DrawBoardMiner[-T](
 
   def +\+[U <: T](function: NamedFunction2[(Game, U), Int, Boolean]) =
     copy(firstMinerOption = Some(DrawBoardMiner(function)))
+
+  def +/+[U <: T](function: NamedFunction2[(Game, U), Int, Boolean]) =
+    copy(secondMinerOption = Some(DrawBoardMiner(function)))
 }

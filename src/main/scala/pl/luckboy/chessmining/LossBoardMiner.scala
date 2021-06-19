@@ -38,4 +38,7 @@ case class LossBoardMiner[-T](
 
   def +\+[U <: T](function: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
     copy(firstMinerOption = Some(LossBoardMiner(function)))
+
+  def +/+[U <: T](function: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
+    copy(secondMinerOption = Some(LossBoardMiner(function)))
 }

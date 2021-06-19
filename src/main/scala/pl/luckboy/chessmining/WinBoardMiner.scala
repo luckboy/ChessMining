@@ -38,4 +38,7 @@ case class WinBoardMiner[-T](
 
   def +\+[U <: T](function: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
     copy(firstMinerOption = Some(WinBoardMiner(function)))
+
+  def +/+[U <: T](function: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
+    copy(secondMinerOption = Some(WinBoardMiner(function)))
 }
