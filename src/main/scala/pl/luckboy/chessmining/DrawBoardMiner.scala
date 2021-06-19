@@ -34,9 +34,9 @@ case class DrawBoardMiner[-T](
 
   override def booleanSquareFunction(x: (Game, T), squ: Int) = x._1.hasDraw && drawFunction(x, squ)
 
-  def +\+[U <: T](function: NamedFunction2[(Game, U), Int, Boolean]) =
-    copy(firstMinerOption = Some(DrawBoardMiner(function)))
+  def +\+[U <: T](fun: NamedFunction2[(Game, U), Int, Boolean]) =
+    copy(firstMinerOption = Some(DrawBoardMiner(fun)))
 
-  def +/+[U <: T](function: NamedFunction2[(Game, U), Int, Boolean]) =
-    copy(secondMinerOption = Some(DrawBoardMiner(function)))
+  def +/+[U <: T](fun: NamedFunction2[(Game, U), Int, Boolean]) =
+    copy(secondMinerOption = Some(DrawBoardMiner(fun)))
 }

@@ -36,9 +36,9 @@ case class WinBoardMiner[-T](
     (x._1.hasSideWin(Side.White) && winFunction(x, Side.White, squ)) ||
     (x._1.hasSideWin(Side.Black) && winFunction(x, Side.Black, squ))
 
-  def +\+[U <: T](function: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
-    copy(firstMinerOption = Some(WinBoardMiner(function)))
+  def +\+[U <: T](fun: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
+    copy(firstMinerOption = Some(WinBoardMiner(fun)))
 
-  def +/+[U <: T](function: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
-    copy(secondMinerOption = Some(WinBoardMiner(function)))
+  def +/+[U <: T](fun: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
+    copy(secondMinerOption = Some(WinBoardMiner(fun)))
 }

@@ -36,9 +36,9 @@ case class LossBoardMiner[-T](
     (x._1.hasSideLoss(Side.White) && lossFunction(x, Side.White, squ)) ||
     (x._1.hasSideLoss(Side.Black) && lossFunction(x, Side.Black, squ))
 
-  def +\+[U <: T](function: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
-    copy(firstMinerOption = Some(LossBoardMiner(function)))
+  def +\+[U <: T](fun: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
+    copy(firstMinerOption = Some(LossBoardMiner(fun)))
 
-  def +/+[U <: T](function: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
-    copy(secondMinerOption = Some(LossBoardMiner(function)))
+  def +/+[U <: T](fun: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
+    copy(secondMinerOption = Some(LossBoardMiner(fun)))
 }
