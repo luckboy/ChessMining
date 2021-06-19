@@ -83,6 +83,22 @@ package object chessmining
       case Piece.King   => "king"
     }
   
+  val any = NamedFunction2("any", {
+      (any: Any, side: Side.Value) => true
+    })
+
+  def any3 = NamedFunction3("any", {
+      (any: Any, side: Side.Value, squ: Int) => true
+    })
+
+  def any1 = NamedFunction1("any", {
+      (any: Any) => true
+    })
+
+  def any2 = NamedFunction2("any", {
+      (any: Any, squ: Int) => true
+    })
+
   def side(side: Side.Value) =
     NamedFunction2(sideToName(side), {
       (any: Any, side2: Side.Value) => side == side2
