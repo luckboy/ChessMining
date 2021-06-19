@@ -85,12 +85,12 @@ package object chessmining
   
   def side(side: Side.Value) =
     NamedFunction2(sideToName(side), {
-      (tuple: (Game, Any), side2: Side.Value) => side == side2
+      (any: Any, side2: Side.Value) => side == side2
     })
 
   def side3(side: Side.Value) =
     NamedFunction3(sideToName(side), {
-      (tuple: (Game, Any), side2: Side.Value, squ: Int) => side == side2
+      (any: Any, side2: Side.Value, squ: Int) => side == side2
     })
 
   val white = side(Side.White)
