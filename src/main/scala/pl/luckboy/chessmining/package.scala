@@ -201,6 +201,53 @@ package object chessmining
   val blackQueen = sidePiece(Side.Black, Piece.Queen)
   val blackKing = sidePiece(Side.Black, Piece.King)
 
+  val moveSource = NamedFunction3("move source", {
+      (tuple: (Game, SideMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, SideMove(moveSide, normalMove @ NormalMove(_, _, _, _, _))) =>
+            moveSide == side && normalMove.from == squ
+          case _ =>
+            false
+        }
+    })
+
+  val moveDestination = NamedFunction3("move destination", {
+      (tuple: (Game, SideMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, SideMove(moveSide, normalMove @ NormalMove(_, _, _, _, _))) =>
+            moveSide == side && normalMove.to == squ
+          case _ =>
+            false
+        }
+    })
+
+  def sideMoveSource(side: Side.Value) =
+    NamedFunction2(sideToName(side) + " move source", {
+      (tuple: (Game, SideMove), squ: Int) =>
+        tuple match {
+          case (_, SideMove(moveSide, normalMove @ NormalMove(_, _, _, _, _))) =>
+            moveSide == side && normalMove.from == squ
+          case _ =>
+            false
+        }
+    })
+
+  def sideMoveDestination(side: Side.Value) =
+    NamedFunction2(sideToName(side) + " move destination", {
+      (tuple: (Game, SideMove), squ: Int) =>
+        tuple match {
+          case (_, SideMove(moveSide, normalMove @ NormalMove(_, _, _, _, _))) =>
+            moveSide == side && normalMove.from == squ
+          case _ =>
+            false
+        }
+    })
+
+  val whiteMoveSource = sideMoveSource(Side.White)
+  val blackMoveSource = sideMoveSource(Side.Black)
+  val whiteMoveDestination = sideMoveDestination(Side.White)
+  val blackMoveDestination = sideMoveDestination(Side.Black)
+    
   val greaterMobility = NamedFunction2("> mobility", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
@@ -594,4 +641,155 @@ package object chessmining
   val lessBlackRookMobility = lessSidePieceMobility(Side.Black, Piece.Rook)
   val lessBlackQueenMobility = lessSidePieceMobility(Side.Black, Piece.Queen)
   val lessBlackKingMobility = lessSidePieceMobility(Side.Black, Piece.King)
+
+  val greaterMobilityMoveSource = NamedFunction3("> mobility move source", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Mobility.mobility(nextBoard, board.side) > Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val equalMobilityMoveSource = NamedFunction3("= mobility move source", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Mobility.mobility(nextBoard, board.side) == Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val lessMobilityMoveSource = NamedFunction3("< mobility move source", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Mobility.mobility(nextBoard, board.side) < Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val greaterMobilityMoveDestination = NamedFunction3("> mobility move destination", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Mobility.mobility(nextBoard, board.side) > Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val equalMobilityMoveDestination = NamedFunction3("= mobility move destination", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Mobility.mobility(nextBoard, board.side) == Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val lessMobilityMoveDestination = NamedFunction3("< mobility move destination", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Mobility.mobility(nextBoard, board.side) < Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def greaterSideMobilityMoveSource(side: Side.Value) =
+    NamedFunction2("> " + sideToName(side) + " mobility move source", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Mobility.mobility(nextBoard, board.side) > Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def equalSideMobilityMoveSource(side: Side.Value) =
+    NamedFunction2("= " + sideToName(side) + " mobility move source", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Mobility.mobility(nextBoard, board.side) == Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def lessSideMobilityMoveSource(side: Side.Value) =
+    NamedFunction2("< " + sideToName(side) + " mobility move source", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Mobility.mobility(nextBoard, board.side) < Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def greaterSideMobilityMoveDestination(side: Side.Value) =
+    NamedFunction2("> " + sideToName(side) + " mobility move destination", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Mobility.mobility(nextBoard, board.side) > Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def equalSideMobilityMoveDestination(side: Side.Value) =
+    NamedFunction2("= " + sideToName(side) + " mobility move destination", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Mobility.mobility(nextBoard, board.side) == Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def lessSideMobilityMoveDestination(side: Side.Value) =
+    NamedFunction2("< " + sideToName(side) + " mobility move destination", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Mobility.mobility(nextBoard, board.side) < Mobility.mobility(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val greaterWhiteMobilityMoveSource = greaterSideMobilityMoveSource(Side.White)
+  val greaterBlackMobilityMoveSource = greaterSideMobilityMoveSource(Side.Black)
+  val equalWhiteMobilityMoveSource = equalSideMobilityMoveSource(Side.White)
+  val equalBlackMobilityMoveSource = equalSideMobilityMoveSource(Side.Black)
+  val lessWhiteMobilityMoveSource = lessSideMobilityMoveSource(Side.White)
+  val lessBlackMobilityMoveSource = lessSideMobilityMoveSource(Side.Black)
+  val greaterWhiteMobilityMoveDestination = greaterSideMobilityMoveDestination(Side.White)
+  val greaterBlackMobilityMoveDestination = greaterSideMobilityMoveDestination(Side.Black)
+  val equalWhiteMobilityMoveDestination = equalSideMobilityMoveDestination(Side.White)
+  val equalBlackMobilityMoveDestination = equalSideMobilityMoveDestination(Side.Black)
+  val lessWhiteMobilityMoveDestination = lessSideMobilityMoveDestination(Side.White)
+  val lessBlackMobilityMoveDestination = lessSideMobilityMoveDestination(Side.Black)
 }
