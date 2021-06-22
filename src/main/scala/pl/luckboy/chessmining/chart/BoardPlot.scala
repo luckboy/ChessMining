@@ -22,6 +22,7 @@ import java.awt.geom._
 import org.jfree.chart._
 import org.jfree.chart.plot._
 import org.jfree.data.general._
+import org.jfree.util.PaintUtilities
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.data._
 
@@ -43,6 +44,30 @@ class BoardPlot(ds: BoardDataset) extends Plot
   private var seriesBasePaint: Paint = java.awt.Color.gray
   private var hasAutoPopulateSeriesPaint = true
 
+  override def equals(that: Any) =
+    that match {
+      case plot: BoardPlot =>
+        dataset == plot.dataset &&
+        interiorGap == plot.interiorGap &&
+        fontGap == plot.fontGap &&
+        font == plot.font &&
+        PaintUtilities.equal(paint, plot.paint) &&
+        stroke == plot.stroke &&
+        maxColumnCount == plot.maxColumnCount
+        PaintUtilities.equal(seriesPaint, plot.seriesPaint) &&
+        seriesPaintMap == plot.seriesPaintMap &&
+        seriesBasePaint == plot.seriesBasePaint &&
+        hasAutoPopulateSeriesPaint == plot.hasAutoPopulateSeriesPaint
+      case _               =>
+        false
+    }
+  
+  override def clone() = {
+    val result = super.clone().asInstanceOf[BoardPlot]
+    result.seriesPaintMap = seriesPaintMap.clone().asInstanceOf[PaintMap]
+    result
+  }
+  
   def getDataset() = dataset
   
   def setDataset(dataset: BoardDataset)
