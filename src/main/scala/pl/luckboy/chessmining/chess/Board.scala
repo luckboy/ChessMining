@@ -396,6 +396,12 @@ case class Board(
 
   def inStalemate = !inCheck && generateLegalMoves.isEmpty
 
+  def pseudolegalMoves = generatePseudolegalMoves
+  
+  def legalMoves = generateLegalMoves
+  
+  def enPassantSquareOption = enPassantColumnOption.map { _ + (if(side == Side.White) A6 else A3) }
+
   override def toString() = {
     val sb = new StringBuilder()
     var row = 7
