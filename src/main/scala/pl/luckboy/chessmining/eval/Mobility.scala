@@ -25,7 +25,7 @@ object Mobility
   private def pawnMobilityFrom(board: Board, side: Side.Value, from: Int) = {
     val oppSide = ~side
     val enPassantSquOpt = board.enPassantColumnOption.map {
-      _ + (if(side == Side.White) A6 else A3)
+      _ + (if(board.side == Side.White) A6 else A3)
     }
     foldPawnCaptureSquares(side, from, 0) {
       (sum: Int, to: Int) =>
