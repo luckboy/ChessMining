@@ -20,7 +20,12 @@ package pl.luckboy.chessmining.chess
 import java.io._
 import scala.collection.mutable.Stack
 
-/** A PGN reader that reads games in the PGN format. */
+/** A PGN reader that reads games in the PGN format.
+  *
+  * @constructor Creates a new PGN reader.
+  *
+  * @param r the reader.
+  */
 class PGNReader(r: Reader) extends GameReader
 {
   private abstract class Token

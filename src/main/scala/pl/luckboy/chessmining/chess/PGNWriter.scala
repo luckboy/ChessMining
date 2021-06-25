@@ -19,7 +19,12 @@
 package pl.luckboy.chessmining.chess
 import java.io._
 
-/** A PGN writer that writes the games in the PGN format. */
+/** A PGN writer that writes the games in the PGN format.
+  *
+  * @constructor Creates a new PGN writer.
+  *
+  * @param w the writer.
+  */
 class PGNWriter(w: Writer) extends GameWriter
 {
   private val writer = w
