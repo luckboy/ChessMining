@@ -21,6 +21,15 @@ import ColoredPieces._
 import Squares._
 import Tables._
 
+/** Represents a chess board.
+  *
+  * @param pieces the pieces.
+  * @param side the side.
+  * @param castlings the castlings.
+  * @param enPassantColumnOption the optional en passant column.
+  * @param halfmoveClock the halfmove clock.
+  * @param fullmoveNumber the fullmove number.
+  */
 case class Board(
   pieces: Array[ColoredPiece.Value],
   side: Side.Value,
@@ -57,14 +66,40 @@ case class Board(
     halfmoveClock.hashCode() ^
     fullmoveNumber.hashCode()
 
+  /** Returns the colored piece.
+    *
+    * @param squ the square.
+    * @return the colored piece.
+    */
   def coloredPiece(squ: Int) = pieces(squ)
 
+  /** Returns the piece color.
+    *
+    * @param squ the square.
+    * @return the piece color.
+    */
   def color(squ: Int) = coloredPieceToColor(pieces(squ))
 
+  /** Returns the optional piece.
+    *
+    * @param squ the square.
+    * @return the optional piece.
+    */
   def pieceOption(squ: Int) = coloredPieceToPieceOption(pieces(squ))
 
+  /** Returns the side castliongs.
+    *
+    * @param side the side.
+    * @return the side castlings.
+    */
   def sideCastlings(side: Side.Value) = castlings(side.id)
   
+  /** Checks whether the square is attacked for the side. 
+    *
+    * @param side the side.
+    * @param squ the square.
+    * @return `true` if the square is attacked for the side, otherwise `false`.
+    */
   def hasAttack(side: Side.Value, squ: Int) = {
     val oppSide = ~side;
     {
@@ -139,13 +174,27 @@ case class Board(
     }
   }
 
+  /** Checks whether the side king is in check.
+    *
+    * @param side the side.
+    * @return `true` if the side king is in check, otherwise `false`. 
+    */
   def inCheckForSide(side: Side.Value) =
     (0 until 64).find {
       coloredPiece(_) == sideAndPieceToColoredPiece(side, Piece.King)
     }.map { hasAttack(side, _) }.getOrElse(false)
 
+  /** Checks whether the king is in check.
+    *
+    * @param side the side.
+    * @return `true` if the king is in check, otherwise `false`. 
+    */
   def inCheck = inCheckForSide(side)
 
+  /** Generates pseudolegal moves. 
+    *
+    * @return pseudolegal moves.
+    */
   def generatePseudolegalMoves = {
     val oppSide = ~side
     var moves = Vector[Move]()
@@ -275,6 +324,11 @@ case class Board(
     moves
   }
 
+  /** Unsafely makes move wihout check whether pseudolegal moves contains the move.
+    *
+    * @param move the move.
+    * @return a new board after the move. 
+    */
   def unsafelyMakeMove(move: Move) = {
     val oppSide = ~side
     val newBoardOpt = move match {
@@ -386,20 +440,49 @@ case class Board(
     }
   }
 
+  /** Makes move.
+    *
+    * @param move the move.
+    * @return a new board after the move. 
+    */
   def makeMove(move: Move) =
     generatePseudolegalMoves.find { _ == move }.flatMap(unsafelyMakeMove)
 
+  /** Generates legal moves.
+    *
+    * @return legal moves.
+    */
   def generateLegalMoves =
     generatePseudolegalMoves.filter { unsafelyMakeMove(_) != None }
 
+  /** Checks whether the king is in checkmate.
+    *
+    * @return `true` if the king is in checkmate, otherwise `false`.
+    */
   def inCheckmate = inCheck && generateLegalMoves.isEmpty
 
+  /** Checks whether the king is in stalemate.
+    *
+    * @return `true` if the king is in checkmate, otherwise `false`.
+    */
   def inStalemate = !inCheck && generateLegalMoves.isEmpty
 
+  /** Returns pseudolegal moves.
+    *
+    * @return pseudolegal moves.
+    */
   def pseudolegalMoves = generatePseudolegalMoves
   
+  /** Returns legal moves.
+    *
+    * @return legal moves.
+    */
   def legalMoves = generateLegalMoves
   
+  /** Returns the optionaly en passant square.
+    *
+    * @return the optionaly en passant square.
+    */
   def enPassantSquareOption = enPassantColumnOption.map { _ + (if(side == Side.White) A6 else A3) }
 
   override def toString() = {
@@ -449,8 +532,13 @@ case class Board(
 
 object Board
 {
+  /** An initial board. */
   val Initial = Board()
-      
+
+  /** Creates an initial board.
+    *
+    * @return an initial board.
+    */
   def apply(): Board = Board(
       Array(
         WR, WN, WB, WQ, WK, WB, WN, WR,
@@ -466,12 +554,22 @@ object Board
       None,
       0, 1)
 
+  /** Creates a new board from the FEN string. 
+    *
+    * @param s the FEN string.
+    * @return s a new board.
+    */
   def apply(s: String): Board =
     parseBoard(s) match {
       case Some(board) => board
       case None        => throw new ChessException("Invalid FEN")
     }
 
+  /** Parses the FEN string and creates an optional board. 
+    *
+    * @param s the FEN string.
+    * @return an optional board.
+    */
   def parseBoard(s: String) = {
     val ss = s.split("[ \t]+")
     var isOk = true

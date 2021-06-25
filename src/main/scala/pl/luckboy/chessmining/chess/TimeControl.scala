@@ -18,6 +18,7 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** Represents a kind of time control. */
 sealed abstract class TimeControl
 {
   override def toString() =
@@ -32,12 +33,22 @@ sealed abstract class TimeControl
 
 object TimeControl
 {
+  /** Creates a new kind of time control from the string.
+    *
+    * @param s the string.
+    * @return a new kind of time control.
+    */
   def apply(s: String) =
     parseTimeControl(s) match {
       case Some(timeControl) => timeControl
       case None              => throw new ChessException("Invalid time control")
     }
   
+  /** Parses the string and creates an optional kind of time control.
+    *
+    * @param s the string.
+    * @return an optional kind of time control.
+    */
   def parseTimeControl(s: String) =
     if(s == "?") {
       Some(UnknownTimeControl)
@@ -75,8 +86,27 @@ object TimeControl
       None
 }
 
+/** A kind of unknown time control. */
 case object UnknownTimeControl extends TimeControl
+/** A kind of classical time control.
+  * 
+  * @param moveCount the number of moves.
+  * @param seconds the seconds.
+  */
 case class ClassicalTimeControl(moveCount: Int, seconds: Int) extends TimeControl
+/** A kind of sudden death time control.
+  * 
+  * @param seconds the seconds.
+  */
 case class SuddenDeathTimeControl(seconds: Int) extends TimeControl
+/** A kind of incremental time control.
+  * 
+  * @param seconds the seconds.
+  * @param extraSeconds the extra seconds.
+  */
 case class IncrementalTimeControl(seconds: Int, extraSeconds: Int) extends TimeControl
+/** A kind of hourglass time control.
+  * 
+  * @param seconds the seconds.
+  */
 case class HourglassTimeControl(seconds: Int) extends TimeControl

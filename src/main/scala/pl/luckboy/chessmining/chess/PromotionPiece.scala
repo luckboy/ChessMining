@@ -18,10 +18,15 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** A promotion piece enumeration. */
 object PromotionPiece extends Enumeration
 {
+  /** A knight. */
   val Knight = Value(1)
+  /** A bishop. */
   val Bishop = Value(2)
+  /** A rook. */
   val Rook = Value(3)
+  /** A king. */
   val Queen = Value(4)
 }

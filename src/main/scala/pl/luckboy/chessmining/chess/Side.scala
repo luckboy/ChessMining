@@ -18,8 +18,11 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** A side enumeration. */
 object Side extends Enumeration
 {
+  /** A white side. */
   val White = Value(0)
+  /** A black side. */
   val Black = Value(1)
 }

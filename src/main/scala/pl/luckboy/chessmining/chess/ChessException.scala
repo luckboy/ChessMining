@@ -18,4 +18,5 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** A chess exception. */
 class ChessException(message: String) extends Exception(message)

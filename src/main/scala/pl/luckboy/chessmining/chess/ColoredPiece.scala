@@ -18,19 +18,33 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** A colored piece enumeration. */
 object ColoredPiece extends Enumeration
 {
+  /** An empty. */
   val Empty = Value(0)
+  /** A white pawn. */
   val WhitePawn = Value(8 | 0)
+  /** A white knight. */
   val WhiteKnight = Value(8 | 1)
+  /** A white bishop. */
   val WhiteBishop = Value(8 | 2)
+  /** A white rook. */
   val WhiteRook = Value(8 | 3)
+  /** A white queen. */
   val WhiteQueen = Value(8 | 4)
+  /** A white king. */
   val WhiteKing = Value(8 | 5)
+  /** A black pawn. */
   val BlackPawn = Value(16| 0)
+  /** A black knight. */
   val BlackKnight = Value(16 | 1)
+  /** A black bishop. */
   val BlackBishop = Value(16 | 2)
+  /** A black rook. */
   val BlackRook = Value(16 | 3)
+  /** A black queen. */
   val BlackQueen = Value(16 | 4)
+  /** A black king. */
   val BlackKing = Value(16 | 5)
 }

@@ -18,6 +18,7 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** This object provides the values of squares. */
 object Squares
 {
   val A1 = (0 << 3) | 0

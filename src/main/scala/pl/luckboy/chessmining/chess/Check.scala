@@ -18,7 +18,11 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** A check enumeration. */
 object Check extends Enumeration
 {
-  val Check, Checkmate = Value
+  /** A check. */
+  val Check = Value
+  /** A checkmate. */
+  val Checkmate = Value
 }

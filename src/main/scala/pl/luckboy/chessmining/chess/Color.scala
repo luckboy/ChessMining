@@ -18,9 +18,13 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** A color enumeration. */
 object Color extends Enumeration
 {
+  /** An empty. */
   val Empty = Value(0)
+  /** A white color. */
   val White = Value(1)
+  /** A black color. */
   val Black = Value(2)
 }

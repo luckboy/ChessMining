@@ -18,4 +18,9 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** Represents a move with a move side.
+  *
+  * @param side the side.
+  * @param move the move.
+  */
 case class SideMove(side: Side.Value, move: Move)

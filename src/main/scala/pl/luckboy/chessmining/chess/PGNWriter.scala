@@ -19,6 +19,7 @@
 package pl.luckboy.chessmining.chess
 import java.io._
 
+/** A PGN writer that writes the games in the PGN format. */
 class PGNWriter(w: Writer) extends GameWriter
 {
   private val writer = w
@@ -149,6 +150,7 @@ class PGNWriter(w: Writer) extends GameWriter
   }
 }
 
+/** A factory of PGN writer. */
 object PGNWriter extends GameWriterFactory
 {
   override def apply(os: OutputStream) = new PGNWriter(new OutputStreamWriter(os, "ISO-8859-1"))

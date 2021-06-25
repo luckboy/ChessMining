@@ -19,7 +19,13 @@
 package pl.luckboy.chessmining.chess
 import java.io._
 
+/** A factory class of game reader. */
 abstract class GameReaderFactory
 {
+  /** Creates a game reader.
+    *
+    * @param is the input stream.
+    * @return a new game reader.
+    */
   def apply(is: InputStream): GameReader
 }

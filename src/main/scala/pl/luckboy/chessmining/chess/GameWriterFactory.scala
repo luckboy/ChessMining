@@ -19,7 +19,13 @@
 package pl.luckboy.chessmining.chess
 import java.io._
 
+/** A factory class of game writer. */
 abstract class GameWriterFactory
 {
+  /** Creates a game writer.
+    *
+    * @param os the output stream.
+    * @return a new game writer.
+    */
   def apply(os: OutputStream): GameWriter
 }

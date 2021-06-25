@@ -18,10 +18,15 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** An enumeration of side castlings. */
 object SideCastlings extends Enumeration
 {
+  /** No castlings. */
   val None = Value(0)
+  /** A short castling. */
   val Short = Value(1)
+  /** A long castling. */
   val Long = Value(2)
+  /** All castlings. */
   val All = Value(3)
 }

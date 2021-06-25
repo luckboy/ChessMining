@@ -18,12 +18,28 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** Represents a move. */
 sealed abstract class Move
 {
+  /** Checks whether this move is check.
+    * 
+    * @param board the board.
+    * @return `true` if this move is check, otherwise `false`. 
+    */
   def isCheck(board: Board) = board.makeMove(this).map { _.inCheck }.getOrElse(false)
 
+  /** Checks whether this move is checkmate.
+    * 
+    * @param board the board.
+    * @return `true` if this move is checkmate, otherwise `false`. 
+    */
   def isCheckmate(board: Board) = board.makeMove(this).map { _.inCheckmate }.getOrElse(false)
 
+  /** Returns the optional check enumeration.
+    *
+    * @param board the board
+    * @return the optional check enumeration.
+    */
   def checkOption(board: Board) =
     if(isCheckmate(board))
       Some(Check.Checkmate)
@@ -32,6 +48,11 @@ sealed abstract class Move
     else
       None
   
+  /** Converts this move to a SAN move.
+    *
+    * @param board the board.
+    * @return a SAN move.
+    */
   def toSANMove(board: Board) =
     this match {
       case normalMove @ NormalMove(_, _, _, _, _) =>
@@ -97,17 +118,34 @@ sealed abstract class Move
         "O-O-O"
     }
   
+  /** Converts this move to a SAN string.
+    *
+    * @param board the board.
+    * @return a SAN string.
+    */
   def toSANString(board: Board) = toSANMove(board).toString
 }
 
 object Move
 {
+  /** Creates a move from the SAN string.
+    *
+    * @param s the SAN string.
+    * @param board the board.
+    * @return a new move.
+    */
   def apply(s: String, board: Board) =
     parseSANMove(s, board) match {
       case Some(move) => move
       case None       => throw new ChessException("Illegal move")
     }
   
+  /** Converts the SAN move to a move.
+    *
+    * @param sanMove the SAN move.
+    * @param board the board.
+    * @return a move.
+    */
   def sanMoveToMoveOption(sanMove: SANMove, board: Board) =
     board.generateLegalMoves.filter {
       (move: Move) =>
@@ -146,10 +184,26 @@ object Move
         None
     }
 
+  /** Parses the SAN string and creates an optional move.
+    *
+    * @param s the SAN string.
+    * @param board the board.
+    * @return an optional move.
+    */
   def parseSANMove(s: String, board: Board) =
     SANMove.parseSANMove(s).flatMap { sanMoveToMoveOption(_, board) }
 }
 
+/** A normal move that is a piece move from the source square to the destination square.
+  *
+  * @param piece the piece.
+  * @param from the source square.
+  * @param to the destination square.
+  * @param promtionPieceOption the optional promotion piece.
+  * @param isCapture the capture flag.
+  */
 case class NormalMove(piece: Piece.Value, from: Int, to: Int, promotionPieceOption: Option[PromotionPiece.Value], isCapture: Boolean) extends Move
+/** A short castling. */
 case object ShortCastling extends Move
+/** A long castling. */
 case object LongCastling extends Move

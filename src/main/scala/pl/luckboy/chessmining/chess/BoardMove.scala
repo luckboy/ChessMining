@@ -18,4 +18,10 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** Represents a move with chess boards.
+  *
+  * @param board the board before the move.
+  * @param move the move.
+  * @param nextBoard the board after the move.
+  */
 case class BoardMove(board: Board, move: Move, nextBoard: Board)

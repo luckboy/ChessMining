@@ -18,12 +18,19 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** A piece enumeration. */
 object Piece extends Enumeration
 {
+  /** A pawn. */
   val Pawn = Value(0)
+  /** A knight. */
   val Knight = Value(1)
+  /** A bishop. */
   val Bishop = Value(2)
+  /** A rook. */
   val Rook = Value(3)
+  /** A queen. */
   val Queen = Value(4)
+  /** A king. */
   val King = Value(5)
 }

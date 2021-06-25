@@ -19,7 +19,12 @@
 package pl.luckboy.chessmining.chess
 import java.io._
 
+/** A reader of chess game. */
 abstract class GameReader extends Closeable
 {
+  /** Reads a game.
+    *
+    * @return an optional game or an error of game reader.
+    */
   def readGame(): Either[GameReaderError, Option[Game]]
 }

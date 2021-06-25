@@ -18,8 +18,10 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** An error of game reader. */
 abstract class GameReaderError
 {
+  /** Returns the message. */
   def message: String
   
   override def toString() = message

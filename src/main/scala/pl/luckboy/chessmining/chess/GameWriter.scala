@@ -19,7 +19,13 @@
 package pl.luckboy.chessmining.chess
 import java.io._
 
+/** A writer of chess game. */
 abstract class GameWriter extends Closeable
 {
+  /** Writes the game.
+    *
+    * @param game the game.
+    * @return `true` if the writer successfully writes the game, otherwise `false`.
+    */
   def writeGame(game: Game): Boolean
 }

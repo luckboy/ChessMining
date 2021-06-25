@@ -18,10 +18,20 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** Represents a SAN move that has the optional source column and the optional source row. */ 
 sealed abstract class SANMove
 {
+  /** Returns the optional check enumeration.
+    * 
+    * @return the optional check enumeration.
+    */
   def checkOption: Option[Check.Value]
 
+  /** Convert this SAN move to a move.
+    *
+    * @param board the board.
+    * @return a move.
+    */
   def toMoveOption(board: Board) = Move.sanMoveToMoveOption(this, board)
   
   override def toString() = {
@@ -57,8 +67,14 @@ sealed abstract class SANMove
   }
 }
 
+
 object SANMove
 {
+  /** Creates a new SAN move from the SAN string.
+    *
+    * @param s the SAN string.
+    * @return a new SAN move.
+    */
   def apply(s: String) =
     parseSANMove(s) match {
       case Some(sanMove) => sanMove
@@ -89,6 +105,11 @@ object SANMove
     } else
       Some(None)
 
+  /** Parses the SAN string and creates an optional SAN move.
+    *
+    * @param s the SAN string.
+    * @return an optional SAN move.
+    */
   def parseSANMove(s: String) = {
     if(s.length >= 5 && s.substring(0, 5) == "O-O-O") {
       for(checkOption <- parseCheckOptionAndSuffix(s.substring(5)))
@@ -174,6 +195,16 @@ object SANMove
   }
 }
 
+/** A SAN normal move that is a piece move from the source square to the destination square.
+  *
+  * @param piece the piece.
+  * @param fromColumnOption the optional source column.
+  * @param fromRowOption the optional source row.
+  * @param to the destination square.
+  * @param promotionPieceOption the optional promotion piece.
+  * @param isCapture the capture flag.
+  * @param checkOption the optional check enumeration.
+  */
 case class SANNormalMove(
   piece: Piece.Value,
   fromColumnOption: Option[Int],
@@ -182,5 +213,13 @@ case class SANNormalMove(
   promotionPieceOption: Option[PromotionPiece.Value],
   isCapture: Boolean,
   checkOption: Option[Check.Value]) extends SANMove
+/** A SAN short castling.
+  *
+  * @param checkOption the optional check enumeration.
+  */
 case class SANShortCastling(checkOption: Option[Check.Value]) extends SANMove
+/** A SAN long castling.
+  *
+  * @param checkOption the optional check enumeration.
+  */
 case class SANLongCastling(checkOption: Option[Check.Value]) extends SANMove

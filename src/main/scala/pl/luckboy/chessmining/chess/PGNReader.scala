@@ -20,6 +20,7 @@ package pl.luckboy.chessmining.chess
 import java.io._
 import scala.collection.mutable.Stack
 
+/** A PGN reader that reads games in the PGN format. */
 class PGNReader(r: Reader) extends GameReader
 {
   private abstract class Token
@@ -681,6 +682,7 @@ class PGNReader(r: Reader) extends GameReader
   }
 }
 
+/** A factory of PGN reader. */
 object PGNReader extends GameReaderFactory
 {
   override def apply(is: InputStream) = new PGNReader(new InputStreamReader(is, "ISO-8859-1"))

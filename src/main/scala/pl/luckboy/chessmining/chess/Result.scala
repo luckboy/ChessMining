@@ -18,7 +18,15 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** A game result enumeration. */ 
 object Result extends Enumeration
 {
-  val WhiteWin, BlackWin, Draw, Unfinished = Value
+  /** A white win. */
+  val WhiteWin = Value
+  /** A black win. */
+  val BlackWin = Value
+  /** A draw. */
+  val Draw = Value
+  /** An unfinished game. */
+  val Unfinished = Value
 }

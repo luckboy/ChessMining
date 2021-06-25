@@ -18,19 +18,33 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** This object provides the values of colored pieces with short names. */
 object ColoredPieces
 {
+  /** An empty. */
   val Em = ColoredPiece.Empty
+  /** A white pawn. */
   val WP = ColoredPiece.WhitePawn
+  /** A white knight. */
   val WN = ColoredPiece.WhiteKnight
+  /** A white bishop. */
   val WB = ColoredPiece.WhiteBishop
+  /** A white rook. */
   val WR = ColoredPiece.WhiteRook
+  /** A white queen. */
   val WQ = ColoredPiece.WhiteQueen
+  /** A white king. */
   val WK = ColoredPiece.WhiteKing
+  /** A black pawn. */
   val BP = ColoredPiece.BlackPawn
+  /** A black knight. */
   val BN = ColoredPiece.BlackKnight
+  /** A black bishop. */
   val BB = ColoredPiece.BlackBishop
+  /** A black rook. */
   val BR = ColoredPiece.BlackRook
+  /** A black queen. */
   val BQ = ColoredPiece.BlackQueen
+  /** A black king. */
   val BK = ColoredPiece.BlackKing
 }

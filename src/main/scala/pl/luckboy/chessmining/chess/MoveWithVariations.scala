@@ -18,4 +18,9 @@
  */
 package pl.luckboy.chessmining.chess
 
+/** Represents a move with variations.
+  *
+  * @param move the move.
+  * @param variations the variations.
+  */
 case class MoveWithVariations(move: Move, variations: Vector[Vector[MoveWithVariations]])
