@@ -19,6 +19,7 @@
 package pl.luckboy.chessmining.iterator
 import pl.luckboy.chessmining.chess._
 
+/** An iterator that has the first board from the game. */
 trait FirstBoardIterator extends MoveMakingIterator[Board, Board]
 {
   private var firstBoard = Board.Initial

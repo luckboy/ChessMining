@@ -19,11 +19,31 @@
 package pl.luckboy.chessmining.iterator
 import pl.luckboy.chessmining.chess._
 
+/** An interator of move making that makes the moves from the game during iterations.
+  *
+  * @tparam T the element type.
+  * @tparam U the state type.
+  */
 trait MoveMakingIterator[T, U] extends NextOptionIterator[T]
 {
+  /** Initializes this iteraror.
+    *
+    * @param game the game.
+    */
   protected def initialize(game: Game): Unit
 
+  /** Converts the board to a state.
+    *
+    * @param board the board.
+    * @return a state.
+    */
   protected def boardToState(board: Board): U
 
+  /** Make move the move.
+    *
+    * @param state the state.
+    * @param move the move.
+    * @return an optional element and an optional state. 
+    */
   protected def makeMove(state: U, move: Move): Option[(T, U)]
 }

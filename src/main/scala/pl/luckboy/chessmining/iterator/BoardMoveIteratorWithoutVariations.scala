@@ -19,6 +19,12 @@
 package pl.luckboy.chessmining.iterator
 import pl.luckboy.chessmining.chess._
 
+/** An iterator of board move without the variations.
+  *
+  * @constructor Creates a new iterator of board move without the variations.
+  *
+  * @param game the game.
+  */
 class BoardMoveIteratorWithoutVariations(game: Game) extends BoardMoveIterator with MoveMakingIteratorWithoutVariations[BoardMove, Board]
 {
   initialize(game)

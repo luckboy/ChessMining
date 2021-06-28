@@ -19,6 +19,11 @@
 package pl.luckboy.chessmining.iterator
 import pl.luckboy.chessmining.chess._
 
+/** An interator of move making without the variations.
+  *
+  * @tparam T the element type.
+  * @tparam U the state type.
+  */
 trait MoveMakingIteratorWithoutVariations[T, U] extends MoveMakingIterator[T, U]
 {
   private var movesWithVariations = Vector[MoveWithVariations]()

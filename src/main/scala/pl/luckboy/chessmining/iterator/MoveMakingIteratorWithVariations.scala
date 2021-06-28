@@ -20,6 +20,11 @@ package pl.luckboy.chessmining.iterator
 import scala.collection.mutable.Stack
 import pl.luckboy.chessmining.chess._
 
+/** An interator of move making with the variations.
+  *
+  * @tparam T the element type.
+  * @tparam U the state type.
+  */
 trait MoveMakingIteratorWithVariations[T, U] extends MoveMakingIterator[T, U]
 {
   private case class StackElement(

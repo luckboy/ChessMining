@@ -19,6 +19,12 @@
 package pl.luckboy.chessmining.iterator
 import pl.luckboy.chessmining.chess._
 
+/** An iterator of side move without the variations.
+  *
+  * @constructor Creates a new iterator of side move without the variations.
+  *
+  * @param game the game.
+  */
 class SideMoveIteratorWithoutVariations(game: Game) extends SideMoveIterator with MoveMakingIteratorWithoutVariations[SideMove, Side.Value]
 {
   initialize(game)

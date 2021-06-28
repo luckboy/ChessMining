@@ -22,6 +22,14 @@ import pl.luckboy.chessmining._
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.ui._
 
+/** An iterator of game reader that reads games.
+  *
+  * @constructor Creates a new iterator of game reader.
+  *
+  * @param f the function of creation of game reader.
+  * @param fpb the file progress bar.
+  * @param sv the show variable.
+  */
 class GameReaderIterator(f: () => GameReader, fpb: FileProgressBar, sv: ShowVariable) extends NextOptionIterator[Game]
 {
   private var function = f

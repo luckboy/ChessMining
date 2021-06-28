@@ -19,6 +19,7 @@
 package pl.luckboy.chessmining.iterator
 import pl.luckboy.chessmining.chess._
 
+/** An iterator of board move that allows to iterate by the board moves from the game. */
 trait BoardMoveIterator extends MoveMakingIterator[BoardMove, Board]
 {
   override protected def boardToState(board: Board) = board

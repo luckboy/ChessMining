@@ -18,10 +18,18 @@
  */
 package pl.luckboy.chessmining.iterator
 
+/** An interator of optional next. 
+  *
+  * @tparam T the element type.
+  */
 trait NextOptionIterator[T] extends Iterator[T]
 {
   private var nextElementOption = None: Option[T]
 
+  /** Produces the optional next element.
+    *
+    * @return the optional next element.
+    */
   protected def nextOption(): Option[T]
 
   override def hasNext = {
