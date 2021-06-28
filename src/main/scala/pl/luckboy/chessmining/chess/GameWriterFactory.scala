@@ -22,7 +22,7 @@ import java.io._
 /** A factory class of game writer. */
 abstract class GameWriterFactory
 {
-  /** Creates a game writer.
+  /** Creates a new game writer.
     *
     * @param os the output stream.
     * @return a new game writer.

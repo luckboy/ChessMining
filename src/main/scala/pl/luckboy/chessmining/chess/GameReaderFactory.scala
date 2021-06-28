@@ -22,7 +22,7 @@ import java.io._
 /** A factory class of game reader. */
 abstract class GameReaderFactory
 {
-  /** Creates a game reader.
+  /** Creates a new game reader.
     *
     * @param is the input stream.
     * @return a new game reader.
