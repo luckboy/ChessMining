@@ -18,9 +18,18 @@
  */
 package pl.luckboy.chessmining.ui
 
+/** A console file progress bar that shows the progress of file reading on the console.
+  *
+  * @constructor Creates a new progress bar of file of console.
+  *
+  * @param name the file name.
+  * @param len the file length.
+  */
 class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
 {
+  /** The file name. */
   val fileName = name
+  /** The file length. */
   val fileLength = len
   private var progress = 0L
   private var isClosed = true
@@ -71,6 +80,7 @@ class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
   }
 }
 
+/** A factory of console file progress bar. */
 object ConsoleFileProgressBar extends FileProgressBarFactory
 {
   override def apply(name: String, len: Long) = new ConsoleFileProgressBar(name, len)

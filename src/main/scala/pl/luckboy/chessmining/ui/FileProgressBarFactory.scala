@@ -18,7 +18,14 @@
  */
 package pl.luckboy.chessmining.ui
 
+/** A factory class of file progress bar. */
 abstract class FileProgressBarFactory
 {
+  /** Creates a new file progress bar.
+    *
+    * @param name the file name.
+    * @param len the file length.
+    * @return a new progress bar of file.
+    */
   def apply(name: String, len: Long): FileProgressBar
 }

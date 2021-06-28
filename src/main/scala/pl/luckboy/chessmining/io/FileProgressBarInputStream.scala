@@ -20,6 +20,13 @@ package pl.luckboy.chessmining.io
 import java.io._
 import pl.luckboy.chessmining.ui._
 
+/** An input stream that updates the progress for the file progress bar during reading.
+  *
+  * @constructor Creates a new input stream.
+  *
+  * @param is the input stream.
+  * @param fpb the file progress bar.
+  */
 class FileProgressBarInputStream(is: InputStream, fpb: FileProgressBar) extends InputStream
 {
   private val inputStream = is
@@ -86,5 +93,6 @@ class FileProgressBarInputStream(is: InputStream, fpb: FileProgressBar) extends 
 
 object FileProgressBarInputStream
 {
+  /** A maximal number of bytes for a file part after which this input stream updates the progress. */
   val MaxProgressUpdatingPartByteCount = 64 * 1024
 }

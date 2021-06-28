@@ -18,17 +18,33 @@
  */
 package pl.luckboy.chessmining.ui
 
+/** A file progress bar that shows the progress of file reading. */
 abstract class FileProgressBar
 {
+  /** Returns the file name.
+    *
+    * @return the file name.
+    */
   def fileName: String
 
+  /** Returns the file length.
+    *
+    * @return the file length.
+    */
   def fileLength: Long
 
+  /** Shows the progress bar. */
   def show(): Unit
   
+  /** Updates the progress.
+    *
+    * @param count the number of bytes.
+    */
   def updateProgress(count: Long): Unit
 
+  /** Closes the progress bar. */
   def close(): Unit
 
+  /** Shows an error. */
   def showError(msg: String): Unit
 }

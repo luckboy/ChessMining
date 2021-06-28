@@ -18,9 +18,18 @@
  */
 package pl.luckboy.chessmining.ui
 
+/** A dummy file progress bar that doesn't show the progress of file reading.
+  *
+  * @constructor Creates a new progress bar of file of dummy.
+  *
+  * @param name the file name.
+  * @param len the file length.
+  */
 class DummyFileProgressBar(name: String, len: Long) extends FileProgressBar
 {
+  /** The file name. */
   val fileName = name
+  /** The file length. */
   val fileLength = len
 
   def show()
@@ -40,6 +49,7 @@ class DummyFileProgressBar(name: String, len: Long) extends FileProgressBar
   }
 }
 
+/** A factory of dummy file progress bar. */
 object DummyFileProgressBar extends FileProgressBarFactory
 {
   override def apply(name: String, len: Long) = new DummyFileProgressBar(name, len)
