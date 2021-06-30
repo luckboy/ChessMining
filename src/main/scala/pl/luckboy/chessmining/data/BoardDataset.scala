@@ -19,7 +19,14 @@
 package pl.luckboy.chessmining.data
 import org.jfree.data.general._
 
+/** A dataset of chess board. */
 trait BoardDataset extends SeriesDataset
 {
+  /** Returns the data value.
+    *
+    * @param series the series index.
+    * @param item the item index.
+    * @return the data value.
+    */
   def getValue(series: Int, item: Int): Double
 }

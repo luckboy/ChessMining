@@ -22,6 +22,7 @@ import scalax.chart.module._
 import pl.luckboy.chessmining.data._
 import language.higherKinds
 
+/** Provides converters for board datasets. */
 trait BoardDatasetConversions extends Converting with RichChartingCollections
 {
   abstract class ToBoardDataset[T] protected () extends Converter[T]
@@ -49,4 +50,5 @@ trait BoardDatasetConversions extends Converting with RichChartingCollections
   }
 }
 
+/** Provides converters for board datasets. */
 object BoardDatasetConversions extends BoardDatasetConversions

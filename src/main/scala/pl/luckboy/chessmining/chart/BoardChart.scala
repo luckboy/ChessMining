@@ -21,6 +21,7 @@ import org.jfree.ui.RectangleInsets
 import scalax.chart._
 import BoardDatasetConversions._
 
+/** A chart of chess board. */
 abstract class BoardChart extends Chart
 {
   type Plot = BoardPlot
@@ -28,6 +29,7 @@ abstract class BoardChart extends Chart
   def plot = peer.getPlot().asInstanceOf[BoardPlot]
 }
 
+/** A factory of board chart. */
 object BoardChart extends ChartCompanion[BoardChart]
 { 
   override def fromPeer(jfree: JFreeChart) = {
@@ -36,6 +38,12 @@ object BoardChart extends ChartCompanion[BoardChart]
     }
   }
 
+  /** Creates a new board chart.
+    *
+    * @param data the data.
+    * @param theme the theme.
+    * @return a new board chart.
+    */
   def apply[T : ToBoardDataset](data: T)(implicit theme: ChartTheme = ChartTheme.Default): BoardChart = {
     val dataset = ToBoardDataset[T].convert(data)
     val plot = new BoardPlot(dataset)

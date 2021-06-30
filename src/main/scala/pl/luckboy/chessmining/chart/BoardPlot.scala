@@ -26,6 +26,12 @@ import org.jfree.util.PaintUtilities
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.data._
 
+/** A board plot. 
+  *
+  * @constructor Creates a new board plot.
+  *
+  * @param ds the dataset.
+  */
 class BoardPlot(ds: BoardDataset) extends Plot
 {
   private var dataset = ds
@@ -68,8 +74,16 @@ class BoardPlot(ds: BoardDataset) extends Plot
     result
   }
   
+  /** Returns the dataset.
+    *
+    * @return the dataset.
+    */
   def getDataset() = dataset
   
+  /** Sets the dataset.
+    *
+    * @param dataset the dataset.
+    */
   def setDataset(dataset: BoardDataset)
   {
     if(this.dataset != null) this.dataset.removeChangeListener(this)
@@ -81,70 +95,139 @@ class BoardPlot(ds: BoardDataset) extends Plot
     datasetChanged(new DatasetChangeEvent(this, dataset))
   }
 
+  /** Returns the interior gap.
+    *
+    * @return the interior gap.
+    */
   def getInteriorGap() = interiorGap
 
+  /** Sets the interior gap.
+    *
+    * @param interiorGap the interior gap.
+    */
   def setInteriorGap(interiorGap: Double)
   {
     this.interiorGap = interiorGap
     fireChangeEvent()
   }
 
+  /** Returns the font gap.
+    *
+    * @return the font gap.
+    */
   def getFontGap() = fontGap
 
+  /** Sets the font gap.
+    *
+    * @param fontGap the font gap.
+    */
   def setFontGap(fontGap: Double)
   {
     this.fontGap = fontGap
     fireChangeEvent()
   }
 
+  /** Returns the font.
+    *
+    * @return the font.
+    */
   def getFont() = font
 
+  /** Sets the font.
+    *
+    * @param fontGap the font.
+    */
   def setFont(font: Font)
   {
     this.font = font
     fireChangeEvent()
   }
 
+  /** Returns the paint.
+    *
+    * @return the paint.
+    */
   def getPaint() = paint
 
+  /** Sets the paint.
+    *
+    * @param paint the paint.
+    */
   def setPaint(paint: Paint)
   {
     this.paint = paint
     fireChangeEvent()
   }
 
+  /** Returns the stroke.
+    *
+    * @return the stroke.
+    */
   def getStroke() = stroke
 
+  /** Sets the stroke.
+    *
+    * @param stroke the stroke.
+    */
   def setStroke(stroke: Stroke)
   {
     this.stroke = stroke
     fireChangeEvent()
   }
 
+  /** Returns the maximal number of columns.
+    *
+    * @return the maximal number of columns.
+    */
   def getMaxColumnCount() = maxColumnCount
   
+  /** Sets the maximal number of columns.
+    *
+    * @param max the maximal number of columns.
+    */
   def setMaxColumnCount(max: Int)
   {
     this.maxColumnCount = max
     fireChangeEvent()
   }
   
+  /** Returns the series paint.
+    *
+    * @return the series paint.
+    */
   def getSeriesPaint() = seriesPaint
 
+  /** Sets the series paint.
+    *
+    * @param paint the series paint.
+    */
   def setSeriesPaint(paint: Paint)
   {
     this.seriesPaint = paint
     fireChangeEvent()
   }
 
+  /** Returns the series base paint.
+    *
+    * @return the series paint.
+    */
   def getSeriesBasePaint() = seriesBasePaint
 
+  /** Sets the series base paint.
+    *
+    * @param paint the series base paint.
+    */
   def setSeriesBasePaint(paint: Paint)
   {
     this.seriesBasePaint = paint
     fireChangeEvent()
   }
   
+  /** Returns the paint for the specified series.
+    *
+    * @param seriesKey the series key.
+    * @return the paint.
+    */
   protected def lookupSeriesPaint(seriesKey: Comparable[_]) = {
     if(seriesPaint != null) {
       seriesPaint
@@ -167,8 +250,16 @@ class BoardPlot(ds: BoardDataset) extends Plot
     }
   }
 
+  /** Returns the flag of auto populate paint.
+    *
+    * @return the flag of auto populate paint.
+    */  
   def getAutoPopulateSeriesPaint() = hasAutoPopulateSeriesPaint
   
+  /** Sets the flag of auto populate paint.
+    *
+    * @param auto the flag of auto populate paint.
+    */  
   def setAutoPopulateSeriesPaint(auto: Boolean)
   {
     hasAutoPopulateSeriesPaint = auto
@@ -228,6 +319,15 @@ class BoardPlot(ds: BoardDataset) extends Plot
     drawOutline(g2, area)
   }
 
+  /** Draws the board.
+    *
+    * @param g2 graphics device.
+    * @param seriesKey the series key.
+    * @param boardCounts the board numbers.
+    * @param x the X coordinate.
+    * @param y the Y coordinate.
+    * @param width the width.
+    */
   protected def drawBoard(g2: Graphics2D, seriesKey: Comparable[_], boardCounts: Array[Double], x: Double, y: Double, width: Double)
   {
     val fontMetrics = g2.getFontMetrics()
@@ -310,10 +410,16 @@ class BoardPlot(ds: BoardDataset) extends Plot
 
 object BoardPlot
 {
+  /** The default interior gap. */
   val DefaultInteriorGap: Double = 0.08
+  /** The default font gap. */
   val DefaultFontGap: Double = 0.08
+  /** The default font. */
   val DefaultFont: Font = new Font("SansSerif", Font.PLAIN, 10)
+  /** The default paint. */
   val DefaultPaint: Paint = java.awt.Color.black
+  /** The default stroke. */
   val DefaultStroke: Stroke = new BasicStroke(0.5f)
+  /** The default maximal number of columns. */
   val DefaultMaxColumnCount = 4
 }

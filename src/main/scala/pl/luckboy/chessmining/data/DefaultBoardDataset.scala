@@ -20,6 +20,7 @@ package pl.luckboy.chessmining.data
 import java.util._
 import org.jfree.data.general._
 
+/** A default implementation of the `BoardDataset` trait. */
 class DefaultBoardDataset extends AbstractSeriesDataset with BoardDataset
 {
   private var seriesKeys = new ArrayList[Comparable[_]]()
@@ -54,6 +55,11 @@ class DefaultBoardDataset extends AbstractSeriesDataset with BoardDataset
 
   override def getValue(series: Int, item: Int) = seriesList.get(series)(item)
   
+  /** Adds a new series.
+    *
+    * @param seriesKey the series key.
+    * @param data the data.
+    */
   def addSeries(seriesKey: Comparable[_], data: Array[Double])
   {
     val seriesIdx = indexOf(seriesKey)
