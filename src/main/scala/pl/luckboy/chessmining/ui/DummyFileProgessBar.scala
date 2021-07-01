@@ -32,19 +32,19 @@ class DummyFileProgressBar(name: String, len: Long) extends FileProgressBar
   /** The file length. */
   val fileLength = len
 
-  def show()
+  override def show()
   {
   }
 
-  def updateProgress(count: Long)
+  override def updateProgress(count: Long)
   {
   }
 
-  def close()
+  override def close()
   {
   }
 
-  def showError(msg: String)
+  override def showError(msg: String)
   {
   }
 }

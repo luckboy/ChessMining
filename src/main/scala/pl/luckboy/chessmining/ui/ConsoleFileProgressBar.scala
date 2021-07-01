@@ -52,27 +52,27 @@ class ConsoleFileProgressBar(name: String, len: Long) extends FileProgressBar
     Console.flush()
   }
 
-  def show()
+  override def show()
   {
     isClosed = false
     Console.println(fileName + ":")
     showProgress()
   }
 
-  def updateProgress(count: Long)
+  override def updateProgress(count: Long)
   {
     progress = count
     if(!isClosed) showProgress()
   }
 
-  def close()
+  override def close()
   {
     if(!isClosed && !hasError) Console.println()
     isClosed = true
     hasError = false
   }
 
-  def showError(msg: String)
+  override def showError(msg: String)
   {
     if(!isClosed) Console.println()
     Console.println("Error: " + msg)

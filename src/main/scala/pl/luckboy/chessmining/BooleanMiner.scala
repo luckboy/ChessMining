@@ -32,7 +32,7 @@ abstract class BooleanMiner[-T, +U <: BooleanMiner[T, U]] extends BinaryMiner[T,
     */
   def booleanFunction(x: T): Boolean
 
-  def function(x: Vector[(String, Long)], y: T) = {
+  override def function(x: Vector[(String, Long)], y: T) = {
     val firstCount = firstMinerOption.map { _.count }.getOrElse(1)
     val secondCount = secondMinerOption.map { _.count }.getOrElse(1)
     if(booleanFunction(y)) {

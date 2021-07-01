@@ -33,7 +33,7 @@ abstract class BooleanBoardMiner[-T, +U <: BooleanBoardMiner[T, U]] extends Bina
     */
   def booleanSquareFunction(x: T, squ: Int): Boolean
 
-  def squareFunction(x: Vector[(String, Long)], y: T, squ: Int) = {
+  override def squareFunction(x: Vector[(String, Long)], y: T, squ: Int) = {
     val firstCount = firstMinerOption.map { _.count }.getOrElse(1)
     val secondCount = secondMinerOption.map { _.count }.getOrElse(1)
     if(booleanSquareFunction(y, squ)) {
@@ -53,7 +53,7 @@ abstract class BooleanBoardMiner[-T, +U <: BooleanBoardMiner[T, U]] extends Bina
     }
   }
 
-  def function(x: Vector[(String, Array[Long])], y: T) = {
+  override def function(x: Vector[(String, Array[Long])], y: T) = {
     val firstCount = firstMinerOption.map { _.count }.getOrElse(1)
     val secondCount = secondMinerOption.map { _.count }.getOrElse(1)
     val x2 = (0 until count).foldLeft(x) {
