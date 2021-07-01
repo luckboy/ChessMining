@@ -31,7 +31,7 @@ abstract class Miner[-T, U]
     */
   def startValue: U
   
-  /** A function that processes the data element.
+  /** The function that processes the data element.
     *
     * @param x the value.
     * @param y the data element.

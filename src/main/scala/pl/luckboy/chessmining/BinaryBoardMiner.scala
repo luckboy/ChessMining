@@ -34,7 +34,7 @@ abstract class BinaryBoardMiner[-T, +U <: BinaryBoardMiner[T, U]] extends Binary
     }
   }
 
-  /** A square function that processes the square of the data element.
+  /** The square function that processes the square of the data element.
     *
     * @param x the value.
     * @param y the data element.

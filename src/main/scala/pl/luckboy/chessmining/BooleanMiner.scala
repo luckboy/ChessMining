@@ -25,7 +25,7 @@ package pl.luckboy.chessmining
   */
 abstract class BooleanMiner[-T, +U <: BooleanMiner[T, U]] extends BinaryMiner[T, U]
 {
-  /** A boolean function that returns a boolean value for the data element.
+  /** The boolean function that returns a boolean value for the data element.
     *
     * @param x the data element.
     * @return a boolean value.

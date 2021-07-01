@@ -25,7 +25,7 @@ package pl.luckboy.chessmining
   */
 abstract class BooleanBoardMiner[-T, +U <: BooleanBoardMiner[T, U]] extends BinaryBoardMiner[T, U]
 {
-  /** A boolean square function that returns a boolean value for the square of data element.
+  /** The boolean square function that returns a boolean value for the square of data element.
     *
     * @param x the data element.
     * @param squ the square.
