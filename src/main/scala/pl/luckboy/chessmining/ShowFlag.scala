@@ -25,6 +25,6 @@ object ShowFlag extends Enumeration
   val Clear = Value
   /** A set flag that indicates showing of file progress bar. */
   val Set = Value
-  /** An auto flag that indicates automatical showing of file progress bar. */
+  /** An auto flag that indicates automatic showing of file progress bar. */
   val Auto = Value
 }
