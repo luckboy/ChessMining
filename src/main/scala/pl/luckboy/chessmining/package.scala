@@ -984,7 +984,7 @@ package object chessmining
     * @return a named function.
     */
   def greaterSideMobilityMove(side: Side.Value) =
-  NamedFunction1("> " + sideToName(side) + " mobility move", {
+    NamedFunction1("> " + sideToName(side) + " mobility move", {
       (tuple: (Game, BoardMove)) =>
         tuple match {
           case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>

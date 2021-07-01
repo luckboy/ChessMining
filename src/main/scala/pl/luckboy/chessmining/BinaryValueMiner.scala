@@ -97,7 +97,7 @@ abstract class BinaryValueMiner[-T, U, +V <: BinaryValueMiner[T, U, V, W], +W <:
     * @return the number of value element.
     */
   def count: Int =
-    firstMinerOption.map { _.count } .getOrElse(1) + secondMinerOption.map { _.count }.getOrElse(1)
+    firstMinerOption.map { _.count }.getOrElse(1) + secondMinerOption.map { _.count }.getOrElse(1)
 
   /** Creates a new miner with the first miner from this miner.
     *
