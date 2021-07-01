@@ -20,6 +20,7 @@ package pl.luckboy.chessmining.eval
 import pl.luckboy.chessmining.chess._
 import Squares._
 
+/** This object provides methods which evaluate mobilities. */
 object Mobility
 {
   private def pawnMobilityFrom(board: Board, side: Side.Value, from: Int) = {
@@ -100,6 +101,12 @@ object Mobility
     }
   }
   
+  /** Evaluates a mobility.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @return a mobility.
+    */
   def mobility(board: Board, side: Side.Value) =
     (0 until 64).foldLeft(0) {
       (sum: Int, from: Int) =>
@@ -117,6 +124,12 @@ object Mobility
           sum
     }
 
+  /** Evaluates a pawn mobility.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @return a pawn mobility.
+    */
   def pawnMobility(board: Board, side: Side.Value) =
     (0 until 64).foldLeft(0) {
       (sum: Int, from: Int) =>
@@ -126,6 +139,12 @@ object Mobility
           sum
     }
 
+  /** Evaluates a knight mobility.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @return a knight mobility.
+    */
   def knightMobility(board: Board, side: Side.Value) =
     (0 until 64).foldLeft(0) {
       (sum: Int, from: Int) =>
@@ -135,6 +154,12 @@ object Mobility
           sum
     }
 
+  /** Evaluates a bishop mobility.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @return a bishop mobility.
+    */
   def bishopMobility(board: Board, side: Side.Value) =
     (0 until 64).foldLeft(0) {
       (sum: Int, from: Int) =>
@@ -144,6 +169,12 @@ object Mobility
           sum
     }
 
+  /** Evaluates a rook mobility.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @return a rook mobility.
+    */
   def rookMobility(board: Board, side: Side.Value) =
     (0 until 64).foldLeft(0) {
       (sum: Int, from: Int) =>
@@ -153,6 +184,12 @@ object Mobility
           sum
     }
 
+  /** Evaluates a queen mobility.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @return a queen mobility.
+    */
   def queenMobility(board: Board, side: Side.Value) =
     (0 until 64).foldLeft(0) {
       (sum: Int, from: Int) =>
@@ -162,6 +199,12 @@ object Mobility
           sum
     }
 
+  /** Evaluates a king mobility.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @return a king mobility.
+    */
   def kingMobility(board: Board, side: Side.Value) =
     (0 until 64).foldLeft(0) {
       (sum: Int, from: Int) =>
