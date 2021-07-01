@@ -20,7 +20,19 @@ package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.iterator._
 
+/** This object provides a method that creates an iterator of board move with the variations.
+  *
+  * The example usage is:
+  * {{{
+  * val iter = BoardMovesWithVariations.fromGame(game)
+  * }}}
+  */
 object BoardMovesWithVariations
 {
+  /** Creates an iterator of board move with the variations from the game.
+    *
+    * @param game the game.
+    * @return an iterator of board move.
+    */
   def fromGame(game: Game) = new BoardMoveIteratorWithVariations(game)
 }

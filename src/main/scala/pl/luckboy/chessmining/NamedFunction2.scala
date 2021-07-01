@@ -18,6 +18,14 @@
  */
 package pl.luckboy.chessmining
 
+/** A named function of 2 parameters that has the name.
+  *
+  * @tparam T1 the 1st parameter type.
+  * @tparam T2 the 2nd parameter type.
+  * @tparam R the result.
+  * @param name the name.
+  * @param function the function.
+  */
 case class NamedFunction2[-T1, -T2, +R](name: String, function: (T1, T2) => R) extends Function2[T1, T2, R]
 {
   override def apply(v1: T1, v2: T2) = function(v1, v2)

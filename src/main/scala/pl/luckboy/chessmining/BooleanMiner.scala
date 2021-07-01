@@ -18,8 +18,18 @@
  */
 package pl.luckboy.chessmining
 
+/** A boolean miner that counts results of boolean function. 
+  *
+  * @tparam T the type of data element.
+  * @tparam U the type of actual miner.
+  */
 abstract class BooleanMiner[-T, +U <: BooleanMiner[T, U]] extends BinaryMiner[T, U]
 {
+  /** A boolean function that returns a boolean value for the data element.
+    *
+    * @param x the data element.
+    * @return a boolean value.
+    */
   def booleanFunction(x: T): Boolean
 
   def function(x: Vector[(String, Long)], y: T) = {

@@ -20,7 +20,19 @@ package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.iterator._
 
+/** This object provides a method that creates an iterator of side move with the variations.
+  *
+  * The example usage is:
+  * {{{
+  * val iter = SideMovesWithVariations.fromGame(game)
+  * }}}
+  */
 object SideMovesWithVariations
 {
+  /** Creates an iterator of side move with the variations from the game.
+    *
+    * @param game the game.
+    * @return an iterator of side move.
+    */
   def fromGame(game: Game) = new SideMoveIteratorWithVariations(game)
 }

@@ -19,6 +19,22 @@
 package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 
+/** A win board miner that counts the squares of data elements for the won games.
+  *
+  * The example usages are:
+  * {{{
+  * val miner = WinBoardMiner(anyPiece)
+  * val data = miner(iter)
+  *
+  * val miner = WinBoardMiner(pawn) +\+ white3
+  * val data = miner(iter)
+  * }}}
+  *
+  * @tparam T the type of second data value.
+  * @param winFunction the win function.
+  * @param firstMinerOption the optional first miner. 
+  * @param secondMinerOption the optional second miner. 
+  */
 case class WinBoardMiner[-T](
   winFunction: NamedFunction3[(Game, T), Side.Value, Int, Boolean],
   firstMinerOption: Option[BinaryBoardMiner[(Game, T), _]] = None,
@@ -36,9 +52,21 @@ case class WinBoardMiner[-T](
     (x._1.hasSideWin(Side.White) && winFunction(x, Side.White, squ)) ||
     (x._1.hasSideWin(Side.Black) && winFunction(x, Side.Black, squ))
 
+  /** Creates a new miner with the first win board miner with the win function from this miner.
+    *
+    * @tparam U the type of second data value for a new miner.
+    * @param fun the function.
+    * @return a new miner.
+    */
   def +\+[U <: T](fun: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
     copy(firstMinerOption = Some(WinBoardMiner(fun)))
 
+  /** Creates a new miner with the second win board miner with the win function from this miner.
+    *
+    * @tparam U the type of second data value for a new miner.
+    * @param fun the function.
+    * @return a new miner.
+    */
   def +/+[U <: T](fun: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
     copy(secondMinerOption = Some(WinBoardMiner(fun)))
 }

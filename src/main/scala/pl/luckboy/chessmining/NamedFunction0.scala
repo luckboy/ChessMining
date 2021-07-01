@@ -18,6 +18,12 @@
  */
 package pl.luckboy.chessmining
 
+/** A named function of 0 parameters that has the name.
+  *
+  * @tparam R the result.
+  * @param name the name.
+  * @param function the function.
+  */
 case class NamedFunction0[+R](name: String, function: () => R) extends Function0[R]
 {
   override def apply() = function()

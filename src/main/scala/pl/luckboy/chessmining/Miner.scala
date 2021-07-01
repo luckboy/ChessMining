@@ -18,11 +18,30 @@
  */
 package pl.luckboy.chessmining
 
+/** A miner is a object that processes data. The miner uses the `foldLeft` method for data processing.
+  *
+  * @tparam T the type of data element.
+  * @tparam U the result type.
+  */
 abstract class Miner[-T, U]
 {
+  /** Returns the start value.
+    *
+    * @return the start value.
+    */
   def startValue: U
   
+  /** A function that processes the data element.
+    *
+    * @param x the value.
+    * @param y the data element.
+    */
   def function(x: U, y: T): U
   
+  /** Processes the data.
+    *
+    * @param data the data.
+    * @return the result.
+    */
   def apply(data: TraversableOnce[T]) = data.foldLeft(startValue)(function)
 }

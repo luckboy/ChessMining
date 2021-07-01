@@ -18,7 +18,19 @@
  */
 package pl.luckboy.chessmining
 
+/** A factory class of binary value miner.
+  *
+  * @tparam T the miner type.
+  * @tparam U the type of first miner and/or second miner.
+  * @tparam V the new miner type.
+  */
 abstract class BinaryValueMinerFactory[-T, -U, +V]
 {
+  /** Creates a new binary value miner.
+    *
+    * @param miner the miner.
+    * @param firstMinerOpt the optional first miner.
+    * @param secondMinerOpt the optional second miner.
+    */
   def apply(miner: T, firstMinerOpt: Option[U], secondMinerOpt: Option[U]): V
 }

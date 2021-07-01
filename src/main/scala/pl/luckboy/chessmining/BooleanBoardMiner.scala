@@ -18,8 +18,19 @@
  */
 package pl.luckboy.chessmining
 
+/** A boolean board miner that counts results of boolean square function. 
+  *
+  * @tparam T the type of data element.
+  * @tparam U the type of actual miner.
+  */
 abstract class BooleanBoardMiner[-T, +U <: BooleanBoardMiner[T, U]] extends BinaryBoardMiner[T, U]
 {
+  /** A boolean square function that returns a boolean value for the square of data element.
+    *
+    * @param x the data element.
+    * @param squ the square.
+    * @return a boolean value.
+    */
   def booleanSquareFunction(x: T, squ: Int): Boolean
 
   def squareFunction(x: Vector[(String, Long)], y: T, squ: Int) = {

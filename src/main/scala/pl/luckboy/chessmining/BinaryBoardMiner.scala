@@ -18,6 +18,11 @@
  */
 package pl.luckboy.chessmining
 
+/** A binary board miner.
+  *
+  * @tparam T the type of data element.
+  * @tparam U the type of actual miner.
+  */
 abstract class BinaryBoardMiner[-T, +U <: BinaryBoardMiner[T, U]] extends BinaryValueMiner[T, Array[Long], U, BinaryBoardMiner[T, _]]
 {
   override def startValue = {
@@ -29,5 +34,12 @@ abstract class BinaryBoardMiner[-T, +U <: BinaryBoardMiner[T, U]] extends Binary
     }
   }
 
+  /** A square function that processes the square of the data element.
+    *
+    * @param x the value.
+    * @param y the data element.
+    * @param squ the square.
+    * @return the result.
+    */
   def squareFunction(x: Vector[(String, Long)], y: T, squ: Int): Vector[(String, Long)]
 }

@@ -19,6 +19,22 @@
 package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 
+/** A loss miner that counts the data element for the lost games.
+  *
+  * The example usages are:
+  * {{{
+  * val miner = LossMiner(greaterMobility)
+  * val data = miner(iter)
+  *
+  * val miner = LossMiner(lessMobility) +\+ white
+  * val data = miner(iter)
+  * }}}
+  *
+  * @tparam T the type of second data value.
+  * @param lossFunction the loss function.
+  * @param firstMinerOption the optional first miner. 
+  * @param secondMinerOption the optional second miner. 
+  */
 case class LossMiner[-T](
   lossFunction: NamedFunction2[(Game, T), Side.Value, Boolean],
   firstMinerOption: Option[BinaryMiner[(Game, T), _]] = None,
@@ -36,9 +52,21 @@ case class LossMiner[-T](
     (x._1.hasSideLoss(Side.White) && lossFunction(x, Side.White)) ||
     (x._1.hasSideLoss(Side.Black) && lossFunction(x, Side.Black))
 
+  /** Creates a new miner with the first loss miner with the loss function from this miner.
+    *
+    * @tparam U the type of second data value for a new miner.
+    * @param fun the function.
+    * @return a new miner.
+    */
   def +\+[U <: T](fun: NamedFunction2[(Game, U), Side.Value, Boolean]) =
     copy(firstMinerOption = Some(LossMiner(fun)))
 
+  /** Creates a new miner with the second loss miner with the loss function from this miner.
+    *
+    * @tparam U the type of second data value for a new miner.
+    * @param fun the function.
+    * @return a new miner.
+    */
   def +/+[U <: T](fun: NamedFunction2[(Game, U), Side.Value, Boolean]) =
     copy(secondMinerOption = Some(LossMiner(fun)))
 }

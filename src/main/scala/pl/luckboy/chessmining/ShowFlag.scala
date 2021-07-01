@@ -18,7 +18,13 @@
  */
 package pl.luckboy.chessmining
 
+/** An enumeration of show flag. */
 object ShowFlag extends Enumeration
 {
-  val Clear, Set, Auto = Value
+  /** A clear flag that indicates no showing of file progress bar. */
+  val Clear = Value
+  /** A set flag that indicates showing of file progress bar. */
+  val Set = Value
+  /** An auto flag that indicates automatical showing of file progress bar. */
+  val Auto = Value
 }

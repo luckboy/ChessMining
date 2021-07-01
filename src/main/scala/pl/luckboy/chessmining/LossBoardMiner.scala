@@ -19,6 +19,22 @@
 package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 
+/** A loss board miner that counts the squares of data elements for the lost games.
+  *
+  * The example usages are:
+  * {{{
+  * val miner = LossBoardMiner(anyPiece)
+  * val data = miner(iter)
+  *
+  * val miner = LossBoardMiner(pawn) +\+ white3
+  * val data = miner(iter)
+  * }}}
+  *
+  * @tparam T the type of second data value.
+  * @param lossFunction the loss function.
+  * @param firstMinerOption the optional first miner. 
+  * @param secondMinerOption the optional second miner. 
+  */
 case class LossBoardMiner[-T](
   lossFunction: NamedFunction3[(Game, T), Side.Value, Int, Boolean],
   firstMinerOption: Option[BinaryBoardMiner[(Game, T), _]] = None,
@@ -36,9 +52,21 @@ case class LossBoardMiner[-T](
     (x._1.hasSideLoss(Side.White) && lossFunction(x, Side.White, squ)) ||
     (x._1.hasSideLoss(Side.Black) && lossFunction(x, Side.Black, squ))
 
+  /** Creates a new miner with the first loss board miner with the loss function from this miner.
+    *
+    * @tparam U the type of second data value for a new miner.
+    * @param fun the function.
+    * @return a new miner.
+    */
   def +\+[U <: T](fun: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
     copy(firstMinerOption = Some(LossBoardMiner(fun)))
 
+  /** Creates a new miner with the second loss board miner with the loss function from this miner.
+    *
+    * @tparam U the type of second data value for a new miner.
+    * @param fun the function.
+    * @return a new miner.
+    */
   def +/+[U <: T](fun: NamedFunction3[(Game, U), Side.Value, Int, Boolean]) =
     copy(secondMinerOption = Some(LossBoardMiner(fun)))
 }

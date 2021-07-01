@@ -19,6 +19,22 @@
 package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 
+/** A draw miner that counts the data elements for the drawn games.
+  *
+  * The example usages are:
+  * {{{
+  * val miner = DrawMiner(greaterWhiteMobility)
+  * val data = miner(iter)
+  *
+  * val miner = DrawMiner(lessWhiteMobility)
+  * val data = miner(iter)
+  * }}}
+  *
+  * @tparam T the type of second data value.
+  * @param drawFunction the draw function.
+  * @param firstMinerOption the optional first miner. 
+  * @param secondMinerOption the optional second miner. 
+  */
 case class DrawMiner[-T](
   drawFunction: NamedFunction1[(Game, T), Boolean],
   firstMinerOption: Option[BinaryMiner[(Game, T), _]] = None,
@@ -34,9 +50,21 @@ case class DrawMiner[-T](
 
   override def booleanFunction(x: (Game, T)) = x._1.hasDraw && drawFunction(x)
 
+  /** Creates a new miner with the first draw miner with the draw function from this miner.
+    *
+    * @tparam U the type of second data value for a new miner.
+    * @param fun the function.
+    * @return a new miner.
+    */
   def +\+[U <: T](fun: NamedFunction1[(Game, U), Boolean]) =
     copy(firstMinerOption = Some(DrawMiner(fun)))
 
+  /** Creates a new miner with the second draw miner with the draw function from this miner.
+    *
+    * @tparam U the type of second data value for a new miner.
+    * @param fun the function.
+    * @return a new miner.
+    */
   def +/+[U <: T](fun: NamedFunction1[(Game, U), Boolean]) =
     copy(secondMinerOption = Some(DrawMiner(fun)))
 }

@@ -18,4 +18,16 @@
  */
 package pl.luckboy.chessmining
 
+/** A show variable that controls showing of file progress bar.
+  *
+  * The example usage is:
+  * {{{
+  * val showVar = ShowVariable()
+  * val games = Games.fromFile("somefile.pgn", showVar)
+  * val iter = for(g <- games; b <- Boards.fromGame(g)) yield (g, b) // ->
+  * showVar.flag = ShowFlag.Set
+  * }}}
+  *
+  * @param flag the show flag.
+  */
 case class ShowVariable(var flag: ShowFlag.Value = ShowFlag.Clear)

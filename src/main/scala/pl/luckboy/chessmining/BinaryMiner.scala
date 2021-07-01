@@ -18,6 +18,11 @@
  */
 package pl.luckboy.chessmining
 
+/** A binary miner.
+  *
+  * @tparam T the type of data element.
+  * @tparam U the type of actual miner.
+  */
 abstract class BinaryMiner[-T, +U <: BinaryMiner[T, U]] extends BinaryValueMiner[T, Long, U, BinaryMiner[T, _]]
 {
   override def startValue = {

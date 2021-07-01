@@ -19,6 +19,22 @@
 package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 
+/** A count board miner that counts the data elements for each games.
+  *
+  * The example usages are:
+  * {{{
+  * val miner = CountMiner(greaterWhiteMobility)
+  * val data = miner(iter)
+  *
+  * val miner = CountMiner(lessWhiteMobility)
+  * val data = miner(iter)
+  * }}}
+  *
+  * @tparam T the type of second data value.
+  * @param countFunction the count function.
+  * @param firstMinerOption the optional first miner. 
+  * @param secondMinerOption the optional second miner. 
+  */
 case class CountMiner[-T](
   countFunction: NamedFunction1[(Game, T), Boolean],
   firstMinerOption: Option[BinaryMiner[(Game, T), _]] = None,
