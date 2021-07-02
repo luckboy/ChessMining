@@ -83,18 +83,18 @@ abstract class BinaryValueMiner[-T, U, +V <: BinaryValueMiner[T, U, V, W], +W <:
     firstNounOptions ++ secondNounOptions
   }
 
-  /** Returns the names of value element.
+  /** Returns the names of value elements.
     *
-    * @return the names of value element.
+    * @return the names of value elements.
     */
   def names =
     adjectives.zip(nounOptions).map {
       case ((s: String, sOpt: Option[String])) => s + sOpt.map { " " + _ }.getOrElse("")
     }
 
-  /** Returns the number of value element.
+  /** Returns the number of value elements.
     *
-    * @return the number of value element.
+    * @return the number of value elements.
     */
   def count: Int =
     firstMinerOption.map { _.count }.getOrElse(1) + secondMinerOption.map { _.count }.getOrElse(1)
