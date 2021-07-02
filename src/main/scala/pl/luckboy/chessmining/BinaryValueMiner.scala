@@ -18,12 +18,13 @@
  */
 package pl.luckboy.chessmining
 
-/** A binary value miner that divides value on two or more value elements.
+/** A binary value miner that divides value on two or more value elements. The binary value miner has
+  * two optional miners.
   *
   * @tparam T the type of data element.
   * @tparam U the value type.
   * @tparam V the type of actual miner.
-  * @tparam W the type of two miners. 
+  * @tparam W the type of two optional miners. 
   */
 abstract class BinaryValueMiner[-T, U, +V <: BinaryValueMiner[T, U, V, W], +W <: BinaryValueMiner[T, U, _, W]] extends Miner[T, Vector[(String, U)]]
 {
