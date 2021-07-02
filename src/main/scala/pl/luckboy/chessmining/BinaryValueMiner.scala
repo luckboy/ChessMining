@@ -20,8 +20,8 @@ package pl.luckboy.chessmining
 
 /** A binary value miner that divides value on two or more value elements.
   *
-  * @tparam T the element.
-  * @tparam U the result type.
+  * @tparam T the type of data element.
+  * @tparam U the value type.
   * @tparam V the type of actual miner.
   * @tparam W the type of two miners. 
   */
