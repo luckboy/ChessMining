@@ -37,11 +37,11 @@ import pl.luckboy.chessmining.ui._
   */
 package object chessmining
 {
-  /** A default factory of game reader. */
+  /** A default factory of game reader that is the factory of PGN reader. */
   implicit val defaultGameReaderFactory = PGNReader
-  /** A default factory of game writer. */
+  /** A default factory of game writer that is the factory of PGN writer. */
   implicit val defaultGameWriterFactory = PGNWriter
-  /** A default factory of file progress bar. */
+  /** A default factory of file progress bar that is the factory of console file progress bar. */
   implicit val defaultFileProgressBarFactory = ConsoleFileProgressBar
 
   /** A default factory of win miner. */
