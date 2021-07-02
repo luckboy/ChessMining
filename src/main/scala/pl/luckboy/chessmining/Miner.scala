@@ -18,7 +18,7 @@
  */
 package pl.luckboy.chessmining
 
-/** A miner is a object that processes data. The miner uses the `foldLeft` method for data processing.
+/** A miner is an object that processes data. The miner uses the `foldLeft` method for data processing.
   *
   * @tparam T the type of data element.
   * @tparam U the result type.

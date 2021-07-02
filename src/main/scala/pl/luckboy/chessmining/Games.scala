@@ -134,7 +134,7 @@ object Games
 
   /** Creates a game iterator from the file or the directory.
     *
-    * @param fileOrDirName the file or directory name.
+    * @param fileOrDirName the file name or the directory name.
     * @param gameReaderFactory the factory of game reader.
     * @param fileProgressBarFactory the factory of file progress bar.
     * @return a game iterator.
@@ -144,7 +144,7 @@ object Games
 
   /** Creates a game iterator with the show variable from the file or the directory.
     *
-    * @param fileOrDirName the file or directory name.
+    * @param fileOrDirName the file name or the directory name.
     * @param showVar the show variable.
     * @param gameReaderFactory the factory of game reader.
     * @param fileProgressBarFactory the factory of file progress bar.
