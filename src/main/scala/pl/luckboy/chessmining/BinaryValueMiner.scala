@@ -22,7 +22,7 @@ package pl.luckboy.chessmining
   * two optional miners.
   *
   * @tparam T the type of data element.
-  * @tparam U the value type.
+  * @tparam U the type of value element.
   * @tparam V the type of actual miner.
   * @tparam W the type of two optional miners. 
   */
