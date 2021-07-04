@@ -19,7 +19,7 @@
 package pl.luckboy.chessmining.iterator
 import pl.luckboy.chessmining.chess._
 
-/** An iterator of side move that allow to iterate by the side moves from the game. */
+/** An iterator of side moves that allow to iterate by the side moves from the game. */
 trait SideMoveIterator extends MoveMakingIterator[SideMove, Side.Value]
 {
   override protected def boardToState(board: Board) = board.side

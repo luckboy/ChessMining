@@ -19,9 +19,9 @@
 package pl.luckboy.chessmining.iterator
 import pl.luckboy.chessmining.chess._
 
-/** An iterator of side move with the variations.
+/** An iterator of side moves with the variations.
   *
-  * @constructor Creates a new iterator of side move with the variations.
+  * @constructor Creates a new iterator of side moves with the variations.
   *
   * @param game the game.
   */

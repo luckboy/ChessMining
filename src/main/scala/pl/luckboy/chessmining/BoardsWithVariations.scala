@@ -20,7 +20,7 @@ package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.iterator._
 
-/** This object provides a method that creates a board iterator with the variations.
+/** This object provides a method that creates an iterator of boards with the variations.
   *
   * The example usage is:
   * {{{
@@ -29,10 +29,10 @@ import pl.luckboy.chessmining.iterator._
   */
 object BoardsWithVariations
 {
-  /** Creates a board iterator of board without the variations from the game.
+  /** Creates an iterator of boards with the variations from the game.
     *
     * @param game the game.
-    * @return a board iterator.
+    * @return an iterator of boards.
     */
   def fromGame(game: Game) = new BoardIteratorWithVariations(game)
 }

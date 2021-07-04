@@ -20,7 +20,7 @@ package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.iterator._
 
-/** This object provides a method that creates an iterator of side move without the variations.
+/** This object provides a method that creates an iterator of side movs without the variations.
   *
   * The example usage is:
   * {{{
@@ -29,10 +29,10 @@ import pl.luckboy.chessmining.iterator._
   */
 object SideMoves
 {
-  /** Creates an iterator of side move without the variations from the game.
+  /** Creates an iterator of side moves without the variations from the game.
     *
     * @param game the game.
-    * @return an iterator of side move.
+    * @return an iterator of side moves.
     */
   def fromGame(game: Game) = new SideMoveIteratorWithoutVariations(game)
 }
