@@ -945,11 +945,9 @@ package object chessmining
   val greaterMobilityMove = NamedFunction2("> mobility move", {
       (tuple: (Game, BoardMove), side: Side.Value) =>
         tuple match {
-          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+          case (_, BoardMove(board, _, nextBoard)) =>
             board.side == side &&
             Mobility.mobility(nextBoard, board.side) > Mobility.mobility(board, board.side)
-          case _ =>
-            false
         }
     })
 
@@ -957,11 +955,9 @@ package object chessmining
   val equalMobilityMove = NamedFunction2("= mobility move", {
       (tuple: (Game, BoardMove), side: Side.Value) =>
         tuple match {
-          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+          case (_, BoardMove(board, _, nextBoard)) =>
             board.side == side &&
             Mobility.mobility(nextBoard, board.side) == Mobility.mobility(board, board.side)
-          case _ =>
-            false
         }
     })
 
@@ -969,11 +965,9 @@ package object chessmining
   val lessMobilityMove = NamedFunction2("< mobility move", {
       (tuple: (Game, BoardMove), side: Side.Value) =>
         tuple match {
-          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+          case (_, BoardMove(board, _, nextBoard)) =>
             board.side == side &&
             Mobility.mobility(nextBoard, board.side) < Mobility.mobility(board, board.side)
-          case _ =>
-            false
         }
     })
 
@@ -987,11 +981,9 @@ package object chessmining
     NamedFunction1("> " + sideToName(side) + " mobility move", {
       (tuple: (Game, BoardMove)) =>
         tuple match {
-          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+          case (_, BoardMove(board, _, nextBoard)) =>
             board.side == side &&
             Mobility.mobility(nextBoard, board.side) > Mobility.mobility(board, board.side)
-          case _ =>
-            false
         }
     })
 
@@ -1004,11 +996,9 @@ package object chessmining
     NamedFunction1("= " + sideToName(side) + " mobility move", {
       (tuple: (Game, BoardMove)) =>
         tuple match {
-          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+          case (_, BoardMove(board, _, nextBoard)) =>
             board.side == side &&
             Mobility.mobility(nextBoard, board.side) == Mobility.mobility(board, board.side)
-          case _ =>
-            false
         }
     })
 
@@ -1021,11 +1011,9 @@ package object chessmining
     NamedFunction1("< " + sideToName(side) + " mobility move", {
       (tuple: (Game, BoardMove)) =>
         tuple match {
-          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+          case (_, BoardMove(board, _, nextBoard)) =>
             board.side == side &&
             Mobility.mobility(nextBoard, board.side) < Mobility.mobility(board, board.side)
-          case _ =>
-            false
         }
     })
 
