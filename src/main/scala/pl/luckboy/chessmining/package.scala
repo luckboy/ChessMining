@@ -374,7 +374,6 @@ package object chessmining
             false
         }
     })
-
   
   /** A named function of white move source for the draw board miner and the count board miner. */
   val whiteMoveSource = sideMoveSource(Side.White)
