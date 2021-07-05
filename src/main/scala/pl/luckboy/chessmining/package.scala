@@ -295,6 +295,7 @@ package object chessmining
   /** A named function of black king for the draw board miner and the count board miner. */
   val blackKing = sidePiece(Side.Black, Piece.King)
 
+  /** A named function of move for the win miner and the loss miner. */
   val move = NamedFunction2("move", {
       (tuple: (Game, SideMove), side: Side.Value) =>
         tuple match {
@@ -302,6 +303,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of side move for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def sideMove(side: Side.Value) =
     NamedFunction1(sideToName(side) + " move", {
       (tuple: (Game, SideMove)) =>
@@ -310,7 +316,9 @@ package object chessmining
         }
     })
 
+  /** A named function of white move for the draw miner and the count miner. */
   val whiteMove = sideMove(Side.White)
+  /** A named function of black move for the draw miner and the count miner. */
   val blackMove = sideMove(Side.Black)
 
   /** A named function of move source for the win board miner and the loss board miner. */
@@ -377,6 +385,7 @@ package object chessmining
   /** A named function of black move destination for the draw board miner and the count board miner. */
   val blackMoveDestination = sideMoveDestination(Side.Black)
 
+  /** A named function of move for the win miner, the loss miner and the board move. */
   val moveForBoardMove = NamedFunction2("move", {
       (tuple: (Game, BoardMove), side: Side.Value) =>
         tuple match {
@@ -384,6 +393,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of side move for the draw miner, the count miner and the board move.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def sideMoveForBoardMove(side: Side.Value) =
     NamedFunction1(sideToName(side) + " move", {
       (tuple: (Game, BoardMove)) =>
@@ -392,7 +406,9 @@ package object chessmining
         }
     })
 
+  /** A named function of white move for the draw miner, the count miner and the board move. */
   val whiteMoveForBoardMove = sideMoveForBoardMove(Side.White)
+  /** A named function of black move for the draw miner, the count miner and the board move. */
   val blackMoveForBoardMove = sideMoveForBoardMove(Side.Black)
   
   /** A named function of move source for the win board miner, the loss board miner and the board
