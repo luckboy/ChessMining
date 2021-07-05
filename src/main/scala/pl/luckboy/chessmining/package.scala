@@ -295,6 +295,24 @@ package object chessmining
   /** A named function of black king for the draw board miner and the count board miner. */
   val blackKing = sidePiece(Side.Black, Piece.King)
 
+  val move = NamedFunction2("move", {
+      (tuple: (Game, SideMove), side: Side.Value) =>
+        tuple match {
+          case (_, SideMove(moveSide, _)) => moveSide == side
+        }
+    })
+
+  def sideMove(side: Side.Value) =
+    NamedFunction1(sideToName(side) + " move", {
+      (tuple: (Game, SideMove)) =>
+        tuple match {
+          case (_, SideMove(moveSide, _)) => moveSide == side
+        }
+    })
+
+  val whiteMove = sideMove(Side.White)
+  val blackMove = sideMove(Side.Black)
+
   /** A named function of move source for the win board miner and the loss board miner. */
   val moveSource = NamedFunction3("move source", {
       (tuple: (Game, SideMove), side: Side.Value, squ: Int) =>
@@ -359,6 +377,24 @@ package object chessmining
   /** A named function of black move destination for the draw board miner and the count board miner. */
   val blackMoveDestination = sideMoveDestination(Side.Black)
 
+  val moveForBoardMove = NamedFunction2("move", {
+      (tuple: (Game, BoardMove), side: Side.Value) =>
+        tuple match {
+          case (_, BoardMove(board, _, _)) => board.side == side
+        }
+    })
+
+  def sideMoveForBoardMove(side: Side.Value) =
+    NamedFunction1(sideToName(side) + " move", {
+      (tuple: (Game, BoardMove)) =>
+        tuple match {
+          case (_, BoardMove(board, _, _)) => board.side == side
+        }
+    })
+
+  val whiteMoveForBoardMove = sideMoveForBoardMove(Side.White)
+  val blackMoveForBoardMove = sideMoveForBoardMove(Side.Black)
+  
   /** A named function of move source for the win board miner, the loss board miner and the board
     * move.
     */
