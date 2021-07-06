@@ -1307,4 +1307,275 @@ package object chessmining
     * count board miner.
     */
   val lessBlackMobilityMoveDestination = lessSideMobilityMoveDestination(Side.Black)
+
+  //
+  // Named functions of space.
+  //
+
+  val greaterSpace = NamedFunction2("> space", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => Space.space(board, side) > Space.space(board, ~side)
+        }
+    })
+
+  val equalSpace = NamedFunction2("= space", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => Space.space(board, side) == Space.space(board, ~side)
+        }
+    })
+
+  val lessSpace = NamedFunction2("< space", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => Space.space(board, side) < Space.space(board, ~side)
+        }
+    })
+
+  def greaterSideSpace(side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " space", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => Space.space(board, side) > Space.space(board, ~side)
+        }
+    })
+
+  def equalSideSpace(side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " space", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => Space.space(board, side) == Space.space(board, ~side)
+        }
+    })
+
+  def lessSideSpace(side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " space", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => Space.space(board, side) < Space.space(board, ~side)
+        }
+    })
+
+  val greaterWhiteSpace = greaterSideSpace(Side.White)
+  val greaterBlackSpace = greaterSideSpace(Side.Black)
+  val equalWhiteSpace = equalSideSpace(Side.White)
+  val equalBlackSpace = equalSideSpace(Side.Black)
+  val lessWhiteSpace = lessSideSpace(Side.White)
+  val lessBlackSpace = lessSideSpace(Side.Black)
+
+  val greaterSpaceMove = NamedFunction2("> space move", {
+      (tuple: (Game, BoardMove), side: Side.Value) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            Space.space(nextBoard, board.side) > Space.space(board, board.side)
+        }
+    })
+
+  val equalSpaceMove = NamedFunction2("= space move", {
+      (tuple: (Game, BoardMove), side: Side.Value) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            Space.space(nextBoard, board.side) == Space.space(board, board.side)
+        }
+    })
+
+  val lessSpaceMove = NamedFunction2("< space move", {
+      (tuple: (Game, BoardMove), side: Side.Value) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            Space.space(nextBoard, board.side) < Space.space(board, board.side)
+        }
+    })
+    
+  def greaterSideSpaceMove(side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " space move", {
+      (tuple: (Game, BoardMove)) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            Space.space(nextBoard, board.side) > Space.space(board, board.side)
+        }
+    })
+
+  def equalSideSpaceMove(side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " space move", {
+      (tuple: (Game, BoardMove)) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            Space.space(nextBoard, board.side) == Space.space(board, board.side)
+        }
+    })
+
+  def lessSideSpaceMove(side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " space move", {
+      (tuple: (Game, BoardMove)) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            Space.space(nextBoard, board.side) < Space.space(board, board.side)
+        }
+    })
+    
+  val greaterWhiteSpaceMove = greaterSideSpaceMove(Side.White)
+  val greaterBlackSpaceMove = greaterSideSpaceMove(Side.Black)
+  val equalWhiteSpaceMove = equalSideSpaceMove(Side.White)
+  val equalBlackSpaceMove = equalSideSpaceMove(Side.Black)
+  val lessWhiteSpaceMove = lessSideSpaceMove(Side.White)
+  val lessBlackSpaceMove = lessSideSpaceMove(Side.Black)
+
+  val greaterSpaceMoveSource = NamedFunction3("> space move source", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Space.space(nextBoard, board.side) > Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val equalSpaceMoveSource = NamedFunction3("= space move source", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Space.space(nextBoard, board.side) == Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val lessSpaceMoveSource = NamedFunction3("< space move source", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Space.space(nextBoard, board.side) < Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val greaterSpaceMoveDestination = NamedFunction3("> space move destination", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Space.space(nextBoard, board.side) > Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val equalSpaceMoveDestination = NamedFunction3("= space move destination", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Space.space(nextBoard, board.side) == Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val lessSpaceMoveDestination = NamedFunction3("< space move destination", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Space.space(nextBoard, board.side) < Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def greaterSideSpaceMoveSource(side: Side.Value) =
+    NamedFunction2("> " + sideToName(side) + " space move source", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Space.space(nextBoard, board.side) > Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def equalSideSpaceMoveSource(side: Side.Value) =
+    NamedFunction2("= " + sideToName(side) + " space move source", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Space.space(nextBoard, board.side) == Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def lessSideSpaceMoveSource(side: Side.Value) =
+    NamedFunction2("< " + sideToName(side) + " space move source", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            Space.space(nextBoard, board.side) < Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def greaterSideSpaceMoveDestination(side: Side.Value) =
+    NamedFunction2("> " + sideToName(side) + " space move destination", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Space.space(nextBoard, board.side) > Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def equalSideSpaceMoveDestination(side: Side.Value) =
+    NamedFunction2("= " + sideToName(side) + " space move destination", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Space.space(nextBoard, board.side) == Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  def lessSideSpaceMoveDestination(side: Side.Value) =
+    NamedFunction2("< " + sideToName(side) + " space move destination", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            Space.space(nextBoard, board.side) < Space.space(board, board.side)
+          case _ =>
+            false
+        }
+    })
+
+  val greaterWhiteSpaceMoveSource = greaterSideSpaceMoveSource(Side.White)
+  val greaterBlackSpaceMoveSource = greaterSideSpaceMoveSource(Side.Black)
+  val equalWhiteSpaceMoveSource = equalSideSpaceMoveSource(Side.White)
+  val equalBlackSpaceMoveSource = equalSideSpaceMoveSource(Side.Black)
+  val lessWhiteSpaceMoveSource = lessSideSpaceMoveSource(Side.White)
+  val lessBlackSpaceMoveSource = lessSideSpaceMoveSource(Side.Black)
+  val greaterWhiteSpaceMoveDestination = greaterSideSpaceMoveDestination(Side.White)
+  val greaterBlackSpaceMoveDestination = greaterSideSpaceMoveDestination(Side.Black)
+  val equalWhiteSpaceMoveDestination = equalSideSpaceMoveDestination(Side.White)
+  val equalBlackSpaceMoveDestination = equalSideSpaceMoveDestination(Side.Black)
+  val lessWhiteSpaceMoveDestination = lessSideSpaceMoveDestination(Side.White)
+  val lessBlackSpaceMoveDestination = lessSideSpaceMoveDestination(Side.Black)
 }
