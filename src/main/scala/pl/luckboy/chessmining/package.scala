@@ -1171,6 +1171,9 @@ package object chessmining
 
   /** Returns a named function of move source of greater side mobility for the draw board miner and
     * the count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
     */
   def greaterSideMobilityMoveSource(side: Side.Value) =
     NamedFunction2("> " + sideToName(side) + " mobility move source", {
@@ -1186,6 +1189,9 @@ package object chessmining
 
   /** Returns a named function of move source of equal side mobility for the draw board miner and the
     * count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
     */
   def equalSideMobilityMoveSource(side: Side.Value) =
     NamedFunction2("= " + sideToName(side) + " mobility move source", {
@@ -1201,6 +1207,9 @@ package object chessmining
 
   /** Returns a named function of move source of less side mobility for the draw board miner and the
     * count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
     */
   def lessSideMobilityMoveSource(side: Side.Value) =
     NamedFunction2("< " + sideToName(side) + " mobility move source", {
@@ -1216,6 +1225,9 @@ package object chessmining
 
   /** Returns a named function of move destination of greater side mobility for the draw board miner
     * and the count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
     */
   def greaterSideMobilityMoveDestination(side: Side.Value) =
     NamedFunction2("> " + sideToName(side) + " mobility move destination", {
@@ -1231,6 +1243,9 @@ package object chessmining
 
   /** Returns a named function of move destination of equal side mobility for the draw board miner
     * and the count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
     */
   def equalSideMobilityMoveDestination(side: Side.Value) =
     NamedFunction2("= " + sideToName(side) + " mobility move destination", {
@@ -1246,6 +1261,9 @@ package object chessmining
 
   /** Returns a named function of move destination of less side mobility for the draw board miner
     * and the count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
     */
   def lessSideMobilityMoveDestination(side: Side.Value) =
     NamedFunction2("< " + sideToName(side) + " mobility move destination", {
