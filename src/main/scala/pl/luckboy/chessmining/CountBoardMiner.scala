@@ -19,7 +19,7 @@
 package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 
-/** A count board miner that counts the squares of data elements for each games.
+/** A count board miner that counts the squares of data elements for all games.
   *
   * The example usages are:
   * {{{
