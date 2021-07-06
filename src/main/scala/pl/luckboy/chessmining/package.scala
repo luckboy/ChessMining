@@ -1312,6 +1312,7 @@ package object chessmining
   // Named functions of space.
   //
 
+  /** A named function of greater space for the win miner and the loss miner. */
   val greaterSpace = NamedFunction2("> space", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
@@ -1319,6 +1320,7 @@ package object chessmining
         }
     })
 
+  /** A named function of equal space for the win miner and the loss miner. */
   val equalSpace = NamedFunction2("= space", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
@@ -1326,6 +1328,7 @@ package object chessmining
         }
     })
 
+  /** A named function of less space for the win miner and the loss miner. */
   val lessSpace = NamedFunction2("< space", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
@@ -1333,6 +1336,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of greater side space for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def greaterSideSpace(side: Side.Value) =
     NamedFunction1("> " + sideToName(side) + " space", {
       (tuple: (Game, Board)) =>
@@ -1341,6 +1349,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of equal side space for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def equalSideSpace(side: Side.Value) =
     NamedFunction1("= " + sideToName(side) + " space", {
       (tuple: (Game, Board)) =>
@@ -1349,6 +1362,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of less side space for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def lessSideSpace(side: Side.Value) =
     NamedFunction1("< " + sideToName(side) + " space", {
       (tuple: (Game, Board)) =>
@@ -1357,13 +1375,20 @@ package object chessmining
         }
     })
 
+  /** A named function of greater white space for the draw miner and the count miner. */
   val greaterWhiteSpace = greaterSideSpace(Side.White)
+  /** A named function of greater black space for the draw miner and the count miner. */
   val greaterBlackSpace = greaterSideSpace(Side.Black)
+  /** A named function of equal white space for the draw miner and the count miner. */
   val equalWhiteSpace = equalSideSpace(Side.White)
+  /** A named function of equal black space for the draw miner and the count miner. */
   val equalBlackSpace = equalSideSpace(Side.Black)
+  /** A named function of less white space for the draw miner and the count miner. */
   val lessWhiteSpace = lessSideSpace(Side.White)
+  /** A named function of less black space for the draw miner and the count miner. */
   val lessBlackSpace = lessSideSpace(Side.Black)
 
+  /** A named function of move of greater space for the win miner and the loss miner. */
   val greaterSpaceMove = NamedFunction2("> space move", {
       (tuple: (Game, BoardMove), side: Side.Value) =>
         tuple match {
@@ -1373,6 +1398,7 @@ package object chessmining
         }
     })
 
+  /** A named function of move of equal space for the win miner and the loss miner. */
   val equalSpaceMove = NamedFunction2("= space move", {
       (tuple: (Game, BoardMove), side: Side.Value) =>
         tuple match {
@@ -1382,6 +1408,7 @@ package object chessmining
         }
     })
 
+  /** A named function of move of less space for the win miner and the loss miner. */
   val lessSpaceMove = NamedFunction2("< space move", {
       (tuple: (Game, BoardMove), side: Side.Value) =>
         tuple match {
@@ -1391,6 +1418,11 @@ package object chessmining
         }
     })
     
+  /** Returns a named function of move of greater side space for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def greaterSideSpaceMove(side: Side.Value) =
     NamedFunction1("> " + sideToName(side) + " space move", {
       (tuple: (Game, BoardMove)) =>
@@ -1401,6 +1433,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move of equal side space for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def equalSideSpaceMove(side: Side.Value) =
     NamedFunction1("= " + sideToName(side) + " space move", {
       (tuple: (Game, BoardMove)) =>
@@ -1411,6 +1448,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move of less side space for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def lessSideSpaceMove(side: Side.Value) =
     NamedFunction1("< " + sideToName(side) + " space move", {
       (tuple: (Game, BoardMove)) =>
@@ -1421,13 +1463,22 @@ package object chessmining
         }
     })
     
+  /** A named function of move of greater white space for the draw miner and the count miner. */
   val greaterWhiteSpaceMove = greaterSideSpaceMove(Side.White)
+  /** A named function of move of greater black space for the draw miner and the count miner. */
   val greaterBlackSpaceMove = greaterSideSpaceMove(Side.Black)
+  /** A named function of move of equal white space for the draw miner and the count miner. */
   val equalWhiteSpaceMove = equalSideSpaceMove(Side.White)
+  /** A named function of move of equal black space for the draw miner and the count miner. */
   val equalBlackSpaceMove = equalSideSpaceMove(Side.Black)
+  /** A named function of move of less white space for the draw miner and the count miner. */
   val lessWhiteSpaceMove = lessSideSpaceMove(Side.White)
+  /** A named function of move of less black space for the draw miner and the count miner. */
   val lessBlackSpaceMove = lessSideSpaceMove(Side.Black)
 
+  /** A named function of move source of greater space for the win board miner and the loss board
+    * miner.
+    */
   val greaterSpaceMoveSource = NamedFunction3("> space move source", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
         tuple match {
@@ -1439,6 +1490,9 @@ package object chessmining
         }
     })
 
+  /** A named function of move source of equal space for the win board miner and the loss board
+    * miner.
+    */
   val equalSpaceMoveSource = NamedFunction3("= space move source", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
         tuple match {
@@ -1450,6 +1504,7 @@ package object chessmining
         }
     })
 
+  /** A named function of move source of less space for the win board miner and the loss board miner. */
   val lessSpaceMoveSource = NamedFunction3("< space move source", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
         tuple match {
@@ -1461,6 +1516,9 @@ package object chessmining
         }
     })
 
+  /** A named function of move destination of greater space for the win board miner and the loss
+    * board miner.
+    */
   val greaterSpaceMoveDestination = NamedFunction3("> space move destination", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
         tuple match {
@@ -1472,6 +1530,9 @@ package object chessmining
         }
     })
 
+  /** A named function of move destination of equal space for the win board miner and the loss board
+    * miner.
+    */
   val equalSpaceMoveDestination = NamedFunction3("= space move destination", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
         tuple match {
@@ -1483,6 +1544,9 @@ package object chessmining
         }
     })
 
+  /** A named function of move destination of less space for the win board miner and the loss board
+    * miner.
+    */
   val lessSpaceMoveDestination = NamedFunction3("< space move destination", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
         tuple match {
@@ -1494,6 +1558,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move source of greater side mobility for the draw board miner and
+    * the count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def greaterSideSpaceMoveSource(side: Side.Value) =
     NamedFunction2("> " + sideToName(side) + " space move source", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -1506,6 +1576,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move source of equal side mobility for the draw board miner and the
+    * count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def equalSideSpaceMoveSource(side: Side.Value) =
     NamedFunction2("= " + sideToName(side) + " space move source", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -1518,6 +1594,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move source of less side mobility for the draw board miner and the
+    * count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def lessSideSpaceMoveSource(side: Side.Value) =
     NamedFunction2("< " + sideToName(side) + " space move source", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -1530,6 +1612,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move destination of greater side mobility for the draw board miner
+    * and the count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def greaterSideSpaceMoveDestination(side: Side.Value) =
     NamedFunction2("> " + sideToName(side) + " space move destination", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -1542,6 +1630,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move destination of equal side mobility for the draw board miner
+    * and the count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def equalSideSpaceMoveDestination(side: Side.Value) =
     NamedFunction2("= " + sideToName(side) + " space move destination", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -1554,6 +1648,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move destination of less side mobility for the draw board miner and
+    * the count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def lessSideSpaceMoveDestination(side: Side.Value) =
     NamedFunction2("< " + sideToName(side) + " space move destination", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -1566,16 +1666,52 @@ package object chessmining
         }
     })
 
+  /** A named function of move source of greater white space for the draw board miner and the count
+    * board miner.
+    */
   val greaterWhiteSpaceMoveSource = greaterSideSpaceMoveSource(Side.White)
+  /** A named function of move source of greater black space for the draw board miner and the count
+    * board miner.
+    */
   val greaterBlackSpaceMoveSource = greaterSideSpaceMoveSource(Side.Black)
+  /** A named function of move source of equal white space for the draw board miner and the count
+    * board miner.
+    */
   val equalWhiteSpaceMoveSource = equalSideSpaceMoveSource(Side.White)
+  /** A named function of move source of equal black space for the draw board miner and the count
+    * board miner.
+    */
   val equalBlackSpaceMoveSource = equalSideSpaceMoveSource(Side.Black)
+  /** A named function of move source of less white space for the draw board miner and the count
+    * board miner.
+    */
   val lessWhiteSpaceMoveSource = lessSideSpaceMoveSource(Side.White)
+  /** A named function of move source of less black space for the draw board miner and the count
+    * board miner.
+    */
   val lessBlackSpaceMoveSource = lessSideSpaceMoveSource(Side.Black)
+  /** A named function of move destination of greater white space for the draw board miner and the 
+    * count board miner.
+    */
   val greaterWhiteSpaceMoveDestination = greaterSideSpaceMoveDestination(Side.White)
+  /** A named function of move destination of greater black space for the draw board miner and the 
+    * count board miner.
+    */
   val greaterBlackSpaceMoveDestination = greaterSideSpaceMoveDestination(Side.Black)
+  /** A named function of move destination of equal white space for the draw board miner and the 
+    * count board miner.
+    */
   val equalWhiteSpaceMoveDestination = equalSideSpaceMoveDestination(Side.White)
+  /** A named function of move destination of equal black space for the draw board miner and the 
+    * count board miner.
+    */
   val equalBlackSpaceMoveDestination = equalSideSpaceMoveDestination(Side.Black)
+  /** A named function of move destination of less white space for the draw board miner and the
+    * count board miner.
+    */
   val lessWhiteSpaceMoveDestination = lessSideSpaceMoveDestination(Side.White)
+  /** A named function of move destination of less black space for the draw board miner and the 
+    * count board miner.
+    */
   val lessBlackSpaceMoveDestination = lessSideSpaceMoveDestination(Side.Black)
 }
