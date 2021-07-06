@@ -19,8 +19,15 @@
 package pl.luckboy.chessmining.eval
 import pl.luckboy.chessmining.chess._
 
+/** This object provides method that evaluates space. */
 object Space
 {
+  /** Evaluates a space.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @return a space.
+    */
   def space(board: Board, side: Side.Value) = {
     val oppSide = ~side
     val attackArray = (0 until 64).foldLeft(Array.fill(64)(false)) {
