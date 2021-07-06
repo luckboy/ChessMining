@@ -487,6 +487,10 @@ package object chessmining
     */
   val blackMoveDestinationForBoardMove = sideMoveDestinationForBoardMove(Side.Black)
   
+  //
+  // Named functions of mobility.
+  //
+  
   /** A named function of greater mobility for the win miner and the loss miner. */
   val greaterMobility = NamedFunction2("> mobility", {
       (tuple: (Game, Board), side: Side.Value) =>
