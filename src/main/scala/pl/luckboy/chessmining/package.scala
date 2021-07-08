@@ -1732,4 +1732,44 @@ package object chessmining
     * count board miner.
     */
   val lessBlackSpaceMoveDestination = lessSideSpaceMoveDestination(Side.Black)
+  
+  //
+  // Named functions of attack.
+  //
+  
+  val attack = NamedFunction3("attack", {
+      (tuple: (Game, Board), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, board) => board.hasAttack(side, squ) 
+        }
+    })
+
+  def sideAttack(side: Side.Value) =
+    NamedFunction2(sideToName(side) + " attack", {
+      (tuple: (Game, Board), squ: Int) =>
+        tuple match {
+          case (_, board) => board.hasAttack(side, squ)
+        }
+    })
+
+  val whiteAttack = sideAttack(Side.White)
+  val blackAttack = sideAttack(Side.Black)
+
+  val oppositeAttack = NamedFunction3("opposite attack", {
+      (tuple: (Game, Board), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, board) => board.hasAttack(~side, squ) 
+        }
+    })
+
+  def sideOppositeAttack(side: Side.Value) =
+    NamedFunction2(sideToName(side) + " opposite attack", {
+      (tuple: (Game, Board), squ: Int) =>
+        tuple match {
+          case (_, board) => board.hasAttack(~side, squ)
+        }
+    })
+
+  val whiteOppositeAttack = sideOppositeAttack(Side.White)
+  val blackOppositeAttack = sideOppositeAttack(Side.Black)
 }
