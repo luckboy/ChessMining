@@ -1737,6 +1737,7 @@ package object chessmining
   // Named functions of attack.
   //
   
+  /** A named function of attack for the win board miner and the loss board miner. */
   val attack = NamedFunction3("attack", {
       (tuple: (Game, Board), side: Side.Value, squ: Int) =>
         tuple match {
@@ -1744,6 +1745,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of side attack for the draw board miner and the count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def sideAttack(side: Side.Value) =
     NamedFunction2(sideToName(side) + " attack", {
       (tuple: (Game, Board), squ: Int) =>
@@ -1752,9 +1758,12 @@ package object chessmining
         }
     })
 
+  /** A named function of white attack for the draw board miner and the count board miner. */
   val whiteAttack = sideAttack(Side.White)
+  /** A named function of black attack for the draw board miner and the count board miner. */
   val blackAttack = sideAttack(Side.Black)
 
+  /** A named function of opposite attack for the win board miner and the loss board miner. */
   val oppositeAttack = NamedFunction3("opposite attack", {
       (tuple: (Game, Board), side: Side.Value, squ: Int) =>
         tuple match {
@@ -1762,6 +1771,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of side opposite attack for the draw board miner and the count board
+    * miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def sideOppositeAttack(side: Side.Value) =
     NamedFunction2(sideToName(side) + " opposite attack", {
       (tuple: (Game, Board), squ: Int) =>
@@ -1770,6 +1785,8 @@ package object chessmining
         }
     })
 
+  /** A named function of white opposite attack for the draw board miner and the count board miner. */
   val whiteOppositeAttack = sideOppositeAttack(Side.White)
+  /** A named function of black opposite attack for the draw board miner and the count board miner. */
   val blackOppositeAttack = sideOppositeAttack(Side.Black)
 }
