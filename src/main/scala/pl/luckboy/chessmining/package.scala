@@ -1789,4 +1789,43 @@ package object chessmining
   val whiteOppositeAttack = sideOppositeAttack(Side.White)
   /** A named function of black opposite attack for the draw board miner and the count board miner. */
   val blackOppositeAttack = sideOppositeAttack(Side.Black)
+
+  //
+  // Named functions of open line.
+  //
+  
+  val openLine = NamedFunction3("open line", {
+      (tuple: (Game, Board), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, board) => OpenLine.isOpenLine(board, side, squ) 
+        }
+    })
+
+  val semiOpenLine = NamedFunction3("semi-open line", {
+      (tuple: (Game, Board), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, board) => OpenLine.isSemiOpenLine(board, side, squ)
+        }
+    })
+
+  def sideOpenLine(side: Side.Value) =
+    NamedFunction2(sideToName(side) + " open line", {
+      (tuple: (Game, Board), squ: Int) =>
+        tuple match {
+          case (_, board) => OpenLine.isOpenLine(board, side, squ)
+        }
+    })
+
+  def sideSemiOpenLine(side: Side.Value) =
+    NamedFunction2(sideToName(side) + " semi-open line", {
+      (tuple: (Game, Board), squ: Int) =>
+        tuple match {
+          case (_, board) => OpenLine.isSemiOpenLine(board, side, squ)
+        }
+    })
+    
+  val whiteOpenLine = sideOpenLine(Side.White)
+  val blackOpenLine = sideOpenLine(Side.Black)
+  val whiteSemiOpenLine = sideSemiOpenLine(Side.White)
+  val blackSemiOpenLine = sideSemiOpenLine(Side.Black)
 }
