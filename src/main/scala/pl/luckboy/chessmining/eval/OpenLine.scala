@@ -37,7 +37,7 @@ object OpenLine
           (true, false)
         else
           (b, board.pieceOption(from).map { _ != Piece.Pawn }.getOrElse(true))
-    } || foldBishopSlides(squ, false) { (b: Boolean) => b } {
+    } || foldRookSlides(squ, false) { (b: Boolean) => b } {
       (b: Boolean, from: Int) =>
         if(board.coloredPiece(from) == sideAndPieceToColoredPiece(side, Piece.Rook) ||
           board.coloredPiece(from) == sideAndPieceToColoredPiece(side, Piece.Queen))
@@ -61,7 +61,7 @@ object OpenLine
           (true, false)
         else
           (b, board.coloredPiece(from) != sideAndPieceToColoredPiece(side, Piece.Pawn))
-    } || foldBishopSlides(squ, false) { (b: Boolean) => b } {
+    } || foldRookSlides(squ, false) { (b: Boolean) => b } {
       (b: Boolean, from: Int) =>
         if(board.coloredPiece(from) == sideAndPieceToColoredPiece(side, Piece.Rook) ||
           board.coloredPiece(from) == sideAndPieceToColoredPiece(side, Piece.Queen))
