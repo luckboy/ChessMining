@@ -19,8 +19,16 @@
 package pl.luckboy.chessmining.eval
 import pl.luckboy.chessmining.chess._
 
+/** This object provides methods which check whether open line intersects the square. */
 object OpenLine
 {
+  /** Checks whether any open line intersects the square.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @param squ the square.
+    * @return `true` if any open line intersects the square, otherwise `false`.
+    */
   def isOpenLine(board: Board, side: Side.Value, squ: Int) =
     foldBishopSlides(squ, false) { (b: Boolean) => b } {
       (b: Boolean, from: Int) =>
@@ -38,6 +46,13 @@ object OpenLine
           (b, board.pieceOption(from).map { _ != Piece.Pawn }.getOrElse(true))
     }
 
+  /** Checks whether any semi-open line intersects the square.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @param squ the square.
+    * @return `true` if any semi-open line intersects the square, otherwise `false`.
+    */
   def isSemiOpenLine(board: Board, side: Side.Value, squ: Int) =
     foldBishopSlides(squ, false) { (b: Boolean) => b } {
       (b: Boolean, from: Int) =>
