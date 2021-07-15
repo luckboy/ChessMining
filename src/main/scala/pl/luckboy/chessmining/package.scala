@@ -1794,6 +1794,7 @@ package object chessmining
   // Named functions of open line.
   //
   
+  /** A named function of open line for the win board miner and the loss board miner. */
   val openLine = NamedFunction3("open line", {
       (tuple: (Game, Board), side: Side.Value, squ: Int) =>
         tuple match {
@@ -1801,6 +1802,7 @@ package object chessmining
         }
     })
 
+  /** A named function of semi-open line for the win board miner and the loss board miner. */
   val semiOpenLine = NamedFunction3("semi-open line", {
       (tuple: (Game, Board), side: Side.Value, squ: Int) =>
         tuple match {
@@ -1808,6 +1810,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of side open line for the draw board miner and the count board miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def sideOpenLine(side: Side.Value) =
     NamedFunction2(sideToName(side) + " open line", {
       (tuple: (Game, Board), squ: Int) =>
@@ -1816,6 +1823,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of side semi-open line for the draw board miner and the count board
+    * miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def sideSemiOpenLine(side: Side.Value) =
     NamedFunction2(sideToName(side) + " semi-open line", {
       (tuple: (Game, Board), squ: Int) =>
@@ -1824,8 +1837,12 @@ package object chessmining
         }
     })
     
+  /** A named function of white open line for the draw board miner and the count board miner. */
   val whiteOpenLine = sideOpenLine(Side.White)
+  /** A named function of black open line for the draw board miner and the count board miner. */
   val blackOpenLine = sideOpenLine(Side.Black)
+  /** A named function of white semi-open line for the draw board miner and the count board miner. */
   val whiteSemiOpenLine = sideSemiOpenLine(Side.White)
+  /** A named function of black semi-open line for the draw board miner and the count board miner. */
   val blackSemiOpenLine = sideSemiOpenLine(Side.Black)
 }
