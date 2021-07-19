@@ -1925,4 +1925,60 @@ package object chessmining
   val lessWhiteKingZone = lessSideKingZone(Side.White)
   /** A named function of less black king zone for the draw miner and the count miner. */
   val lessBlackKingZone = lessSideKingZone(Side.Black)
+
+  //
+  // Named functions of king tropism.
+  //
+
+  val greaterKingTropism = NamedFunction2("> king tropism", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => KingTropism.kingTropism(board, side) > KingTropism.kingTropism(board, ~side)
+        }
+    })
+
+  val equalKingTropism = NamedFunction2("= king tropism", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => KingTropism.kingTropism(board, side) == KingTropism.kingTropism(board, ~side)
+        }
+    })
+
+  val lessKingTropism = NamedFunction2("< king tropism", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => KingTropism.kingTropism(board, side) < KingTropism.kingTropism(board, ~side)
+        }
+    })
+
+  def greaterSideKingTropism(side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " king tropism", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => KingTropism.kingTropism(board, side) > KingTropism.kingTropism(board, ~side)
+        }
+    })
+
+  def equalSideKingTropism(side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " king tropism", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => KingTropism.kingTropism(board, side) == KingTropism.kingTropism(board, ~side)
+        }
+    })
+
+  def lessSideKingTropism(side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " king tropism", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => KingTropism.kingTropism(board, side) < KingTropism.kingTropism(board, ~side)
+        }
+    })
+
+  val greaterWhiteKingTropism = greaterSideKingTropism(Side.White)
+  val greaterBlackKingTropism = greaterSideKingTropism(Side.Black)
+  val equalWhiteKingTropism = equalSideKingTropism(Side.White)
+  val equalBlackKingTropism = equalSideKingTropism(Side.Black)
+  val lessWhiteKingTropism = lessSideKingTropism(Side.White)
+  val lessBlackKingTropism = lessSideKingTropism(Side.Black)
 }
