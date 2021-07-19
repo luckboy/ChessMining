@@ -1930,6 +1930,7 @@ package object chessmining
   // Named functions of king tropism.
   //
 
+  /** A named function of greater king tropism for the win miner and the loss miner. */
   val greaterKingTropism = NamedFunction2("> king tropism", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
@@ -1937,6 +1938,7 @@ package object chessmining
         }
     })
 
+  /** A named function of equal king tropism for the win miner and the loss miner. */
   val equalKingTropism = NamedFunction2("= king tropism", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
@@ -1944,6 +1946,7 @@ package object chessmining
         }
     })
 
+  /** A named function of less king tropism for the win miner and the loss miner. */
   val lessKingTropism = NamedFunction2("< king tropism", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
@@ -1951,6 +1954,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of greater side king tropism for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def greaterSideKingTropism(side: Side.Value) =
     NamedFunction1("> " + sideToName(side) + " king tropism", {
       (tuple: (Game, Board)) =>
@@ -1959,6 +1967,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of equal side king tropism for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def equalSideKingTropism(side: Side.Value) =
     NamedFunction1("= " + sideToName(side) + " king tropism", {
       (tuple: (Game, Board)) =>
@@ -1967,6 +1980,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of less side king tropism for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def lessSideKingTropism(side: Side.Value) =
     NamedFunction1("< " + sideToName(side) + " king tropism", {
       (tuple: (Game, Board)) =>
@@ -1975,10 +1993,16 @@ package object chessmining
         }
     })
 
+  /** A named function of greater white king tropism for the draw miner and the count miner. */
   val greaterWhiteKingTropism = greaterSideKingTropism(Side.White)
+  /** A named function of greater black king tropism for the draw miner and the count miner. */
   val greaterBlackKingTropism = greaterSideKingTropism(Side.Black)
+  /** A named function of equal white king tropism for the draw miner and the count miner. */
   val equalWhiteKingTropism = equalSideKingTropism(Side.White)
+  /** A named function of equal black king tropism for the draw miner and the count miner. */
   val equalBlackKingTropism = equalSideKingTropism(Side.Black)
+  /** A named function of less white king tropism for the draw miner and the count miner. */
   val lessWhiteKingTropism = lessSideKingTropism(Side.White)
+  /** A named function of less black king tropism for the draw miner and the count miner. */
   val lessBlackKingTropism = lessSideKingTropism(Side.Black)
 }
