@@ -19,8 +19,15 @@
 package pl.luckboy.chessmining.eval
 import pl.luckboy.chessmining.chess._
 
+/** This object provides method that evaluates king tropism. */
 object KingTropism
 {
+  /** Evaluates a king tropism.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @return a king tropism.
+    */
   def kingTropism(board: Board, side: Side.Value) =
     (0 until 64).find { board.coloredPiece(_) == sideAndPieceToColoredPiece(side, Piece.King) }.map {
       (to: Int) =>
