@@ -1845,4 +1845,60 @@ package object chessmining
   val whiteSemiOpenLine = sideSemiOpenLine(Side.White)
   /** A named function of black semi-open line for the draw board miner and the count board miner. */
   val blackSemiOpenLine = sideSemiOpenLine(Side.Black)
+  
+  //
+  // Named functions of king zone.
+  //
+
+  val greaterKingZone = NamedFunction2("> king zone", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => KingZone.kingZone(board, side) > KingZone.kingZone(board, ~side)
+        }
+    })
+
+  val equalKingZone = NamedFunction2("= king zone", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => KingZone.kingZone(board, side) == KingZone.kingZone(board, ~side)
+        }
+    })
+
+  val lessKingZone = NamedFunction2("< king zone", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) => KingZone.kingZone(board, side) < KingZone.kingZone(board, ~side)
+        }
+    })
+
+  def greaterSideKingZone(side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " king zone", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => KingZone.kingZone(board, side) > KingZone.kingZone(board, ~side)
+        }
+    })
+
+  def equalSideKingZone(side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " king zone", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => KingZone.kingZone(board, side) == KingZone.kingZone(board, ~side)
+        }
+    })
+
+  def lessSideKingZone(side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " king zone", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) => KingZone.kingZone(board, side) < KingZone.kingZone(board, ~side)
+        }
+    })
+
+  val greaterWhiteKingZone = greaterSideKingZone(Side.White)
+  val greaterBlackKingZone = greaterSideKingZone(Side.Black)
+  val equalWhiteKingZone = equalSideKingZone(Side.White)
+  val equalBlackKingZone = equalSideKingZone(Side.Black)
+  val lessWhiteKingZone = lessSideKingZone(Side.White)
+  val lessBlackKingZone = lessSideKingZone(Side.Black)
 }
