@@ -19,8 +19,15 @@
 package pl.luckboy.chessmining.eval
 import pl.luckboy.chessmining.chess._
 
+/** This object provides method that counts attacks of king zone. */
 object KingZone
 {
+  /** Counts attacks of king zone.
+    *
+    * @param board the board.
+    * @param side the side.
+    * @return number of attacks of king zone.
+    */
   def kingZone(board: Board, side: Side.Value) =
     (0 until 64).find { board.coloredPiece(_) == sideAndPieceToColoredPiece(side, Piece.King) }.map {
       (kingSqu: Int) =>

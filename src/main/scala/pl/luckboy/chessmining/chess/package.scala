@@ -657,6 +657,14 @@ package object chess
     x
   }
 
+  /** Folds the zone squares.
+    *
+    * @tparam T the result type.
+    * @param squ the square.
+    * @param z the start value.
+    * @param f the function.
+    * @return a result of folded squares.
+    */
   def foldZoneSquares[T](squ: Int, z: T)(f: (T, Int) => T) = {
     var i = 0
     var x = z
