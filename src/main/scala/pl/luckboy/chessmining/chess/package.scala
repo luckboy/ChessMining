@@ -656,4 +656,16 @@ package object chess
     }
     x
   }
+
+  def foldZoneSquares[T](squ: Int, z: T)(f: (T, Int) => T) = {
+    var i = 0
+    var x = z
+    while(i < 9) {
+      val to120 = Mailbox64(squ) + TabZoneSteps120(i)
+      val to = Mailbox(to120)
+      if(to != -1) x = f(x, to)
+      i += 1
+    }
+    x
+  }
 }

@@ -55,4 +55,6 @@ private object Tables
   val TabQueenSteps120 = Array(11, 10, 9, 1, -1, -9, -10, -11)
 
   val TabKingSteps120 = Array(11, 10, 9, 1, -1, -9, -10, -11)
+
+  val TabZoneSteps120 = Array(11, 10, 9, 1, 0, -1, -9, -10, -11)
 }
