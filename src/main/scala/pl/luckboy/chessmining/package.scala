@@ -1850,6 +1850,7 @@ package object chessmining
   // Named functions of king zone.
   //
 
+  /** A named function of greater king zone for the win miner and the loss miner. */
   val greaterKingZone = NamedFunction2("> king zone", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
@@ -1857,6 +1858,7 @@ package object chessmining
         }
     })
 
+  /** A named function of equal king zone for the win miner and the loss miner. */
   val equalKingZone = NamedFunction2("= king zone", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
@@ -1864,6 +1866,7 @@ package object chessmining
         }
     })
 
+  /** A named function of less king zone for the win miner and the loss miner. */
   val lessKingZone = NamedFunction2("< king zone", {
       (tuple: (Game, Board), side: Side.Value) =>
         tuple match {
@@ -1871,6 +1874,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of greater side king zone for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def greaterSideKingZone(side: Side.Value) =
     NamedFunction1("> " + sideToName(side) + " king zone", {
       (tuple: (Game, Board)) =>
@@ -1879,6 +1887,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of equal side king zone for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def equalSideKingZone(side: Side.Value) =
     NamedFunction1("= " + sideToName(side) + " king zone", {
       (tuple: (Game, Board)) =>
@@ -1887,6 +1900,11 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of less side king zone for the draw miner and the count miner.
+    *
+    * @param side the side.
+    * @return a named function.
+    */
   def lessSideKingZone(side: Side.Value) =
     NamedFunction1("< " + sideToName(side) + " king zone", {
       (tuple: (Game, Board)) =>
@@ -1895,10 +1913,16 @@ package object chessmining
         }
     })
 
+  /** A named function of greater white king zone for the draw miner and the count miner. */
   val greaterWhiteKingZone = greaterSideKingZone(Side.White)
+  /** A named function of greater black king zone for the draw miner and the count miner. */
   val greaterBlackKingZone = greaterSideKingZone(Side.Black)
+  /** A named function of equal white king zone for the draw miner and the count miner. */
   val equalWhiteKingZone = equalSideKingZone(Side.White)
+  /** A named function of equal black king zone for the draw miner and the count miner. */
   val equalBlackKingZone = equalSideKingZone(Side.Black)
+  /** A named function of less white king zone for the draw miner and the count miner. */
   val lessWhiteKingZone = lessSideKingZone(Side.White)
+  /** A named function of less black king zone for the draw miner and the count miner. */
   val lessBlackKingZone = lessSideKingZone(Side.Black)
 }
