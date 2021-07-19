@@ -170,4 +170,18 @@ class PackageSpec extends AnyFlatSpec with should.Matchers
     squares should contain (D1)
     squares should contain (F1)
   }
+
+  "A foldZoneSquares" should "fold the squares" in {
+    val (sum, squares) = foldZoneSquares(E1, (0, Vector[Int]())) {
+      case ((sum, squares), squ) => (sum + 1, squares :+ squ)
+    }
+    sum should be (6)
+    squares should have length (6)
+    squares should contain (D2)
+    squares should contain (E2)
+    squares should contain (F2)
+    squares should contain (D1)
+    squares should contain (E1)
+    squares should contain (F1)
+  }
 }
