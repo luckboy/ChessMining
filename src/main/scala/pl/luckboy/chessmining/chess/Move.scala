@@ -199,7 +199,7 @@ object Move
   * @param piece the piece.
   * @param from the source square.
   * @param to the destination square.
-  * @param promtionPieceOption the optional promotion piece.
+  * @param promotionPieceOption the optional promotion piece.
   * @param isCapture the capture flag.
   */
 case class NormalMove(piece: Piece.Value, from: Int, to: Int, promotionPieceOption: Option[PromotionPiece.Value], isCapture: Boolean) extends Move
