@@ -20,7 +20,7 @@ package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.value._
 
-object AsymmetricBoardNetworkMiner extends BoardNetworkMiner
+case object AsymmetricBoardNetworkMiner extends BoardNetworkMiner
 {
   override protected def updatePairCounts(boardNetwork: BoardNetwork, side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long)
   {

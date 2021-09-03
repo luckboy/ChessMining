@@ -20,7 +20,7 @@ package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.value._
 
-object SymmetricBoardNetworkMiner extends BoardNetworkMiner
+case object SymmetricBoardNetworkMiner extends BoardNetworkMiner
 {
   private def reverseSide(side: Side.Value) = ~side
 
