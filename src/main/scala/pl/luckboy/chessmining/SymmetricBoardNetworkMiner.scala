@@ -38,14 +38,14 @@ case object SymmetricBoardNetworkMiner extends BoardNetworkMiner
 
   private def reverseSquare(squ: Int) = ((7 - (squ >> 3)) << 3) | (squ & 7)
 
-  override protected def updatePairCounts(boardNetwork: BoardNetwork, side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long)
+  override protected def updateEdgeCounts(boardNetwork: BoardNetwork, side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long)
   {
-    boardNetwork.addToPairCount(side, coloredPiece1, squ1, coloredPiece2, squ2, value)
+    boardNetwork.addToEdgeCount(side, coloredPiece1, squ1, coloredPiece2, squ2, value)
     val invSide = reverseSide(side)
     val invColoredPiece1 = reverseColoredPiece(coloredPiece1)
     val invSqu1 = reverseSquare(squ1)
     val invColoredPiece2 = reverseColoredPiece(coloredPiece2)
     val invSqu2 = reverseSquare(squ2)
-    boardNetwork.addToPairCount(invSide, invColoredPiece1, invSqu1, invColoredPiece2, invSqu2, value)
+    boardNetwork.addToEdgeCount(invSide, invColoredPiece1, invSqu1, invColoredPiece2, invSqu2, value)
   }
 }

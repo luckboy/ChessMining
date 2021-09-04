@@ -22,7 +22,7 @@ import pl.luckboy.chessmining.value._
 
 abstract class BoardNetworkMiner extends Miner[(Game, Board), BoardNetwork]
 {
-  protected def updatePairCounts(boardNetwork: BoardNetwork, side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long): Unit
+  protected def updateEdgeCounts(boardNetwork: BoardNetwork, side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long): Unit
 
   override def startValue = BoardNetwork()
 
@@ -31,8 +31,8 @@ abstract class BoardNetworkMiner extends Miner[(Game, Board), BoardNetwork]
       val oppSide = ~side
       for(squ1 <- 0 until 64) {
         for(squ2 <- 0 until 64) {
-          updatePairCounts(x, side, y._2.coloredPiece(squ1), squ1, y._2.coloredPiece(squ2), squ2, 1L)
-          updatePairCounts(x, oppSide, y._2.coloredPiece(squ1), squ1, y._2.coloredPiece(squ2), squ2, -1L)
+          updateEdgeCounts(x, side, y._2.coloredPiece(squ1), squ1, y._2.coloredPiece(squ2), squ2, 1L)
+          updateEdgeCounts(x, oppSide, y._2.coloredPiece(squ1), squ1, y._2.coloredPiece(squ2), squ2, -1L)
         }
       }
     }

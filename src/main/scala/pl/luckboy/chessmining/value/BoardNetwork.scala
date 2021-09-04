@@ -19,7 +19,7 @@
 package pl.luckboy.chessmining.value
 import pl.luckboy.chessmining.chess._
 
-case class BoardNetwork(pairCounts: Array[Array[Array[Long]]])
+case class BoardNetwork(edgeCounts: Array[Array[Array[Long]]])
 {
   private def coloredPieceToIndex(coloredPiece: ColoredPiece.Value) = 
     coloredPiece match {
@@ -38,30 +38,30 @@ case class BoardNetwork(pairCounts: Array[Array[Array[Long]]])
       case ColoredPiece.BlackKing   => 12
     }
   
-  def pairCount(side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int) = {
+  def edgeCount(side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int) = {
     val coloredPieceIdx1 = coloredPieceToIndex(coloredPiece1)
     val coloredPieceIdx2 = coloredPieceToIndex(coloredPiece2)
-    pairCounts(side.id)(coloredPieceIdx1 * 64 + squ1)(coloredPieceIdx2 *64 + squ2)
+    edgeCounts(side.id)(coloredPieceIdx1 * 64 + squ1)(coloredPieceIdx2 *64 + squ2)
   }
 
-  def addToPairCount(side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long)
+  def addToEdgeCount(side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long)
   {
     val coloredPieceIdx1 = coloredPieceToIndex(coloredPiece1)
     val coloredPieceIdx2 = coloredPieceToIndex(coloredPiece2)
-    pairCounts(side.id)(coloredPieceIdx1 * 64 + squ1)(coloredPieceIdx2 *64 + squ2) += value
+    edgeCounts(side.id)(coloredPieceIdx1 * 64 + squ1)(coloredPieceIdx2 *64 + squ2) += value
   }
 }
 
 object BoardNetwork
 {
   def apply(): BoardNetwork = {
-    val pairCounts = Array.fill[Array[Array[Long]]](2)(null)
+    val edgeCounts = Array.fill[Array[Array[Long]]](2)(null)
     for(sideId <- 0 until 2) {
-      pairCounts(sideId) = Array.fill[Array[Long]](13 * 64)(null)
+      edgeCounts(sideId) = Array.fill[Array[Long]](13 * 64)(null)
       for(idx <- 0 until (13 * 64)) {
-        pairCounts(sideId)(idx) = Array.fill(13 * 64)(0L)
+        edgeCounts(sideId)(idx) = Array.fill(13 * 64)(0L)
       }
     }
-    BoardNetwork(pairCounts)
+    BoardNetwork(edgeCounts)
   }
 }
