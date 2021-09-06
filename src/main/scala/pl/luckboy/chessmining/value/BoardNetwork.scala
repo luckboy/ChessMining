@@ -17,6 +17,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 package pl.luckboy.chessmining.value
+import java.io._
 import pl.luckboy.chessmining.chess._
 
 case class BoardNetwork(edgeCounts: Array[Array[Array[Long]]])
@@ -50,6 +51,22 @@ case class BoardNetwork(edgeCounts: Array[Array[Array[Long]]])
     val coloredPieceIdx2 = coloredPieceToIndex(coloredPiece2)
     edgeCounts(side.id)(coloredPieceIdx1 * 64 + squ1)(coloredPieceIdx2 *64 + squ2) += value
   }
+
+  def save(fileName: String)
+  {
+    save(new File(fileName))
+  }
+  
+  def save(file: File)
+  {
+    val bos = new BufferedOutputStream(new FileOutputStream(file))
+    val bnw = new BoardNetworkWriter(new OutputStreamWriter(bos, "UTF-8"))
+    try {
+      bnw.writeBoardNetwork(this)
+    } finally {
+      bnw.close()
+    }
+  }
 }
 
 object BoardNetwork
@@ -63,5 +80,17 @@ object BoardNetwork
       }
     }
     BoardNetwork(edgeCounts)
+  }
+  
+  def load(fileName: String): Option[BoardNetwork] = load(new File(fileName))
+  
+  def load(file: File) = {
+    val bis = new BufferedInputStream(new FileInputStream(file))
+    val bnr = new BoardNetworkReader(new InputStreamReader(bis, "UTF-8"))
+    try {
+      bnr.readBoardNetwork()
+    } finally {
+      bnr.close()
+    }
   }
 }
