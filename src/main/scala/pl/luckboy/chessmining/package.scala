@@ -95,7 +95,43 @@ package object chessmining
   type BoardChart = chart.BoardChart
   
   val BoardChart = chart.BoardChart
-  
+
+  def ieq(x: Int) =
+    NamedFunction1("= " + x, { (y: Int) => y == x })
+
+  def ine(x: Int) =
+    NamedFunction1("<> " + x, { (y: Int) => y != x })
+
+  def ilt(x: Int) =
+    NamedFunction1("< " + x, { (y: Int) => y < x })
+
+  def ige(x: Int) =
+    NamedFunction1(">= " + x, { (y: Int) => y >= x })
+
+  def igt(x: Int) =
+    NamedFunction1("> " + x, { (y: Int) => y > x })
+
+  def ile(x: Int) =
+    NamedFunction1("<= " + x, { (y: Int) => y <= x })
+
+  def leq(x: Long) =
+    NamedFunction1("= " + x, { (y: Long) => y == x })
+
+  def lne(x: Long) =
+    NamedFunction1("<> " + x, { (y: Long) => y != x })
+
+  def llt(x: Long) =
+    NamedFunction1("< " + x, { (y: Long) => y < x })
+
+  def lge(x: Long) =
+    NamedFunction1(">= " + x, { (y: Long) => y >= x })
+
+  def lgt(x: Long) =
+    NamedFunction1("> " + x, { (y: Long) => y > x })
+
+  def lle(x: Long) =
+    NamedFunction1("<= " + x, { (y: Long) => y <= x })
+
   private def sideToName(side: Side.Value) = if(side == Side.White) "white" else "black"
 
   private def pieceToName(piece: Piece.Value) =
@@ -107,7 +143,7 @@ package object chessmining
       case Piece.Queen  => "queen"
       case Piece.King   => "king"
     }
-
+    
   /** A named function of any data element for the win miner and the loss miner. */
   val any = NamedFunction2("any", {
       (any: Any, side: Side.Value) => true
@@ -2005,4 +2041,338 @@ package object chessmining
   val lessWhiteKingTropism = lessSideKingTropism(Side.White)
   /** A named function of less black king tropism for the draw miner and the count miner. */
   val lessBlackKingTropism = lessSideKingTropism(Side.Black)
+  
+  //
+  // Named functions of board network.
+  //
+  
+  def greaterBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("> board network " + f.name, {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            BoardNetwork.boardNetwork(boardNetwork, board, side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f)
+        }
+    })
+
+  def equalBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("= board network " + f.name, {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            BoardNetwork.boardNetwork(boardNetwork, board, side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f)
+        }
+    })
+
+  def lessBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("< board network " + f.name, {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            BoardNetwork.boardNetwork(boardNetwork, board, side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f)
+        }
+    })
+    
+  def greaterSideBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " board network " + f.name, {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            BoardNetwork.boardNetwork(boardNetwork, board, side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f)
+        }
+    })
+
+  def equalSideBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " board network " + f.name, {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            BoardNetwork.boardNetwork(boardNetwork, board, side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f)
+        }
+    })
+
+  def lessSideBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " board network " + f.name, {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            BoardNetwork.boardNetwork(boardNetwork, board, side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f)
+        }
+    })
+    
+  def greaterWhiteBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideBoardNetwork(boardNetwork, f, Side.White)
+
+  def greaterBlackSpace(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideBoardNetwork(boardNetwork, f, Side.Black)
+
+  def equalWhiteBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideBoardNetwork(boardNetwork, f, Side.White)
+
+  def equalBlackBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideBoardNetwork(boardNetwork, f, Side.Black)
+
+  def lessWhiteBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideBoardNetwork(boardNetwork, f, Side.White)
+
+  def lessBlackBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideBoardNetwork(boardNetwork, f, Side.Black)
+
+  def greaterBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("> board network " + f.name + " move", {
+      (tuple: (Game, BoardMove), side: Side.Value) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+        }
+    })
+
+  def equalBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("= board network " + f.name + " move", {
+      (tuple: (Game, BoardMove), side: Side.Value) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+        }
+    })
+
+  def lessBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("< board network " + f.name + " move", {
+      (tuple: (Game, BoardMove), side: Side.Value) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+        }
+    })
+    
+  def greaterSideBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " board network " + f.name + " move", {
+      (tuple: (Game, BoardMove)) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+        }
+    })
+
+  def equalSideBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " board network " + f.name + " move", {
+      (tuple: (Game, BoardMove)) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+        }
+    })
+
+  def lessSideBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " board network " + f.name + " move", {
+      (tuple: (Game, BoardMove)) =>
+        tuple match {
+          case (_, BoardMove(board, _, nextBoard)) =>
+            board.side == side &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+        }
+    })
+    
+  def greaterWhiteBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideBoardNetworkMove(boardNetwork, f, Side.White)
+
+  def greaterBlackBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) = 
+    greaterSideBoardNetworkMove(boardNetwork, f, Side.Black)
+
+  def equalWhiteBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideBoardNetworkMove(boardNetwork, f, Side.White)
+  
+  def equalBlackBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) = 
+    equalSideBoardNetworkMove(boardNetwork, f, Side.Black)
+
+  def lessWhiteBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideBoardNetworkMove(boardNetwork, f, Side.White)
+
+  def lessBlackBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideBoardNetworkMove(boardNetwork, f, Side.Black)
+
+  def greaterBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction3("> board network " + f.name + " move source", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def equalBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction3("= board network " + f.name + " move source", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def lessBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction3("< board network " + f.name + " move source", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def greaterBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction3("> board network " + f.name + " move destination", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def equalBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction3("= board network " + f.name + " move destination", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def lessBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction3("< board network " + f.name + " move destination", {
+      (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def greaterSideBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction2("> " + sideToName(side) + " board network " + f.name + " move source", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def equalSideBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction2("= " + sideToName(side) + " board network " + f.name + " move source", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def lessSideBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction2("< " + sideToName(side) + " board network " + f.name + " move source", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.from == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def greaterSideBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction2("> " + sideToName(side) + " board network " + f.name + " move destination", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def equalSideBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction2("= " + sideToName(side) + " board network " + f.name + " move destination", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def lessSideBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction2("< " + sideToName(side) + " board network " + f.name + " move destination", {
+      (tuple: (Game, BoardMove), squ: Int) =>
+        tuple match {
+          case (_, BoardMove(board, normalMove @ NormalMove(_, _, _, _, _), nextBoard)) =>
+            board.side == side && normalMove.to == squ &&
+            BoardNetwork.boardNetwork(boardNetwork, nextBoard, board.side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, board.side)(f)
+          case _ =>
+            false
+        }
+    })
+
+  def greaterWhiteBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideBoardNetworkMoveSource(boardNetwork, f, Side.White)
+
+  def greaterBlackBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideBoardNetworkMoveSource(boardNetwork, f, Side.Black)
+    
+  def equalWhiteBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideBoardNetworkMoveSource(boardNetwork, f, Side.White)
+
+  def equalBlackBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideBoardNetworkMoveSource(boardNetwork, f, Side.Black)
+
+  def lessWhiteBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideBoardNetworkMoveSource(boardNetwork, f, Side.White)
+
+  def lessBlackBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideBoardNetworkMoveSource(boardNetwork, f, Side.Black)
+
+  def greaterWhiteBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideBoardNetworkMoveDestination(boardNetwork, f, Side.White)
+
+  def greaterBlackBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideBoardNetworkMoveDestination(boardNetwork, f, Side.Black)
+
+  def equalWhiteBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideBoardNetworkMoveDestination(boardNetwork, f, Side.White)
+
+  def equalBlackSpaceMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideBoardNetworkMoveDestination(boardNetwork, f, Side.Black)
+
+  def lessWhiteBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideBoardNetworkMoveDestination(boardNetwork, f, Side.White)
+
+  def lessBlackSpaceMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideBoardNetworkMoveDestination(boardNetwork, f, Side.Black)
 }
