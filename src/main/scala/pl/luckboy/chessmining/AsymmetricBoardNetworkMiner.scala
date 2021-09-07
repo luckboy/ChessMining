@@ -22,7 +22,7 @@ import pl.luckboy.chessmining.value._
 
 case object AsymmetricBoardNetworkMiner extends BoardNetworkMiner
 {
-  override protected def updateEdgeCounts(boardNetwork: BoardNetwork, side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long)
+  override protected def addToEdgeCounts(boardNetwork: BoardNetwork, side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long)
   {
     boardNetwork.addToEdgeCount(side, coloredPiece1, squ1, coloredPiece2, squ2, value)
   }
