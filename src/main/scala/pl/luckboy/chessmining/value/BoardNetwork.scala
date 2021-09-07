@@ -28,12 +28,38 @@ case class BoardNetwork(edgeCounts: Array[Array[Array[Long]]])
     edgeCounts(side.id)(coloredPieceIdx1 * 64 + squ1)(coloredPieceIdx2 *64 + squ2)
   }
 
+  def edgeCount(side: Side.Value, node1: BoardNetworkNode, node2: BoardNetworkNode): Long =
+    edgeCount(side, node1.coloredPiece, node1.square, node2.coloredPiece, node2.square)
+    
   def addToEdgeCount(side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long)
   {
     val coloredPieceIdx1 = coloredPieceToIndex(coloredPiece1)
     val coloredPieceIdx2 = coloredPieceToIndex(coloredPiece2)
     edgeCounts(side.id)(coloredPieceIdx1 * 64 + squ1)(coloredPieceIdx2 *64 + squ2) += value
   }
+
+  def addToEdgeCount(side: Side.Value, node1: BoardNetworkNode, node2: BoardNetworkNode, value: Long)
+  {
+    addToEdgeCount(side, node1.coloredPiece, node1.square, node2.coloredPiece, node2.square, value)
+  }
+
+  def foldEdges[T](side: Side.Value, z: T)(f: (T, BoardNetworkEdge) => T) =
+    (0 until (13 * 64)).foldLeft(z) {
+      (x: T, y: Int) =>
+        val node1 = BoardNetworkNode(indexToColoredPiece(y / 64), y % 64)
+        (0 until (13 * 64)).foldLeft(x) {
+          (x2: T, y2: Int) =>
+            val node2 = BoardNetworkNode(indexToColoredPiece(y2 / 64), y2 % 64)
+            val edge = BoardNetworkEdge(node1, edgeCounts(side.id)(y)(y2), node2)
+            f(x2, edge)
+        }
+    }
+
+  def filterEdges(side: Side.Value)(f: (BoardNetworkEdge) => Boolean) =
+    foldEdges(side, Vector[BoardNetworkEdge]()) {
+      (edges: Vector[BoardNetworkEdge], edge: BoardNetworkEdge) =>
+        if(f(edge)) edges :+ edge else edges
+    }
 
   def save(fileName: String)
   {
