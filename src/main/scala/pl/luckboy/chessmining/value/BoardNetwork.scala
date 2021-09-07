@@ -21,24 +21,7 @@ import java.io._
 import pl.luckboy.chessmining.chess._
 
 case class BoardNetwork(edgeCounts: Array[Array[Array[Long]]])
-{
-  private def coloredPieceToIndex(coloredPiece: ColoredPiece.Value) = 
-    coloredPiece match {
-      case ColoredPiece.Empty       => 0
-      case ColoredPiece.WhitePawn   => 1
-      case ColoredPiece.WhiteKnight => 2
-      case ColoredPiece.WhiteBishop => 3
-      case ColoredPiece.WhiteRook   => 4
-      case ColoredPiece.WhiteQueen  => 5
-      case ColoredPiece.WhiteKing   => 6
-      case ColoredPiece.BlackPawn   => 7
-      case ColoredPiece.BlackKnight => 8
-      case ColoredPiece.BlackBishop => 9
-      case ColoredPiece.BlackRook   => 10
-      case ColoredPiece.BlackQueen  => 11
-      case ColoredPiece.BlackKing   => 12
-    }
-  
+{  
   def edgeCount(side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int) = {
     val coloredPieceIdx1 = coloredPieceToIndex(coloredPiece1)
     val coloredPieceIdx2 = coloredPieceToIndex(coloredPiece2)
