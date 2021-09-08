@@ -1684,8 +1684,8 @@ package object chessmining
         }
     })
 
-  /** Returns a named function of move source of greater side mobility for the draw board miner and
-    * the count board miner.
+  /** Returns a named function of move source of greater side space for the draw board miner and the
+    * count board miner.
     *
     * @param side the side.
     * @return a named function.
@@ -1702,7 +1702,7 @@ package object chessmining
         }
     })
 
-  /** Returns a named function of move source of equal side mobility for the draw board miner and the
+  /** Returns a named function of move source of equal side space for the draw board miner and the
     * count board miner.
     *
     * @param side the side.
@@ -1720,7 +1720,7 @@ package object chessmining
         }
     })
 
-  /** Returns a named function of move source of less side mobility for the draw board miner and the
+  /** Returns a named function of move source of less side space for the draw board miner and the
     * count board miner.
     *
     * @param side the side.
@@ -1738,8 +1738,8 @@ package object chessmining
         }
     })
 
-  /** Returns a named function of move destination of greater side mobility for the draw board miner
-    * and the count board miner.
+  /** Returns a named function of move destination of greater side space for the draw board miner and
+    * the count board miner.
     *
     * @param side the side.
     * @return a named function.
@@ -1756,8 +1756,8 @@ package object chessmining
         }
     })
 
-  /** Returns a named function of move destination of equal side mobility for the draw board miner
-    * and the count board miner.
+  /** Returns a named function of move destination of equal side space for the draw board miner and
+    * the count board miner.
     *
     * @param side the side.
     * @return a named function.
@@ -1774,7 +1774,7 @@ package object chessmining
         }
     })
 
-  /** Returns a named function of move destination of less side mobility for the draw board miner and
+  /** Returns a named function of move destination of less side space for the draw board miner and
     * the count board miner.
     *
     * @param side the side.
