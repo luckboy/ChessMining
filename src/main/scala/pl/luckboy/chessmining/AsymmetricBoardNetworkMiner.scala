@@ -20,6 +20,14 @@ package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.value._
 
+/** A miner of asymmetric board network that counts the edges.
+  *
+  * The example usage is:
+  * {{{
+  * val miner = AsymmetricBoardNetworkMiner
+  * val network = miner(iter)
+  * }}}
+  */
 case object AsymmetricBoardNetworkMiner extends BoardNetworkMiner
 {
   override protected def addToEdgeCounts(boardNetwork: BoardNetwork, side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long)

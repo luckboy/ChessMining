@@ -18,4 +18,10 @@
  */
 package pl.luckboy.chessmining.value
 
+/** Represents an edge of board network.
+  *
+  * @param node1 the first node.
+  * @param count the number of edges.
+  * @param node2 the second node.
+  */
 case class BoardNetworkEdge(node1: BoardNetworkNode, count: Long, node2: BoardNetworkNode)

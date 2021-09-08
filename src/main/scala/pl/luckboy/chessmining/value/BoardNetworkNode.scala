@@ -19,4 +19,9 @@
 package pl.luckboy.chessmining.value
 import pl.luckboy.chessmining.chess._
 
+/** Represents a node of board network.
+  *
+  * @param coloredPiece the colored piece.
+  * @param square the square.
+  */
 case class BoardNetworkNode(coloredPiece: ColoredPiece.Value, square: Int)

@@ -20,8 +20,19 @@ package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.value._
 
+/** A miner of board network. */
 abstract class BoardNetworkMiner extends Miner[(Game, Board), BoardNetwork]
 {
+  /** Adds the value to the numbers of edges. 
+    *
+    * @param boardNetwork the board network.
+    * @param side the side.
+    * @param coloredPiece1 the first colored piece.
+    * @param squ1 the first square.
+    * @param coloredPiece2 the second colored piece.
+    * @param squ2 the second square.
+    * @param value the value.
+    */
   protected def addToEdgeCounts(boardNetwork: BoardNetwork, side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long): Unit
 
   override def startValue = BoardNetwork()

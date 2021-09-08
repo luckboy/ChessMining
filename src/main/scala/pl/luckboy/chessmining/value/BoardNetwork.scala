@@ -20,17 +20,47 @@ package pl.luckboy.chessmining.value
 import java.io._
 import pl.luckboy.chessmining.chess._
 
+/** Represents a board network that contains two graphs. The edges of two graphs represent the 
+  * relationships between pieces and squares for two sides. An edge contains the number of edges. 
+  *
+  * @param edgeCounts the numbers of the edges. 
+  */
 case class BoardNetwork(edgeCounts: Array[Array[Array[Long]]])
-{  
+{
+  /** Returns the number of edges.
+    *
+    * @param side the side.
+    * @param coloredPiece1 the first colored piece.
+    * @param squ1 the first square.
+    * @param coloredPiece2 the second colored piece.
+    * @param squ2 the second square.
+    * @return the number of edges.
+    */
   def edgeCount(side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int) = {
     val coloredPieceIdx1 = coloredPieceToIndex(coloredPiece1)
     val coloredPieceIdx2 = coloredPieceToIndex(coloredPiece2)
     edgeCounts(side.id)(coloredPieceIdx1 * 64 + squ1)(coloredPieceIdx2 *64 + squ2)
   }
 
+  /** Returns the number of edges.
+    *
+    * @param side the side.
+    * @param node1 the first node.
+    * @param node2 the second node.
+    * @return the number of edges.
+    */
   def edgeCount(side: Side.Value, node1: BoardNetworkNode, node2: BoardNetworkNode): Long =
     edgeCount(side, node1.coloredPiece, node1.square, node2.coloredPiece, node2.square)
     
+  /** Adds the value to the number of edges.
+    *
+    * @param side the side.
+    * @param coloredPiece1 the first colored piece.
+    * @param squ1 the first square.
+    * @param coloredPiece2 the second colored piece.
+    * @param squ2 the second square.
+    * @param value the value.
+    */
   def addToEdgeCount(side: Side.Value, coloredPiece1: ColoredPiece.Value, squ1: Int, coloredPiece2: ColoredPiece.Value, squ2: Int, value: Long)
   {
     val coloredPieceIdx1 = coloredPieceToIndex(coloredPiece1)
@@ -38,11 +68,26 @@ case class BoardNetwork(edgeCounts: Array[Array[Array[Long]]])
     edgeCounts(side.id)(coloredPieceIdx1 * 64 + squ1)(coloredPieceIdx2 *64 + squ2) += value
   }
 
+  /** Adds the value to the number of edges.
+    *
+    * @param side the side.
+    * @param node1 the first node.
+    * @param node2 the second node.
+    * @param value the value.
+    */
   def addToEdgeCount(side: Side.Value, node1: BoardNetworkNode, node2: BoardNetworkNode, value: Long)
   {
     addToEdgeCount(side, node1.coloredPiece, node1.square, node2.coloredPiece, node2.square, value)
   }
 
+  /** Folds the edges.
+    *
+    * @tparam T the result type.
+    * @param side the side.
+    * @param z the start value.
+    * @param f the function.
+    * @return a result of folded edges. 
+    */
   def foldEdges[T](side: Side.Value, z: T)(f: (T, BoardNetworkEdge) => T) =
     (0 until (13 * 64)).foldLeft(z) {
       (x: T, y: Int) =>
@@ -55,17 +100,31 @@ case class BoardNetwork(edgeCounts: Array[Array[Array[Long]]])
         }
     }
 
+  /** Filters the edges.
+    *
+    * @param side the side.
+    * @param f the function.
+    * @return a filtered edges.
+    */
   def filterEdges(side: Side.Value)(f: (BoardNetworkEdge) => Boolean) =
     foldEdges(side, Vector[BoardNetworkEdge]()) {
       (edges: Vector[BoardNetworkEdge], edge: BoardNetworkEdge) =>
         if(f(edge)) edges :+ edge else edges
     }
 
+  /** Saves this board network.
+    *
+    * @param fileName the file name.
+    */
   def save(fileName: String)
   {
     save(new File(fileName))
   }
   
+  /** Saves this board network.
+    *
+    * @param file the file.
+    */
   def save(file: File)
   {
     val bos = new BufferedOutputStream(new FileOutputStream(file))
@@ -80,6 +139,10 @@ case class BoardNetwork(edgeCounts: Array[Array[Array[Long]]])
 
 object BoardNetwork
 {
+  /** Creates a new board network.
+    *
+    * @return a new board network.
+    */
   def apply(): BoardNetwork = {
     val edgeCounts = Array.fill[Array[Array[Long]]](2)(null)
     for(sideId <- 0 until 2) {
@@ -91,8 +154,18 @@ object BoardNetwork
     BoardNetwork(edgeCounts)
   }
   
+  /** Loads a board network.
+    *
+    * @param fileName the file name.
+    * @return an optional board network.
+    */
   def load(fileName: String): Option[BoardNetwork] = load(new File(fileName))
   
+  /** Loads a board network.
+    *
+    * @param file the file.
+    * @return an optional board network.
+    */
   def load(file: File) = {
     val bis = new BufferedInputStream(new FileInputStream(file))
     val bnr = new BoardNetworkReader(new InputStreamReader(bis, "UTF-8"))

@@ -20,6 +20,14 @@ package pl.luckboy.chessmining
 import pl.luckboy.chessmining.chess._
 import pl.luckboy.chessmining.value._
 
+/** A miner of symmetric board network that counts the edges.
+  *
+  * The example usage is:
+  * {{{
+  * val miner = SymmetricBoardNetworkMiner
+  * val network = miner(iter)
+  * }}}
+  */
 case object SymmetricBoardNetworkMiner extends BoardNetworkMiner
 {
   private def reverseSide(side: Side.Value) = ~side

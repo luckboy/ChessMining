@@ -19,6 +19,12 @@
 package pl.luckboy.chessmining.value
 import java.io._
 
+/** A writer of board network.
+  *
+  * @constructor Creates a new writer of board network.
+  *
+  * @param w writer.
+  */
 class BoardNetworkWriter(w: Writer) extends Closeable
 {
   private val writer = w
@@ -33,6 +39,10 @@ class BoardNetworkWriter(w: Writer) extends Closeable
     writer.write(s)
   }
 
+  /** Writes the board network. 
+    *
+    * @param boardNetwork the board network.
+    */
   def writeBoardNetwork(boardNetwork: BoardNetwork)
   {
     for(sideEdgeCounts <- boardNetwork.edgeCounts) {

@@ -19,8 +19,18 @@
 package pl.luckboy.chessmining.value
 import java.io._
 
+/** An reader of board network.
+  *
+  * @constructor Creates a new reader of board network.
+  *
+  * @param r the reader.
+  */
 class BoardNetworkReader(r: Reader) extends NumberReader(r)
 {
+  /** Reads a board network.
+    *
+    * @return an option board network.
+    */
   def readBoardNetwork() = {
     val boardNetwork = BoardNetwork()
     var sideId = 0

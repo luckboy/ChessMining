@@ -96,39 +96,111 @@ package object chessmining
   
   val BoardChart = chart.BoardChart
 
+  /** Returns a named function that checks whether the second number is equal to the first number for
+    * `Int`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def ieq(x: Int) =
     NamedFunction1("= " + x, { (y: Int) => y == x })
 
+  /** Returns a named function that checks whether the second number isn't equal to the first number
+    * for `Int`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def ine(x: Int) =
     NamedFunction1("<> " + x, { (y: Int) => y != x })
 
+  /** Returns a named function that checks whether the second number is less than the first number
+    * for `Int`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def ilt(x: Int) =
     NamedFunction1("< " + x, { (y: Int) => y < x })
 
+  /** Returns a named function that checks whether the second number is greater than or equal to the
+    * first number for `Int`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def ige(x: Int) =
     NamedFunction1(">= " + x, { (y: Int) => y >= x })
 
+  /** Returns a named function that checks whether the second number is greater than the first number
+    * for `Int`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def igt(x: Int) =
     NamedFunction1("> " + x, { (y: Int) => y > x })
 
+  /** Returns a named function that checks whether the second number is less than or equal to the
+    * first number for `Int`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def ile(x: Int) =
     NamedFunction1("<= " + x, { (y: Int) => y <= x })
 
+  /** Returns a named function that checks whether the second number is equal to the first number for
+    * `Long`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def leq(x: Long) =
     NamedFunction1("= " + x, { (y: Long) => y == x })
 
+  /** Returns a named function that checks whether the second number isn't equal to the first number
+    * for `Long`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def lne(x: Long) =
     NamedFunction1("<> " + x, { (y: Long) => y != x })
 
+  /** Returns a named function that checks whether the second number is less than the first number
+    * for `Long`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def llt(x: Long) =
     NamedFunction1("< " + x, { (y: Long) => y < x })
 
+  /** Returns a named function that checks whether the second number is greater than or equal to  the
+    * first number for `Long`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def lge(x: Long) =
     NamedFunction1(">= " + x, { (y: Long) => y >= x })
 
+  /** Returns a named function that checks whether the second number is greater than the first number
+    * for `Long`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def lgt(x: Long) =
     NamedFunction1("> " + x, { (y: Long) => y > x })
 
+  /** Returns a named function that checks whether the second number is less than or equal to the
+    * first number for `Long`.
+    *
+    * @param x the first number.
+    * @return a named function.
+    */
   def lle(x: Long) =
     NamedFunction1("<= " + x, { (y: Long) => y <= x })
 
@@ -2046,6 +2118,12 @@ package object chessmining
   // Named functions of board network.
   //
   
+  /** Returns a named function of greater board network for the win miner and the loss miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction2("> board network " + f.name, {
       (tuple: (Game, Board), side: Side.Value) =>
@@ -2055,6 +2133,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of equal board network for the win miner and the loss miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction2("= board network " + f.name, {
       (tuple: (Game, Board), side: Side.Value) =>
@@ -2064,6 +2148,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of less board network for the win miner and the loss miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction2("< board network " + f.name, {
       (tuple: (Game, Board), side: Side.Value) =>
@@ -2073,6 +2163,13 @@ package object chessmining
         }
     })
     
+  /** Returns a named function of greater side board network for the draw miner and the count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def greaterSideBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction1("> " + sideToName(side) + " board network " + f.name, {
       (tuple: (Game, Board)) =>
@@ -2082,6 +2179,13 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of equal side board network for the draw miner and the count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def equalSideBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction1("= " + sideToName(side) + " board network " + f.name, {
       (tuple: (Game, Board)) =>
@@ -2091,6 +2195,13 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of less side board network for the draw miner and the count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def lessSideBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction1("< " + sideToName(side) + " board network " + f.name, {
       (tuple: (Game, Board)) =>
@@ -2100,24 +2211,66 @@ package object chessmining
         }
     })
     
+  /** Returns a named function of greater white board network for the draw miner and the count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterWhiteBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     greaterSideBoardNetwork(boardNetwork, f, Side.White)
 
+  /** Returns a named function of greater black board network for the draw miner and the count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterBlackSpace(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     greaterSideBoardNetwork(boardNetwork, f, Side.Black)
 
+  /** Returns a named function of equal white board network for the draw miner and the count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalWhiteBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     equalSideBoardNetwork(boardNetwork, f, Side.White)
 
+  /** Returns a named function of equal black board network for the draw miner and the count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalBlackBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     equalSideBoardNetwork(boardNetwork, f, Side.Black)
 
+  /** Returns a named function of less white board network for the draw miner and the count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessWhiteBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     lessSideBoardNetwork(boardNetwork, f, Side.White)
 
+  /** Returns a named function of less black board network for the draw miner and the count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessBlackBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     lessSideBoardNetwork(boardNetwork, f, Side.Black)
 
+  /** Returns a named function of move of greater board network for the win miner and the loss miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction2("> board network " + f.name + " move", {
       (tuple: (Game, BoardMove), side: Side.Value) =>
@@ -2128,6 +2281,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move of equal board network for the win miner and the loss miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction2("= board network " + f.name + " move", {
       (tuple: (Game, BoardMove), side: Side.Value) =>
@@ -2138,6 +2297,12 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move of less board network for the win miner and the loss miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction2("< board network " + f.name + " move", {
       (tuple: (Game, BoardMove), side: Side.Value) =>
@@ -2148,6 +2313,14 @@ package object chessmining
         }
     })
     
+  /** Returns a named function of move of greater side board network for the draw miner and the count
+    * miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def greaterSideBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction1("> " + sideToName(side) + " board network " + f.name + " move", {
       (tuple: (Game, BoardMove)) =>
@@ -2158,6 +2331,14 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move of equal side board network for the draw miner and the count
+    * miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def equalSideBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction1("= " + sideToName(side) + " board network " + f.name + " move", {
       (tuple: (Game, BoardMove)) =>
@@ -2168,6 +2349,14 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move of less side board network for the draw miner and the count
+    * miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def lessSideBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction1("< " + sideToName(side) + " board network " + f.name + " move", {
       (tuple: (Game, BoardMove)) =>
@@ -2178,24 +2367,73 @@ package object chessmining
         }
     })
     
+  /** Returns a named function of move of greater white board network for the draw miner and the
+    * count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterWhiteBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     greaterSideBoardNetworkMove(boardNetwork, f, Side.White)
 
+  /** Returns a named function of move of greater black board network for the draw miner and the
+    * count miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterBlackBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) = 
     greaterSideBoardNetworkMove(boardNetwork, f, Side.Black)
 
+  /** Returns a named function of move of equal white board network for the draw miner and the count
+    * miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalWhiteBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     equalSideBoardNetworkMove(boardNetwork, f, Side.White)
   
+  /** Returns a named function of move of equal black board network for the draw miner and the count
+    * miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalBlackBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) = 
     equalSideBoardNetworkMove(boardNetwork, f, Side.Black)
 
+  /** Returns a named function of move of less white board network for the draw miner and the count
+    * miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessWhiteBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     lessSideBoardNetworkMove(boardNetwork, f, Side.White)
 
+  /** Returns a named function of move of less black board network for the draw miner and the count
+    * miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessBlackBoardNetworkMove(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     lessSideBoardNetworkMove(boardNetwork, f, Side.Black)
 
+  /** Returns a named function of move source of greater board network for the win board miner and 
+    * the loss board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction3("> board network " + f.name + " move source", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
@@ -2208,6 +2446,13 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move source of equal board network for the win board miner and the
+    * loss board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction3("= board network " + f.name + " move source", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
@@ -2220,6 +2465,13 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move source of less board network for the win board miner and the
+    * loss board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction3("< board network " + f.name + " move source", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
@@ -2232,6 +2484,13 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move destination of greater board network for the win board miner
+    * and the loss board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction3("> board network " + f.name + " move destination", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
@@ -2244,6 +2503,13 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move destination of equal board network for the win board miner and
+    * the loss board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction3("= board network " + f.name + " move destination", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
@@ -2256,6 +2522,13 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move destination of less board network for the win board miner and
+    * the loss board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     NamedFunction3("< board network " + f.name + " move destination", {
       (tuple: (Game, BoardMove), side: Side.Value, squ: Int) =>
@@ -2268,6 +2541,14 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move source of greater side board network for the draw board miner
+    * and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def greaterSideBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction2("> " + sideToName(side) + " board network " + f.name + " move source", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -2280,6 +2561,14 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move source of equal side board network for the draw board miner
+    * and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def equalSideBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction2("= " + sideToName(side) + " board network " + f.name + " move source", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -2292,6 +2581,14 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move source of less side board network for the draw board miner
+    * and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def lessSideBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction2("< " + sideToName(side) + " board network " + f.name + " move source", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -2304,6 +2601,14 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move destination of greater side board network for the draw board
+    * miner and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def greaterSideBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction2("> " + sideToName(side) + " board network " + f.name + " move destination", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -2316,6 +2621,14 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move destination of equal side board network for the draw board
+    * miner and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def equalSideBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction2("= " + sideToName(side) + " board network " + f.name + " move destination", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -2328,6 +2641,14 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move destination of less side board network for the draw board
+    * miner and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @param side the side.
+    * @return a named function.
+    */
   def lessSideBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
     NamedFunction2("< " + sideToName(side) + " board network " + f.name + " move destination", {
       (tuple: (Game, BoardMove), squ: Int) =>
@@ -2340,39 +2661,123 @@ package object chessmining
         }
     })
 
+  /** Returns a named function of move source of greater white board network for the draw board miner
+    * and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterWhiteBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     greaterSideBoardNetworkMoveSource(boardNetwork, f, Side.White)
 
+  /** Returns a named function of move source of greater black board network for the draw board miner
+    * and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterBlackBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     greaterSideBoardNetworkMoveSource(boardNetwork, f, Side.Black)
     
+  /** Returns a named function of move source of equal white board network for the draw board miner
+    * and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalWhiteBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     equalSideBoardNetworkMoveSource(boardNetwork, f, Side.White)
 
+  /** Returns a named function of move source of equal black board network for the draw board miner
+    * and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalBlackBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     equalSideBoardNetworkMoveSource(boardNetwork, f, Side.Black)
 
+  /** Returns a named function of move source of less white board network for the draw board miner
+    * and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessWhiteBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     lessSideBoardNetworkMoveSource(boardNetwork, f, Side.White)
 
+  /** Returns a named function of move source of less black board network for the draw board miner
+    * and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessBlackBoardNetworkMoveSource(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     lessSideBoardNetworkMoveSource(boardNetwork, f, Side.Black)
 
+  /** Returns a named function of move destination of greater white board network for the draw board
+    * miner and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterWhiteBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     greaterSideBoardNetworkMoveDestination(boardNetwork, f, Side.White)
 
+  /** Returns a named function of move destination of greater black board network for the draw board
+    * miner and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def greaterBlackBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     greaterSideBoardNetworkMoveDestination(boardNetwork, f, Side.Black)
 
+  /** Returns a named function of move destination of equal white board network for the draw board
+    * miner and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalWhiteBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     equalSideBoardNetworkMoveDestination(boardNetwork, f, Side.White)
 
+  /** Returns a named function of move destination of equal black board network for the draw board
+    * miner and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def equalBlackSpaceMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     equalSideBoardNetworkMoveDestination(boardNetwork, f, Side.Black)
 
+  /** Returns a named function of move destination of less white board network for the draw board
+    * miner and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessWhiteBoardNetworkMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     lessSideBoardNetworkMoveDestination(boardNetwork, f, Side.White)
 
+  /** Returns a named function of move destination of less black board network for the draw board
+    * miner and the count board miner.
+    *
+    * @param boardNetwork the board network.
+    * @param f the function.
+    * @return a named function.
+    */
   def lessBlackSpaceMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     lessSideBoardNetworkMoveDestination(boardNetwork, f, Side.Black)
 }

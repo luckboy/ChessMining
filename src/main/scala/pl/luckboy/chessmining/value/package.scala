@@ -21,6 +21,11 @@ import pl.luckboy.chessmining.chess._
 
 package object value
 {
+  /** Converts the colored piece to an index.
+    *
+    * @param coloredPiece the colored piece.
+    * @return an index.
+    */
   def coloredPieceToIndex(coloredPiece: ColoredPiece.Value) = 
     coloredPiece match {
       case ColoredPiece.Empty       => 0
@@ -37,7 +42,12 @@ package object value
       case ColoredPiece.BlackQueen  => 11
       case ColoredPiece.BlackKing   => 12
     }
-    
+  
+  /** Converts the index to a colored piece.
+    *
+    * @param idx the index.
+    * @return a colored piece.
+    */
   def indexToColoredPiece(idx: Int) =
     idx match {
       case 1  => ColoredPiece.WhitePawn

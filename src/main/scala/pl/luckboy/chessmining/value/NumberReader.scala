@@ -19,6 +19,12 @@
 package pl.luckboy.chessmining.value
 import java.io._
 
+/** A number reader.
+  *
+  * @constructor Creates a new number reader.
+  *
+  * @param r the reader.
+  */
 class NumberReader(r: Reader) extends Closeable
 {
   private val reader = r
@@ -37,6 +43,10 @@ class NumberReader(r: Reader) extends Closeable
     if(c != -1) pushedChar = c
   }
   
+  /** Reads a string.
+    *
+    * @return a string.
+    */
   def readString() = {
     var isStop = false
     while(!isStop) {
@@ -70,6 +80,10 @@ class NumberReader(r: Reader) extends Closeable
     sb.toString()
   }
   
+  /** Reads an `Int`.
+    *
+    * @return an optional `Int`.
+    */
   def readInt() = {
     try {
       Some(Integer.parseInt(readString()))
@@ -78,6 +92,10 @@ class NumberReader(r: Reader) extends Closeable
     }
   }
 
+  /** Reads a `Long`.
+    *
+    * @return an optional `Long`.
+    */
   def readLong() = {
     try {
       Some(java.lang.Long.parseLong(readString()))

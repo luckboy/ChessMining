@@ -20,8 +20,17 @@ package pl.luckboy.chessmining.eval
 import pl.luckboy.chessmining._
 import pl.luckboy.chessmining.chess._
 
+/** This object provides method that evaluates evaluation of board network. */
 object BoardNetwork
 {
+  /** Evaluates an evaluation of board network.
+    *
+    * @param boardNetwork the board network.
+    * @param board the board.
+    * @param side the side.
+    * @param f the function.
+    * @return an evaluation of board network.
+    */
   def boardNetwork(boardNetwork: value.BoardNetwork, board: Board, side: Side.Value)(f: (Long) => Boolean) = {
     val sum = (0 until 64).foldLeft(0) {
       (sum: Int, squ1: Int) =>
