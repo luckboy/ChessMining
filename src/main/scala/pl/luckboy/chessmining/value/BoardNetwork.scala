@@ -21,7 +21,7 @@ import java.io._
 import pl.luckboy.chessmining.chess._
 
 /** Represents a board network that contains two graphs. The edges of two graphs represent the 
-  * relationships between pieces and squares for two sides. An edge contains the number of edges. 
+  * relationships between pieces and squares for two sides. Each edge contains the number of edges. 
   *
   * @param edgeCounts the numbers of the edges. 
   */
