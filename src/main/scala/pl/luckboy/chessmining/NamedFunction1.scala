@@ -21,7 +21,7 @@ package pl.luckboy.chessmining
 /** A named function of 1 parameter that has the name.
   *
   * @tparam T1 the 1st parameter type.
-  * @tparam R the result.
+  * @tparam R the result type.
   * @param name the name.
   * @param function the function.
   */

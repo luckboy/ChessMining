@@ -25,7 +25,7 @@ package pl.luckboy.chessmining
   * @tparam T3 the 3rd parameter type.
   * @tparam T4 the 4th parameter type.
   * @tparam T5 the 5th parameter type.
-  * @tparam R the result.
+  * @tparam R the result type.
   * @param name the name.
   * @param function the function.
   */

@@ -28,7 +28,7 @@ package pl.luckboy.chessmining
   * @tparam T6 the 6th parameter type.
   * @tparam T7 the 7th parameter type.
   * @tparam T8 the 8th parameter type.
-  * @tparam R the result.
+  * @tparam R the result type.
   * @param name the name.
   * @param function the function.
   */

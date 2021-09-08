@@ -22,7 +22,7 @@ package pl.luckboy.chessmining
   *
   * @tparam T1 the 1st parameter type.
   * @tparam T2 the 2nd parameter type.
-  * @tparam R the result.
+  * @tparam R the result type.
   * @param name the name.
   * @param function the function.
   */

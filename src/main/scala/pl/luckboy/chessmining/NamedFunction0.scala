@@ -20,7 +20,7 @@ package pl.luckboy.chessmining
 
 /** A named function of 0 parameters that has the name.
   *
-  * @tparam R the result.
+  * @tparam R the result type.
   * @param name the name.
   * @param function the function.
   */
