@@ -104,7 +104,7 @@ case class BoardNetwork(edgeCounts: Array[Array[Array[Long]]])
     *
     * @param side the side.
     * @param f the function.
-    * @return a filtered edges.
+    * @return the filtered edges.
     */
   def filterEdges(side: Side.Value)(f: (BoardNetworkEdge) => Boolean) =
     foldEdges(side, Vector[BoardNetworkEdge]()) {
