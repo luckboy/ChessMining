@@ -557,7 +557,7 @@ object Board
   /** Creates a new board from the FEN string. 
     *
     * @param s the FEN string.
-    * @return s a new board.
+    * @return a new board.
     */
   def apply(s: String): Board =
     parseBoard(s) match {
