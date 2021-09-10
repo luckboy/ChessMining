@@ -36,7 +36,7 @@ object BoardNetwork
       (sum: Int, squ1: Int) =>
         val coloredPiece1 = board.coloredPiece(squ1) 
         (0 until 64).foldLeft(sum) {
-          (sum2: Int, squ2) =>
+          (sum2: Int, squ2: Int) =>
             if(squ1 != squ2) {
               val coloredPiece2 = board.coloredPiece(squ2)
               val count = boardNetwork.edgeCount(side, coloredPiece1, squ1, coloredPiece2, squ2)
