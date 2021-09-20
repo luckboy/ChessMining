@@ -2780,4 +2780,306 @@ package object chessmining
     */
   def lessBlackSpaceMoveDestination(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     lessSideBoardNetworkMoveDestination(boardNetwork, f, Side.Black)
+
+  //
+  // Named functions of equality.
+  //
+  
+  val greaterMobilityAndSpaceEquality = NamedFunction2("> (mobility = space)", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) > Mobility.mobility(board, ~side)) ==
+            (Space.space(board, side) > Space.space(board, ~side))
+        }
+    })
+
+  val equalMobilityAndSpaceEquality = NamedFunction2("= (mobility = space)", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) == Mobility.mobility(board, ~side)) ==
+            (Space.space(board, side) == Space.space(board, ~side))
+        }
+    })
+
+  val lessMobilityAndSpaceEquality = NamedFunction2("< (mobility = space)", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) < Mobility.mobility(board, ~side)) ==
+            (Space.space(board, side) < Space.space(board, ~side))
+        }
+    })
+
+  def greaterSideMobilityAndSpaceEquality(side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " (mobility = space)", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) > Mobility.mobility(board, ~side)) ==
+            (Space.space(board, side) > Space.space(board, ~side))
+        }
+    })
+
+  def equalSideMobilityAndSpaceEquality(side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " (mobility = space)", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) == Mobility.mobility(board, ~side)) ==
+            (Space.space(board, side) == Space.space(board, ~side))
+        }
+    })
+
+  def lessSideMobilityAndSpaceEquality(side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " (mobility = space)", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) < Mobility.mobility(board, ~side)) ==
+            (Space.space(board, side) < Space.space(board, ~side))
+        }
+    })
+    
+  val greaterWhiteMobilityAndSpaceEquality = greaterSideMobilityAndSpaceEquality(Side.White)
+  val greaterBlackMobilityAndSpaceEquality = greaterSideMobilityAndSpaceEquality(Side.Black)
+  val equalWhiteMobilityAndSpaceEquality = equalSideMobilityAndSpaceEquality(Side.White)
+  val equalBlackMobilityAndSpaceEquality = equalSideMobilityAndSpaceEquality(Side.Black)
+  val lessWhiteMobilityAndSpaceEquality = lessSideMobilityAndSpaceEquality(Side.White)
+  val lessBlackMobilityAndSpaceEquality = lessSideMobilityAndSpaceEquality(Side.Black)
+
+  def greaterMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("> (mobility = board network " + f.name + ")", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) > Mobility.mobility(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def equalMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("= (mobility = board network " + f.name + ")", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) == Mobility.mobility(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def lessMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("< (mobility = board network " + f.name + ")", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) < Mobility.mobility(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def greaterSideMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " (mobility = board network " + f.name + ")", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) > Mobility.mobility(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def equalSideMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " (mobility = board network " + f.name + ")", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) == Mobility.mobility(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def lessSideMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " (mobility = board network " + f.name + ")", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (Mobility.mobility(board, side) < Mobility.mobility(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def greaterWhiteMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideMobilityAndBoardNetworkEquality(boardNetwork, f, Side.White)
+
+  def greaterBlackMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideMobilityAndBoardNetworkEquality(boardNetwork, f, Side.Black)
+
+  def equalWhiteMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideMobilityAndBoardNetworkEquality(boardNetwork, f, Side.White)
+
+  def equalBlackMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideMobilityAndBoardNetworkEquality(boardNetwork, f, Side.Black)
+
+  def lessWhiteMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideMobilityAndBoardNetworkEquality(boardNetwork, f, Side.White)
+
+  def lessBlackMobilityAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideMobilityAndBoardNetworkEquality(boardNetwork, f, Side.Black)
+
+  def greaterSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("> (space = board network " + f.name + ")", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (Space.space(board, side) > Space.space(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def equalSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("= (space = board network " + f.name + ")", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (Space.space(board, side) == Space.space(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def lessSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("< (space = board network " + f.name + ")", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (Space.space(board, side) < Space.space(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def greaterSideSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " (space = board network " + f.name + ")", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (Space.space(board, side) > Space.space(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) > BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def equalSideSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " (space = board network " + f.name + ")", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (Space.space(board, side) == Space.space(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) == BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def lessSideSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " (space = board network " + f.name + ")", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (Space.space(board, side) < Space.space(board, ~side)) ==
+            (BoardNetwork.boardNetwork(boardNetwork, board, side)(f) < BoardNetwork.boardNetwork(boardNetwork, board, ~side)(f))
+        }
+    })
+
+  def greaterWhiteSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideSpaceAndBoardNetworkEquality(boardNetwork, f, Side.White)
+
+  def greaterBlackSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    greaterSideSpaceAndBoardNetworkEquality(boardNetwork, f, Side.Black)
+
+  def equalWhiteSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideSpaceAndBoardNetworkEquality(boardNetwork, f, Side.White)
+
+  def equalBlackSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    equalSideSpaceAndBoardNetworkEquality(boardNetwork, f, Side.Black)
+
+  def lessWhiteSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideSpaceAndBoardNetworkEquality(boardNetwork, f, Side.White)
+
+  def lessBlackSpaceAndBoardNetworkEquality(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+    lessSideSpaceAndBoardNetworkEquality(boardNetwork, f, Side.Black)
+
+  def greaterBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("> (board network " + f1.name + " = board network " + f2.name + ")", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (BoardNetwork.boardNetwork(boardNetwork1, board, side)(f1) > BoardNetwork.boardNetwork(boardNetwork1, board, ~side)(f1)) ==
+            (BoardNetwork.boardNetwork(boardNetwork2, board, side)(f2) > BoardNetwork.boardNetwork(boardNetwork2, board, ~side)(f2))
+        }
+    })
+
+  def equalBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("= (board network " + f1.name + " = board network " + f2.name + ")", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (BoardNetwork.boardNetwork(boardNetwork1, board, side)(f1) == BoardNetwork.boardNetwork(boardNetwork1, board, ~side)(f1)) ==
+            (BoardNetwork.boardNetwork(boardNetwork2, board, side)(f2) == BoardNetwork.boardNetwork(boardNetwork2, board, ~side)(f2))
+        }
+    })
+
+  def lessBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
+    NamedFunction2("< (board network " + f1.name + " = board network " + f2.name + ")", {
+      (tuple: (Game, Board), side: Side.Value) =>
+        tuple match {
+          case (_, board) =>
+            (BoardNetwork.boardNetwork(boardNetwork1, board, side)(f1) < BoardNetwork.boardNetwork(boardNetwork1, board, ~side)(f1)) ==
+            (BoardNetwork.boardNetwork(boardNetwork2, board, side)(f2) < BoardNetwork.boardNetwork(boardNetwork2, board, ~side)(f2))
+        }
+    })
+
+  def greaterSideBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("> " + sideToName(side) + " (board network " + f1.name + " = board network " + f2.name + ")", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (BoardNetwork.boardNetwork(boardNetwork1, board, side)(f1) > BoardNetwork.boardNetwork(boardNetwork1, board, ~side)(f1)) ==
+            (BoardNetwork.boardNetwork(boardNetwork2, board, side)(f2) > BoardNetwork.boardNetwork(boardNetwork2, board, ~side)(f2))
+        }
+    })
+
+  def equalSideBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("= " + sideToName(side) + " (board network " + f1.name + " = board network " + f2.name + ")", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (BoardNetwork.boardNetwork(boardNetwork1, board, side)(f1) == BoardNetwork.boardNetwork(boardNetwork1, board, ~side)(f1)) ==
+            (BoardNetwork.boardNetwork(boardNetwork2, board, side)(f2) == BoardNetwork.boardNetwork(boardNetwork2, board, ~side)(f2))
+        }
+    })
+
+  def lessSideBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean], side: Side.Value) =
+    NamedFunction1("< " + sideToName(side) + " (board network " + f1.name + " = board network " + f2.name + ")", {
+      (tuple: (Game, Board)) =>
+        tuple match {
+          case (_, board) =>
+            (BoardNetwork.boardNetwork(boardNetwork1, board, side)(f1) < BoardNetwork.boardNetwork(boardNetwork1, board, ~side)(f1)) ==
+            (BoardNetwork.boardNetwork(boardNetwork2, board, side)(f2) < BoardNetwork.boardNetwork(boardNetwork2, board, ~side)(f2))
+        }
+    })
+
+  def greaterWhiteBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
+    greaterSideBoardNetworkAndBoardNetworkEquality(boardNetwork1, f1, boardNetwork2, f2, Side.White)
+
+  def greaterBlackBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
+    greaterSideBoardNetworkAndBoardNetworkEquality(boardNetwork1, f1, boardNetwork2, f2, Side.Black)
+
+  def equalWhiteBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
+    equalSideBoardNetworkAndBoardNetworkEquality(boardNetwork1, f1, boardNetwork2, f2, Side.White)
+
+  def equalBlackBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
+    equalSideBoardNetworkAndBoardNetworkEquality(boardNetwork1, f1, boardNetwork2, f2, Side.Black)
+
+  def lessWhiteBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
+    lessSideBoardNetworkAndBoardNetworkEquality(boardNetwork1, f1, boardNetwork2, f2, Side.White)
+
+  def lessBlackSpaceAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
+    lessSideBoardNetworkAndBoardNetworkEquality(boardNetwork1, f1, boardNetwork2, f2, Side.Black)
 }
