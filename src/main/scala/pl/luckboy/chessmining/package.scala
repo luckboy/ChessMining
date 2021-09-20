@@ -2226,7 +2226,7 @@ package object chessmining
     * @param f the function.
     * @return a named function.
     */
-  def greaterBlackSpace(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
+  def greaterBlackBoardNetwork(boardNetwork: value.BoardNetwork, f: NamedFunction1[Long, Boolean]) =
     greaterSideBoardNetwork(boardNetwork, f, Side.Black)
 
   /** Returns a named function of equal white board network for the draw miner and the count miner.
