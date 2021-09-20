@@ -3410,6 +3410,6 @@ package object chessmining
     * @param f2 the second function.
     * @return a named function.
     */
-  def lessBlackSpaceAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
+  def lessBlackBoardNetworkAndBoardNetworkEquality(boardNetwork1: value.BoardNetwork, f1: NamedFunction1[Long, Boolean], boardNetwork2: value.BoardNetwork, f2: NamedFunction1[Long, Boolean]) =
     lessSideBoardNetworkAndBoardNetworkEquality(boardNetwork1, f1, boardNetwork2, f2, Side.Black)
 }
